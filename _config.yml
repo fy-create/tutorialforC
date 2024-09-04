@@ -17,3 +17,6 @@ highlighter: rouge
 theme: minima
 
 
+url: "https://fy-create.github.io"
+baseurl: ""
+
