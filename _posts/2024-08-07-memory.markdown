@@ -52,7 +52,7 @@ categories: jekyll update
 ## 示例
 这里用微软的visual studio 2022演示:  
 这是一个简单的小程序输出一个整形变量的值到控制台  
-在第6行下一个[调试断点]({% post_url 2024-08-08-debug %})
+在第6行下一个[调试断点]({{ site.baseurl }}{% post_url 2024-08-08-debug %})
 
 ![debug_show_memory]({{ site.baseurl }}/assets/images/debug_show_memory.png)
 
