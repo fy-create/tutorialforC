@@ -52,8 +52,10 @@ categories: jekyll update
 ## 示例
 这里用微软的visual studio 2022演示:  
 这是一个简单的小程序输出一个整形变量的值到控制台  
-在第6行下一个调试断点  
-[调试断点]({% post_url 2024-08-08-debug %})
+在第6行下一个[调试断点]({% post_url 2024-08-08-debug %})
 
 ![debug_show_memory]({{ site.baseurl }}/assets/images/debug_show_memory.png)
+
+用调试方式启动程序后，程序会停在滴6行,从菜单的调试->窗口空可以打开“监视”和”内存“这两个小窗口  
+
 
