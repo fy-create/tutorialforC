@@ -7,6 +7,7 @@ title: Home
   {% for post in site.posts reversed %}
     <li>
       <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      
       <!--
       <p>Published on {{ post.date | date: "%B %d, %Y" }}</p>
       -->
