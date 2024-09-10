@@ -1,0 +1,217 @@
+---
+layout: post
+title:  "结构体（struct）"
+categories: jekyll update
+---
+
+在 C 语言中，**结构体（struct）** 是一种用户自定义的数据类型，用于将不同类型的数据组合在一起。这使得我们可以将多种相关的数据组合成一个单一的实体，并通过该实体对这些数据进行操作。
+
+### 1. **结构体的定义**
+
+结构体定义使用 `struct` 关键字。你可以在结构体中包含不同类型的数据（如整数、浮点数、字符等）。定义结构体时，我们需要为每个成员指定类型和名称。
+
+#### 结构体定义的基本语法：
+
+```c
+struct StructName {
+    data_type member1;
+    data_type member2;
+    ...
+};
+```
+
+- `StructName` 是结构体的名称。
+- `member1`、`member2` 是结构体中的成员变量，它们可以是任何数据类型。
+
+#### 示例：
+
+```c
+// 定义一个名为 Person 的结构体
+struct Person {
+    char name[50];
+    int age;
+    char gender[10];
+};
+```
+
+在这个例子中，`Person` 是一个结构体，它包含了三个成员：
+- `name`：一个字符数组，用于存储姓名。
+- `age`：一个整数，用于存储年龄。
+- `gender`：一个字符数组，用于存储性别。
+
+### 2. **定义结构体变量**
+
+一旦定义了结构体类型，就可以使用该结构体类型来声明结构体变量。
+
+#### 示例：
+
+```c
+struct Person person1;  // 定义一个 Person 类型的变量
+```
+
+### 3. **访问结构体成员**
+
+结构体的成员可以通过点运算符 `.` 来访问。
+
+#### 示例：
+
+```c
+struct Person person1;
+
+strcpy(person1.name, "Alice");
+person1.age = 30;
+strcpy(person1.gender, "Female");
+
+printf("Name: %s\n", person1.name);
+printf("Age: %d\n", person1.age);
+printf("Gender: %s\n", person1.gender);
+```
+
+### 4. **结构体的初始化**
+
+可以在声明结构体变量时对其进行初始化。初始化时，需要按顺序为每个成员提供值。
+
+#### 示例：
+
+```c
+struct Person person2 = {"Bob", 25, "Male"};
+```
+
+### 5. **使用 `typedef` 定义结构体类型**
+
+为了简化结构体变量的声明，可以使用 `typedef` 为结构体定义一个别名，这样就不需要在声明变量时每次都写 `struct` 关键字。
+
+#### 示例：
+
+```c
+typedef struct {
+    char name[50];
+    int age;
+    char gender[10];
+} Person;
+
+Person person1;  // 直接声明结构体变量，无需 struct 关键字
+```
+
+### 6. **结构体的指针**
+
+可以使用指针指向结构体，并通过指针来访问结构体的成员。结构体指针访问成员时，使用箭头运算符 `->`。
+
+#### 示例：
+
+```c
+Person person1 = {"Alice", 30, "Female"};
+Person *pPerson = &person1;  // 定义指向结构体的指针
+
+printf("Name: %s\n", pPerson->name);
+printf("Age: %d\n", pPerson->age);
+printf("Gender: %s\n", pPerson->gender);
+```
+
+### 7. **结构体作为函数参数**
+
+结构体可以作为函数的参数传递。你可以按值传递结构体，也可以通过指针传递结构体。
+
+#### 按值传递结构体：
+
+```c
+void printPerson(Person p) {
+    printf("Name: %s, Age: %d, Gender: %s\n", p.name, p.age, p.gender);
+}
+
+int main() {
+    Person person1 = {"Alice", 30, "Female"};
+    printPerson(person1);  // 按值传递
+    return 0;
+}
+```
+
+按值传递会复制结构体的所有成员，在处理大型结构体时效率较低。
+
+#### 通过指针传递结构体：
+
+```c
+void printPersonPtr(Person *p) {
+    printf("Name: %s, Age: %d, Gender: %s\n", p->name, p->age, p->gender);
+}
+
+int main() {
+    Person person1 = {"Alice", 30, "Female"};
+    printPersonPtr(&person1);  // 通过指针传递
+    return 0;
+}
+```
+
+通过指针传递结构体更高效，因为它只传递了结构体的地址。
+
+### 8. **嵌套结构体**
+
+结构体可以嵌套在其他结构体中，即一个结构体的成员可以是另一个结构体。
+
+#### 示例：
+
+```c
+typedef struct {
+    int day;
+    int month;
+    int year;
+} Date;
+
+typedef struct {
+    char name[50];
+    int age;
+    Date birthday;  // 嵌套结构体
+} Person;
+
+int main() {
+    Person person1 = {"Alice", 30, {15, 8, 1990}};
+    printf("Name: %s, Age: %d, Birthday: %d-%d-%d\n", person1.name, person1.age,
+           person1.birthday.day, person1.birthday.month, person1.birthday.year);
+    return 0;
+}
+```
+
+### 9. **结构体的内存对齐**
+
+结构体的内存布局通常会受到内存对齐的影响。编译器为了提高性能，可能会在结构体成员之间插入填充字节，以确保每个成员都对齐在其大小的边界上。这在处理大型或性能敏感的程序时非常重要。
+
+### 示例：综合示例
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+// 定义 Person 结构体
+typedef struct {
+    char name[50];
+    int  age;
+    char gender[10];
+} Person;
+
+// 函数：打印 Person 信息
+void printPersonInfo(const Person *p) {
+    printf("Name: %s\n", p->name);
+    printf("Age: %d\n", p->age);
+    printf("Gender: %s\n", p->gender);
+}
+
+int main() {
+    // 初始化结构体
+    Person person1 = {"Alice", 30, "Female"};
+
+    // 打印结构体信息
+    printPersonInfo(&person1);
+
+    return 0;
+}
+```
+
+### 总结
+
+- **定义结构体**：使用 `struct` 定义结构体，将相关数据组合在一起。
+- **结构体的使用**：通过点运算符 `.` 访问结构体成员，通过箭头运算符 `->` 访问结构体指针的成员。
+- **结构体的传递**：结构体可以按值或通过指针传递给函数，传递指针更加高效。
+- **嵌套结构体**：可以将一个结构体作为另一个结构体的成员。
+- **内存对齐**：结构体的内存布局可能会受到编译器的内存对齐规则影响。
+
+结构体是一种非常重要的数据结构，它为我们提供了将多种不同类型的数据组合在一起的方式，使得编写复杂数据结构和管理复杂信息更加方便。
