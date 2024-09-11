@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "计算机基础知识"
-categories: jekyll update
+categories: c_language
 ---
 
 计算机基础知识涵盖了计算机的基本组成、工作原理、操作系统、编程基础、网络原理等方面的内容。以下是计算机基础知识的一个概述：

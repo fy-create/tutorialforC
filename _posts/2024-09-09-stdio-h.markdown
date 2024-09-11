@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "stdio.h"
-categories: jekyll update
+categories: c_language
 ---
 
 `stdio.h` 是 C 语言标准库中的一个头文件，全称是 “Standard Input/Output Header”，它包含了一系列用于执行输入和输出操作的函数。这个库提供的功能对于处理标准输入、标准输出和文件操作非常关键。以下是一些 `stdio.h` 提供的主要功能和常用函数：

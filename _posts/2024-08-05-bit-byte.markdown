@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "位(Bit) 字节(Byte)"
-categories: jekyll update
+categories: c_language
 ---
 
 这里是跨语言的计算机基础知识

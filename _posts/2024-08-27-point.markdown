@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "指针"
-categories: jekyll update
+categories: c_language
 ---
 
 指针是 C 语言中的一个核心概念。指针用于存储变量的内存地址，通过指针，你可以直接访问或修改存储在特定内存位置上的数据。指针为 C 语言提供了高效的内存管理能力，但同时也增加了程序的复杂性和风险。

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "C语言基本结构"
-categories: jekyll update
+categories: c_language
 ---
 
 C语言的基本结构包括程序的核心组成部分和它们的组织方式。一个标准的C语言程序通常由以下几个主要部分组成：

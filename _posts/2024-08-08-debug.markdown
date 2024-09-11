@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "程序调试"
-categories: jekyll update
+categories: c_language
 ---
 
 在 C 语言编程中，调试断点是调试过程中的一个重要工具。断点用于暂停程序的执行，以便你可以检查程序的状态，了解程序的行为，定位和修复错误。以下是调试断点的主要作用和使用方式：

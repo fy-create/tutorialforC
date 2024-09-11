@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "联合和枚举"
-categories: jekyll update
+categories: c_language
 ---
 
 在 C 语言中，**联合（Union）** 和 **枚举（Enum）** 是两种非常重要的数据类型。它们提供了一种组织和管理数据的方式，尤其是在存储多个可能的值或管理一组常量时非常有用。

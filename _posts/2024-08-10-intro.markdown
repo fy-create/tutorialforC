@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "C语言的特点"
-categories: jekyll update
+categories: c_language
 ---
 
 C语言是一种通用的、面向过程的编程语言，因其高效、灵活而在系统编程、嵌入式系统开发以及各种应用程序开发中广泛应用。以下是C语言的一些主要特点：

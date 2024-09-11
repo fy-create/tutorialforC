@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "数组"
-categories: jekyll update
+categories: c_language
 ---
 
 在 C 语言中，数组是一种非常重要的数据结构，它用于存储相同数据类型的多个元素。数组具有固定的长度，并且数组元素在内存中是连续存储的。

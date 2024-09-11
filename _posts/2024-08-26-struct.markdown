@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "结构体（struct）"
-categories: jekyll update
+categories: c_language
 ---
 
 在 C 语言中，**结构体（struct）** 是一种用户自定义的数据类型，用于将不同类型的数据组合在一起。这使得我们可以将多种相关的数据组合成一个单一的实体，并通过该实体对这些数据进行操作。

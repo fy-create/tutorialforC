@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "数据类型"
-categories: jekyll update
+categories: c_language
 ---
 
 C语言中的数据类型用于定义变量所能存储的数据的类型和范围。C语言提供了多种数据类型，包括基本数据类型、派生数据类型和用户自定义数据类型。以下是详细的分类及其描述：

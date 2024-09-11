@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "内存和指针"
-categories: jekyll update
+categories: c_language
 ---
 
 ## 内存（RAM，Random Access Memory，随机存取存储器）
