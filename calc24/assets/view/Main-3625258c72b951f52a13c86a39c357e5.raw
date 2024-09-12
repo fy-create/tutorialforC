@@ -1,0 +1,62 @@
+{
+base: {
+	gravity: {}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30
+	map: ""
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B1442027672714
+			position_x: 453.913
+			position_y: 513.9131
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PLAY
+			position_x: -0.3040533
+			position_y: -8.538952
+			type: MyStaticBody
+			texture: home_play_t594_l197_w326_h340.png
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6
+				halfHeight: 6
+			}
+		]
+	}
+	{
+		def: {
+			name: Rec.B1616143422304
+			position_x: -0.65222883
+			position_y: 13.046642
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 24
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 8
+				halfHeight: 10.867591
+			}
+		]
+	}
+]
+jointList: []
+}

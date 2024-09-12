@@ -1,0 +1,598 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: Rec.B1429608416205
+			active: false
+			position_x: 0.068650365
+			position_y: -29.862246
+			type: MyStaticBody
+			texture: step_item
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 14.8626995
+				halfHeight: 1.9640126
+			}
+		]
+	}
+	{
+		def: {
+			name: B1429608476019
+			active: false
+			position_x: 0.06865162
+			position_y: -33.940464
+			type: MyStaticBody
+			texture: step_item
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 14.8626995
+				halfHeight: 1.9640126
+			}
+		]
+	}
+	{
+		def: {
+			name: B1429608514505
+			active: false
+			position_x: 0.068650365
+			position_y: -37.986042
+			type: MyStaticBody
+			texture: step_item
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 14.8626995
+				halfHeight: 1.9640126
+			}
+		]
+	}
+	{
+		def: {
+			name: B_NEXT
+			position_x: 97.75538
+			position_y: 20.116259
+			type: MyStaticBody
+			texture: right
+			textAlign: Align_right
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.5
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: N1
+			position_x: -5.7222586
+			position_y: 10.413036
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 4
+			}
+		]
+	}
+	{
+		def: {
+			name: N2
+			position_x: 5.6604238
+			position_y: 10.413036
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: 9
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 4
+			}
+		]
+	}
+	{
+		def: {
+			name: N3
+			position_x: -5.7222586
+			position_y: 1.6865463
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: 4
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 4
+			}
+		]
+	}
+	{
+		def: {
+			name: N4
+			position_x: 5.6604238
+			position_y: 1.6865463
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: 12
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 4
+			}
+		]
+	}
+	{
+		def: {
+			name: C1
+			position_x: -10
+			position_y: -6.3410325
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: C2
+			position_x: -3.5177097
+			position_y: -6.3410325
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: C3
+			position_x: 3.3004718
+			position_y: -6.3410325
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: C4
+			position_x: 10.118656
+			position_y: -6.3410325
+			type: MyStaticBody
+			texture: circle
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP0_L
+			position_x: -3.9024386
+			position_y: -10.247903
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			text: step0
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP1_L
+			position_x: -3.9024386
+			position_y: -13.14406
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			text: step1
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP2_L
+			position_x: -3.9024386
+			position_y: -15.934176
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			text: step2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: DEL_STEP
+			position_x: 12.676027
+			position_y: -10.363441
+			type: MyStaticBody
+			texture: delete
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.5
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP2_O
+			position_x: 0.097560406
+			position_y: -15.934176
+			type: MyStaticBody
+			texture: " "
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP0_O
+			position_x: 0.097560406
+			position_y: -10.247903
+			type: MyStaticBody
+			texture: " "
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP1_O
+			position_x: 0.097560406
+			position_y: -13.14406
+			type: MyStaticBody
+			texture: ""
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP0_R
+			position_x: 3.8975606
+			position_y: -10.247903
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_right
+			text: step0
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP1_R
+			position_x: 3.8975606
+			position_y: -13.14406
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_right
+			text: step1
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: STEP2_R
+			position_x: 3.8975606
+			position_y: -15.934176
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_right
+			text: step2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PRIOR
+			position_x: 71.31488
+			position_y: 20.116259
+			type: MyStaticBody
+			texture: left
+			textAlign: Align_right
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.5
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: T_NUMBER
+			position_x: 84.10365
+			position_y: 20.17144
+			type: MyStaticBody
+			fontColor: {
+				r: 0.6
+				g: 0.5
+				b: 0.5
+			}
+			textAlign: Align_center
+			text: 0/0
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 5.5956135
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: T_STATUS
+			position_x: 0.17396057
+			position_y: -19.293797
+			type: MyStaticBody
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6.666667
+				halfHeight: 1.6731902
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HOME
+			position_x: 11.347491
+			position_y: 21.868425
+			type: MyStaticBody
+			texture: home
+			textAlign: Align_right
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 2.5
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HELP
+			position_x: 97.75536
+			position_y: 15.548685
+			type: MyStaticBody
+			texture: help
+			textAlign: Align_right
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.5
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: B_EYE
+			position_x: 89.01576
+			position_y: 16.36118
+			type: MyStaticBody
+			texture: eye
+			textAlign: Align_right
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.5
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: B_AIM
+			position_x: -10.486129
+			position_y: 21.910566
+			type: MyStaticBody
+			texture: aim
+			textAlign: Align_center
+			text: 24
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 2.2368164
+			}
+		]
+	}
+]
+jointList: []
+}

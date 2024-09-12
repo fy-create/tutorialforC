@@ -1,0 +1,73 @@
+{
+base: {
+	gravity: {}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30
+	map: ""
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_BOARD
+			position_x: 1143.5403
+			position_y: -584.5657
+			type: MyStaticBody
+			texture: rec_d
+			fontId: ""
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Leaderboard
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				pos: {}
+				halfWidth: 400
+				halfHeight: 70
+			}
+		]
+	}
+	{
+		def: {
+			name: B1442027672714
+			position_x: 453.913
+			position_y: 513.9131
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+			}
+		]
+	}
+	{
+		def: {
+			name: B_INFO
+			position_x: 0.077055454
+			position_y: 1.2540855
+			type: MyStaticBody
+			texture: ""
+			fontId: ""
+			fontColor: {
+				g: 1
+			}
+			textAlign: Align_center
+			text: Welcome
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				pos: {}
+				halfWidth: 13.224639
+				halfHeight: 1.5
+			}
+		]
+	}
+]
+jointList: []
+}

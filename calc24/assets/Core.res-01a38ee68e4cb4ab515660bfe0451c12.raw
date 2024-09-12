@@ -1,0 +1,222 @@
+{
+regionMetaList: [
+	{
+		id: game_bg_720.jpg
+		fileName: game_bg_720.jpg
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_info_t38_l182_w72_h71.png
+		fileName: home_info_t38_l182_w72_h71.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_help_t38_l283_w72_h71.png
+		fileName: home_help_t38_l283_w72_h71.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_head_t24_l28_w98_h98.png
+		fileName: home_head_t24_l28_w98_h98.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_bg_720.jpg
+		fileName: home_bg_720.jpg
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_play_t594_l197_w326_h340.png
+		fileName: home_play_t594_l197_w326_h340.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_rank_t993_l214_w136_h135.png
+		fileName: home_rank_t993_l214_w136_h135.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_sound_open_t993_l371_w136_h135.png
+		fileName: home_sound_open_t993_l371_w136_h135.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_sound_close_t993_l371_w136_h135.png
+		fileName: home_sound_close_t993_l371_w136_h135.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_info_t38_l182_w72_h71.png_h
+		fileName: home_info_press_t38_l182_w72_h71.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_help_t38_l283_w72_h71.png_h
+		fileName: home_help_press_t38_l283_w72_h71.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home_rank_t993_l214_w136_h135.png_h
+		fileName: home_rank_press_t993_l214_w136_h135.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_home_t24_l32_w89_h90.png
+		fileName: game_home_t24_l32_w89_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_home_t24_l32_w89_h90.png_h
+		fileName: game_home_press_t24_l32_w89_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_progress_bg_t48_l177_w366_h62.png
+		fileName: game_progress_bg_t48_l177_w366_h62.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_progress_fg_t48_l177_w366_h62.png
+		fileName: game_progress_fg_t48_l177_w366_h62.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_number_btn_w202_h202.png
+		fileName: game_number_btn_w202_h202.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_number_btn_press_w202_h202.png
+		fileName: game_number_btn_press_w202_h202.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_plus_btn_w121_h121.png
+		fileName: game_math_plus_btn_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_plus_btn_w121_h121.png_h
+		fileName: game_math_plus_btn_press_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_minus_btn_w121_h121.png
+		fileName: game_math_minus_btn_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_minus_btn_w121_h121.png_h
+		fileName: game_math_minus_btn_press_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_multiple_btn_w121_h121.png
+		fileName: game_math_multiple_btn_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_multiple_btn_w121_h121.png_h
+		fileName: game_math_multiple_btn_press_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_division_btn_w121_h121.png
+		fileName: game_math_division_btn_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_math_division_btn_w121_h121.png_h
+		fileName: game_math_division_btn_press_w121_h121.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_next_t1094_l218_w294_h118.png
+		fileName: game_next_t1094_l218_w294_h118.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_next_t1094_l218_w294_h118.png_h
+		fileName: game_next_press_t1094_l218_w294_h118.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_reset_t992_l260_w90_h90.png
+		fileName: game_reset_t992_l260_w90_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_reset_t992_l260_w90_h90.png_h
+		fileName: game_reset_press_t992_l261_w90_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_hint_t992_l261_w90_h90.png
+		fileName: game_hint_t992_l261_w90_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_hint_t992_l261_w90_h90.png_h
+		fileName: game_hint_press_t992_l368_w90_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_reset_disable_press_t992_l261_w90_h90.png
+		fileName: game_reset_disable_press_t992_l261_w90_h90.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_connect_w250_h68.png
+		fileName: game_connect_w250_h68.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_time_bg.png
+		fileName: game_time_bg.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: game_time_fg.png
+		fileName: game_time_fg.png
+		frameRows: 1
+		frameColumns: 1
+	}
+]
+fontMetaList: []
+particleMetaList: []
+}
