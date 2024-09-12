@@ -68,3 +68,11 @@ title: Home
         </ul>
     </div>
 </div>
+
+
+---  
+
+小游戏
+
+
+[计算24]({{ site.baseurl }}/calc24)
