@@ -22,7 +22,7 @@ int add(int a, int b) {
 
 int main() {
     // 定义函数指针
-    int (*func_ptr)(int, int) = &add;
+    int (*func_ptr)(int, int) = &add; // 对函数取地址
     
     // 使用函数指针调用函数
     int result = func_ptr(3, 4);  // 或 (*func_ptr)(3, 4)
