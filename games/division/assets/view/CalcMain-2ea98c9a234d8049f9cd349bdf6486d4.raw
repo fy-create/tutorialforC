@@ -1,0 +1,217 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: CALC_PANEL
+			type: MyStaticBody
+			texture: ""
+			rotateWithVelocity: true
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 12
+				halfHeight: 20
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HOME
+			position_x: -12.167603
+			position_y: 23.932667
+			type: MyStaticBody
+			texture: home
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2
+				halfHeight: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: CALC_SELECT
+			position_x: -8.519335
+			position_y: -11.876617
+			type: MyStaticBody
+			texture: ""
+			rotateWithVelocity: true
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 5
+				halfHeight: 9
+			}
+		]
+	}
+	{
+		def: {
+			name: B_NEXT
+			position_x: 11.817909
+			position_y: 23.932667
+			type: MyStaticBody
+			texture: next
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2
+				halfHeight: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_OK
+			position_x: -10.507244
+			position_y: -23.876816
+			type: MyStaticBody
+			texture: ok
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 3
+				halfHeight: 3
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SCORE
+			position_y: 24.104712
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: 0
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6
+				halfHeight: 1.5
+			}
+		]
+	}
+	{
+		def: {
+			name: B_STAR1
+			position_x: -4.3840575
+			position_y: 21.485508
+			type: MyStaticBody
+			texture: star
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_STAR2
+			position_x: -2.1376798
+			position_y: 21.485508
+			type: MyStaticBody
+			texture: star
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_STAR3
+			position_x: 0.036233127
+			position_y: 21.485508
+			type: MyStaticBody
+			texture: star
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_STAR4
+			position_x: 2.210146
+			position_y: 21.485508
+			type: MyStaticBody
+			texture: star
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_STAR5
+			position_x: 4.38406
+			position_y: 21.485508
+			type: MyStaticBody
+			texture: star
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HELP
+			position_x: -12.167603
+			position_y: 19.761084
+			type: MyStaticBody
+			texture: help
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2
+				halfHeight: 2
+			}
+		]
+	}
+]
+jointList: []
+}

@@ -1,0 +1,392 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1920
+	devicesHeight: 1080
+	viewpointWidth: 1920
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_TOP_BACK
+			position_x: 6.257004
+			position_y: 132.51715
+			type: MyStaticBody
+			texture: top_edge
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 181.45255
+				halfHeight: 207.37433
+			}
+		]
+	}
+	{
+		def: {
+			name: B_FRONT_BACK
+			position_x: -491.83804
+			position_y: 132.51715
+			type: MyStaticBody
+			texture: edge
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 181.45255
+				halfHeight: 207.37433
+			}
+		]
+	}
+	{
+		def: {
+			name: front2back
+			position_x: -491.83804
+			position_y: 99.44455
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 150
+			}
+		]
+	}
+	{
+		def: {
+			name: top2bottom
+			position_x: 5.363037
+			position_y: 99.44455
+			type: MyStaticBody
+			texture: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 150
+			}
+		]
+	}
+	{
+		def: {
+			name: B_LEFT_RIGHT
+			position_x: 502.56412
+			position_y: 132.51715
+			type: MyStaticBody
+			texture: edge
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 181.45255
+				halfHeight: 207.37433
+			}
+		]
+	}
+	{
+		def: {
+			name: left2right
+			position_x: 502.56412
+			position_y: 99.44455
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 150
+			}
+		]
+	}
+	{
+		def: {
+			name: B_LEVEL
+			position_x: 22.285538
+			position_y: 439.8462
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Level
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 300
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_FRONT_VIEW
+			position_x: -491.83804
+			position_y: 310.25452
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+			}
+			textAlign: Align_center
+			text: Front View
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_TOP_VIEW
+			position_x: 5.363037
+			position_y: 310.25452
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: Top View
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SIDE_VIEW
+			position_x: 502.56412
+			position_y: 310.25452
+			type: MyStaticBody
+			fontColor: {
+				b: 1
+			}
+			textAlign: Align_center
+			text: Side View
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 150
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HELP
+			position_x: 658.33417
+			position_y: 442.33383
+			type: MyStaticBody
+			texture: help
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 43.053673
+			}
+		]
+	}
+	{
+		def: {
+			name: B_NEXT
+			position_x: 658.33417
+			position_y: -389.27374
+			type: MyStaticBody
+			texture: next
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: C_1
+			position_x: 256.0437
+			position_y: 293.7517
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 1
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: C_2
+			position_x: 256.0437
+			position_y: 211.36072
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: C_3
+			position_x: 256.0437
+			position_y: 128.96974
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 3
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: C_4
+			position_x: 256.0437
+			position_y: 46.578773
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 4
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: C_5
+			position_x: 256.0437
+			position_y: -35.81221
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: 5
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HOME
+			position_x: -639.8035
+			position_y: 442.33383
+			type: MyStaticBody
+			texture: home
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 43.053673
+			}
+		]
+	}
+	{
+		def: {
+			name: B_INFO
+			position_x: 556.4349
+			position_y: 442.33383
+			type: MyStaticBody
+			texture: info
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 36.548
+			}
+		]
+	}
+	{
+		def: {
+			name: B_DONATE
+			position_x: -487.7053
+			position_y: 442.1198
+			type: MyStaticBody
+			texture: donate
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 82.98947
+				halfHeight: 24.898743
+			}
+		]
+	}
+]
+jointList: []
+}

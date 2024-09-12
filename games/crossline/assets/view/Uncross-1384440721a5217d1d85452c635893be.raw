@@ -1,0 +1,13 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: []
+jointList: []
+}

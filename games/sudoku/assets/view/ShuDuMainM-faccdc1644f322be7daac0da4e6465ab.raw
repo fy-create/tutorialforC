@@ -1,0 +1,230 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_PANEL
+			position_x: 0.12671375
+			position_y: 1.3582404
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 13
+				halfHeight: 13
+			}
+		]
+	}
+	{
+		def: {
+			name: B_EASY
+			position_x: -7.5204444
+			position_y: 21.203468
+			type: MyStaticBody
+			texture: easy
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Easy
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 3.5
+				halfHeight: 1.2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_MEDIUM
+			position_x: -0.23265782
+			position_y: 21.203468
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Medium
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 3.5
+				halfHeight: 1.2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HARD
+			position_x: 7.0551286
+			position_y: 21.203468
+			type: MyStaticBody
+			texture: hard
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Hard
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 3.5
+				halfHeight: 1.2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_UNDO
+			position_x: 10.115755
+			position_y: -17.918365
+			type: MyStaticBody
+			texture: rec_h
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Undo
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1.2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_LEVEL
+			position_x: -6.499789
+			position_y: 15.854713
+			type: MyStaticBody
+			texture: ""
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			text: Level:Easy
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6.3984375
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SCORE
+			position_x: 6.5954747
+			position_y: 15.931787
+			type: MyStaticBody
+			texture: ""
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_right
+			text: Score:1000
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6.3927712
+				halfHeight: 1
+			}
+		]
+	}
+	{
+		def: {
+			name: B_CHOICE
+			position_x: 0.08214331
+			position_y: -13.71245
+			type: MyStaticBody
+			texture: hard
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: PANEL
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 13.338405
+				halfHeight: 1.1498208
+			}
+		]
+	}
+	{
+		def: {
+			name: B_OK
+			position_x: -10
+			position_y: -17.918365
+			type: MyStaticBody
+			texture: rec_h
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: NEXT
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2.5
+				halfHeight: 1.2
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HELP
+			position_x: 0.10103607
+			position_y: -17.930609
+			type: MyStaticBody
+			texture: help
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 1.2
+				halfHeight: 1.2
+			}
+		]
+	}
+]
+jointList: []
+}

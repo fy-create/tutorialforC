@@ -1,0 +1,190 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_ENG
+			position_x: -262.1299
+			position_y: -634.62463
+			type: MyStaticBody
+			texture: rec
+			fontColor: {}
+			textAlign: Align_center
+			text: English
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 160
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_CHI
+			position_x: 248.96538
+			position_y: -634.62463
+			type: MyStaticBody
+			texture: rec
+			fontColor: {}
+			textAlign: Align_center
+			text: 简体中文
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 160
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_WELCOME
+			position_x: -5.492111
+			position_y: -897.1995
+			type: MyStaticBody
+			texture: ""
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SEP
+			position_x: -560.0076
+			position_y: -2275.318
+			type: MyStaticBody
+			texture: cubelet
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 2
+				halfHeight: 1200
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SHARE
+			position_x: -450.42334
+			position_y: 739.4564
+			type: MyStaticBody
+			texture: share
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 60
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: B_INTRO
+			position_x: -262.4092
+			position_y: -51.896774
+			type: MyStaticBody
+			texture: rec
+			text: Get To Know
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 225.92273
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_ROTATE
+			position_x: 249.29243
+			position_y: -51.896774
+			type: MyStaticBody
+			texture: rec
+			text: Know Rotate
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 223.90862
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_CFOP
+			position_x: -262.4092
+			position_y: -194.16693
+			type: MyStaticBody
+			texture: rec
+			text: Simple Tutorial
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 229.57138
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_ADV
+			position_x: 250.54692
+			position_y: -194.16693
+			type: MyStaticBody
+			texture: rec
+			text: Advance CFOP
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 225.3737
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_DONATE
+			position_x: 368.80704
+			position_y: -876.46436
+			type: MyStaticBody
+			texture: donate
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 40
+			}
+		]
+	}
+]
+jointList: []
+}

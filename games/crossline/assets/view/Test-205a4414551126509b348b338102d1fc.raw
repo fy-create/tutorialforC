@@ -1,0 +1,75 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 30000
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: Rec.B1616327471142
+			position_x: 5.4729614
+			position_y: -21.891907
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			text: Hello
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 158.71623
+				halfHeight: 52.90545
+			}
+		]
+	}
+	{
+		def: {
+			name: Rec.B1616327508208
+			position_x: 0.45608187
+			position_y: 15.456081
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			text: Hello
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 8.158784
+				halfHeight: 2.1283793
+			}
+		]
+	}
+	{
+		def: {
+			name: Rec.B1616327573075
+			position_x: 405.40698
+			position_y: 6283.783
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Hello
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 8918.918
+				halfHeight: 2077.702
+			}
+		]
+	}
+]
+jointList: []
+}

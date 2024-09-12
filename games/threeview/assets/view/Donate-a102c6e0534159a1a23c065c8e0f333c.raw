@@ -1,0 +1,110 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1920
+	devicesHeight: 1080
+	viewpointWidth: 1920
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_WECHAT
+			position_x: -424.04218
+			position_y: 7.9579086
+			type: MyStaticBody
+			texture: donate_wechat
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 300
+				halfHeight: 300
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PAYPAL
+			position_x: 417.22107
+			position_y: 7.9579086
+			type: MyStaticBody
+			texture: donate_paypal
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 300
+				halfHeight: 300
+			}
+		]
+	}
+	{
+		def: {
+			name: Rec.B1616657181040
+			position_x: -422.90533
+			position_y: 356.96844
+			type: MyStaticBody
+			texture: ""
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			text: Wechat
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 297.85266
+				halfHeight: 46.61055
+			}
+		]
+	}
+	{
+		def: {
+			name: B1616657220257
+			position_x: 416.13858
+			position_y: 356.96844
+			type: MyStaticBody
+			texture: ""
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			text: Paypal
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 297.85266
+				halfHeight: 46.61055
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 743.3068
+			position_y: -390.4781
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 119.402405
+				halfHeight: 35.498
+			}
+		]
+	}
+]
+jointList: []
+}

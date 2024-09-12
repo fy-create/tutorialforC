@@ -1,0 +1,52 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1920
+	devicesHeight: 1080
+	viewpointWidth: 30
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B1616394522101
+			position_x: 13.642136
+			position_y: 313.76852
+			fontId: m
+			fontColor: {
+				r: 1
+			}
+			text: "+-*/,."
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 638.90533
+				halfHeight: 57.97896
+			}
+		]
+	}
+	{
+		def: {
+			name: Rec.B1616394531367
+			position_x: 0.31973648
+			position_y: 1.9539475
+			fontId: m
+			fontColor: {
+				r: 1
+			}
+			text: "+-*/,."
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 6.9276323
+				halfHeight: 0.5151321
+			}
+		]
+	}
+]
+jointList: []
+}

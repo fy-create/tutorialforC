@@ -1,0 +1,101 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_PANEL
+			position_x: 2.6087878
+			position_y: -1.6631775
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 800
+			}
+		]
+	}
+	{
+		def: {
+			name: B_F2L
+			position_x: -237.39114
+			position_y: 867.39124
+			type: MyStaticBody
+			texture: indicator
+			textAlign: Align_center
+			text: F2L
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 45
+			}
+		]
+	}
+	{
+		def: {
+			name: B_OLL
+			position_x: -20.869532
+			position_y: 864.78253
+			type: MyStaticBody
+			texture: indicator
+			textAlign: Align_center
+			text: OLL
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 45
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PLL
+			position_x: 195.65208
+			position_y: 864.78253
+			type: MyStaticBody
+			texture: indicator
+			textAlign: Align_center
+			text: PLL
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 45
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 366.45996
+			position_y: 865.6178
+			type: MyStaticBody
+			texture: back
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 45
+				halfHeight: 45
+			}
+		]
+	}
+]
+jointList: []
+}

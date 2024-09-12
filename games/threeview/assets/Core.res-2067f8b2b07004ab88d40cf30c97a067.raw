@@ -1,0 +1,132 @@
+{
+regionMetaList: [
+	{
+		id: cubelet
+		fileName: cubelet.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: cubelet_h
+		fileName: cubelet_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: cubelet_red
+		fileName: cubelet_red.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: cubelet_yellow
+		fileName: cubelet_yellow.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: cubelet_yellow_h
+		fileName: cubelet_yellow_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: cubelet_blue
+		fileName: cubelet_blue.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: blackBG
+		fileName: blackBG.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: easy
+		fileName: easy.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: medium
+		fileName: medium.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: hard
+		fileName: hard.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: help
+		fileName: help.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: top_edge
+		fileName: top_edge.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: edge
+		fileName: edge.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: china
+		fileName: china.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: usa
+		fileName: usa.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home
+		fileName: home.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: next
+		fileName: next.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: info
+		fileName: information.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: donate
+		fileName: donate.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: donate_wechat
+		fileName: donate_wechat.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: donate_paypal
+		fileName: donate_paypal.png
+		frameRows: 1
+		frameColumns: 1
+	}
+]
+fontMetaList: []
+particleMetaList: []
+}

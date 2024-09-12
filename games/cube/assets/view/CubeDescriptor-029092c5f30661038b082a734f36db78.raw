@@ -1,0 +1,101 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: Rec.B1477810853317
+			position_x: 2.6087046
+			position_y: 31.20314
+			type: MyStaticBody
+			texture: pop_bg
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 530
+				halfHeight: 732.9894
+			}
+		]
+	}
+	{
+		def: {
+			name: T_DESC
+			position_x: 9.518427
+			position_y: 432.81137
+			type: MyStaticBody
+			texture: ""
+			text: "  No Description"
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 466.4022
+				halfHeight: 55
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 375.52054
+			position_y: 659.2047
+			type: MyStaticBody
+			texture: close
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 36
+				halfHeight: 36.37976
+			}
+		]
+	}
+	{
+		def: {
+			name: T_TITLE
+			position_x: 5.4390564
+			position_y: 571.789
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_center
+			text: Description
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 503.11606
+				halfHeight: 55
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PIC
+			position_x: 304.70905
+			position_y: -553.0072
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 100
+			}
+		]
+	}
+]
+jointList: []
+}

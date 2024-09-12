@@ -1,0 +1,75 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1920
+	devicesHeight: 1080
+	viewpointWidth: 1920
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_BG
+			position_x: 2.232769
+			position_y: 39.069763
+			type: MyStaticBody
+			texture: medium
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 701.0232
+				halfHeight: 327.0697
+			}
+		]
+	}
+	{
+		def: {
+			name: B_TEXT
+			position_x: 3.3488388
+			position_y: 323.44067
+			type: MyStaticBody
+			fontId: ""
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			text: "从3个方向看一个立体模型,前视图是从前往后看,俯视图是从上往下看,左视图是从左往右看.根据三个视图提供的信息,在俯视图上标出每一个元素的层高,全部标正确会显示3D的原始图形."
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 690.9767
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 564.9034
+			position_y: -211.65857
+			type: MyStaticBody
+			texture: hard
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 118.91936
+				halfHeight: 34.604645
+			}
+		]
+	}
+]
+jointList: []
+}

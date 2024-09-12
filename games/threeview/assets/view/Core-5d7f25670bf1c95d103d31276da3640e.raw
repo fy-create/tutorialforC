@@ -1,0 +1,135 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1920
+	devicesHeight: 1080
+	viewpointWidth: 1920
+	map: ""
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_EASY
+			position_x: -600.9731
+			position_y: 5.320593
+			type: MyStaticBody
+			texture: easy
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Easy
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				restitution: 1
+				halfWidth: 200
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: B_MEDIUM
+			position_x: -31.479477
+			position_y: 5.320593
+			type: MyStaticBody
+			texture: medium
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Medium
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				restitution: 1
+				halfWidth: 200
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HARD
+			position_x: 538.0141
+			position_y: 5.320593
+			type: MyStaticBody
+			texture: hard
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Hard
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				restitution: 1
+				halfWidth: 200
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: B_CHINA
+			position_x: 565.2647
+			position_y: -347.76538
+			type: MyStaticBody
+			texture: china
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				restitution: 1
+				halfWidth: 60
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: B_USA
+			position_x: 699.1612
+			position_y: -347.76538
+			type: MyStaticBody
+			texture: usa
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				restitution: 1
+				halfWidth: 60
+				halfHeight: 60
+			}
+		]
+	}
+]
+jointList: []
+}

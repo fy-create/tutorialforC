@@ -1,0 +1,1184 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: R
+			position_x: -329.82593
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: R
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: U
+			position_x: -438.7843
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: U
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: F
+			position_x: -220.86758
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: F
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: U_
+			position_x: -438.7843
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: U'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: F_
+			position_x: -220.86758
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: F'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: R_
+			position_x: -329.82593
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: R'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: D
+			position_x: -111.90921
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: D
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B
+			position_x: 106.00754
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: B
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_
+			position_x: 106.00754
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: B'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: D_
+			position_x: -111.90921
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: D'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: L
+			position_x: -2.950824
+			position_y: -172.26746
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: L
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: L_
+			position_x: -2.950824
+			position_y: -265.87512
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: L'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 364.1424
+			position_y: -63.096405
+			type: MyStaticBody
+			texture: bt_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 117.3994
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: r_
+			position_x: -329.82593
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: r'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: f
+			position_x: -220.86758
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: f
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: f_
+			position_x: -220.86758
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: f'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: u
+			position_x: -438.7843
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: u
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: r
+			position_x: -329.82593
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: r
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: u_
+			position_x: -438.7843
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: u'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: x_
+			position_x: 214.96591
+			position_y: -265.36816
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: x'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: z
+			position_x: 432.8827
+			position_y: -171.7605
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: z
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: z_
+			position_x: 432.8827
+			position_y: -265.36816
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: z'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: y
+			position_x: 323.92432
+			position_y: -171.7605
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: y
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: x
+			position_x: 214.96591
+			position_y: -171.7605
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: x
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: y_
+			position_x: 323.92432
+			position_y: -265.36816
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: y'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: U2
+			position_x: -438.7843
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: U2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: R2
+			position_x: -329.82593
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: R2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: F2
+			position_x: -220.86755
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: F2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: D2
+			position_x: -111.90918
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: D2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: L2
+			position_x: -2.9508057
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: L2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B2
+			position_x: 106.00757
+			position_y: -359.4828
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: B2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: x2
+			position_x: 214.96591
+			position_y: -358.97583
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: x2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: y2
+			position_x: 323.92432
+			position_y: -358.97583
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: y2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: z2
+			position_x: 432.8827
+			position_y: -358.97583
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: z2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: u2
+			position_x: -438.7843
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: u2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: r2
+			position_x: -329.82593
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: r2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: f2
+			position_x: -220.86758
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: f2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: d
+			position_x: -111.90921
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: d
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: d_
+			position_x: -111.90921
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: d'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: d2
+			position_x: -111.90921
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: d2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: l
+			position_x: -2.950824
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: l
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: l_
+			position_x: -2.950824
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: l'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: l2
+			position_x: -2.950824
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: l2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: b2
+			position_x: 106.00754
+			position_y: -640.3058
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: b2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: b
+			position_x: 106.00754
+			position_y: -453.09045
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: b
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: b_
+			position_x: 106.00754
+			position_y: -546.6981
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: b'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: E2
+			position_x: 214.96591
+			position_y: -639.7988
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: E2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: E_
+			position_x: 214.96591
+			position_y: -546.19116
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: E'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: E
+			position_x: 214.96591
+			position_y: -452.5835
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: E
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: M2
+			position_x: 323.92432
+			position_y: -639.7988
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: M2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: M_
+			position_x: 323.92432
+			position_y: -546.19116
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: M'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: M
+			position_x: 323.92432
+			position_y: -452.5835
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: M
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: S2
+			position_x: 432.8827
+			position_y: -639.7988
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: S2
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: S_
+			position_x: 432.8827
+			position_y: -546.19116
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: S'
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: S
+			position_x: 432.8827
+			position_y: -452.5835
+			type: MyStaticBody
+			texture: ele_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: S
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_ROTATE
+			position_x: -166.79877
+			position_y: -60
+			type: MyStaticBody
+			texture: ""
+			text: About Rotate
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 318.35913
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: T_U
+			active: false
+			position_x: -246.61938
+			position_y: 117.67287
+			type: MyStaticBody
+			texture: ""
+			text: U - Up
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_D
+			active: false
+			position_x: -246.61938
+			position_y: 55.307426
+			type: MyStaticBody
+			texture: ""
+			text: D - Down
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_B
+			active: false
+			position_x: 39.22179
+			position_y: 55.307426
+			type: MyStaticBody
+			texture: ""
+			text: B - Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_F
+			active: false
+			position_x: 39.22179
+			position_y: 117.67287
+			type: MyStaticBody
+			texture: ""
+			text: F - Front
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_L
+			active: false
+			position_x: 325.0631
+			position_y: 117.67287
+			type: MyStaticBody
+			texture: ""
+			text: L - Left
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_R
+			active: false
+			position_x: 325.0631
+			position_y: 55.307472
+			type: MyStaticBody
+			texture: ""
+			text: R - Right
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 141.75418
+				halfHeight: 30
+			}
+		]
+	}
+]
+jointList: []
+}

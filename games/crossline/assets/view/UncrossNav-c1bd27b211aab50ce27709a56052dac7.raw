@@ -1,0 +1,164 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: T_LEVEL
+			position_x: -283.58743
+			position_y: 836.33374
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			text: Level
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 233.48434
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HELP
+			position_x: 240.70738
+			position_y: 834.88116
+			type: MyStaticBody
+			texture: help
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: T_TIME
+			position_x: 259.8656
+			position_y: -748.8647
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			textAlign: Align_right
+			text: 0
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 240
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_RESET
+			position_x: 133.70998
+			position_y: 834.88116
+			type: MyStaticBody
+			texture: reset
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_NEXT
+			position_x: 457.63702
+			position_y: 834.88116
+			type: MyStaticBody
+			texture: next
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: T_BEST_SCORE
+			position_x: -266.82895
+			position_y: -748.3749
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+			}
+			text: Best Score:
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 240
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PRE
+			position_x: 349.1722
+			position_y: 834.88116
+			type: MyStaticBody
+			texture: pre
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: B_HOME
+			position_x: 26.71257
+			position_y: 834.88116
+			type: MyStaticBody
+			texture: home
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 50
+				halfHeight: 50
+			}
+		]
+	}
+]
+jointList: []
+}

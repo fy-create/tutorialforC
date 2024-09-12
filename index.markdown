@@ -75,4 +75,14 @@ title: Home
 小游戏
 
 
-[计算24]({{ site.baseurl }}/calc24)
+[计算24]({{ site.baseurl }}/games/calc24)
+[解交叉]({{ site.baseurl }}/games/crossline)
+[魔方]({{ site.baseurl }}/games/cube)
+[除法]({{ site.baseurl }}/games/division)
+[数独]({{ site.baseurl }}/games/sudoku)
+[三视图]({{ site.baseurl }}/games/threeview)
+
+
+
+
+

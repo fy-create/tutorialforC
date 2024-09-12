@@ -1,0 +1,98 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: CP
+			position_y: -212.18933
+			type: MyStaticBody
+			texture: rec
+			text: Center Piece
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 70
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: 337.93445
+			position_y: -56.302277
+			type: MyStaticBody
+			texture: bt_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 160
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: EP
+			position_y: -500.3664
+			type: MyStaticBody
+			texture: rec
+			text: Edge Piece
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 70
+			}
+		]
+	}
+	{
+		def: {
+			name: COP
+			position_y: -357.5822
+			type: MyStaticBody
+			texture: rec
+			text: Corner Piece
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 70
+			}
+		]
+	}
+	{
+		def: {
+			name: B_INTRO
+			position_x: -166.78018
+			position_y: -60
+			type: MyStaticBody
+			texture: ""
+			text: Introduce
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 333.21982
+				halfHeight: 60
+			}
+		]
+	}
+]
+jointList: []
+}

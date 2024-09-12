@@ -1,0 +1,216 @@
+{
+regionMetaList: [
+	{
+		id: ele
+		fileName: ele.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: ele_h
+		fileName: ele_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: ele_d
+		fileName: ele_d.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: blackBG
+		fileName: blackBG.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: back
+		fileName: back.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: rec
+		fileName: rec.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: rec_d
+		fileName: rec_d.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: rec_h
+		fileName: rec_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: next
+		fileName: next.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home
+		fileName: home.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: easy
+		fileName: easy.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: medium
+		fileName: medium.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: hard
+		fileName: hard.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: ele_error
+		fileName: ele_error.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: hand
+		fileName: hand.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: help
+		fileName: help.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: ok
+		fileName: ok.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: leaderboard
+		fileName: leaderboard.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: green
+		fileName: green_box.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: blue
+		fileName: blue_rec.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: star
+		fileName: star.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: create
+		fileName: create.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: up
+		fileName: up_arrow.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: add
+		fileName: add.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: delete
+		fileName: delete.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: share
+		fileName: share.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: send
+		fileName: send.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: like
+		fileName: like.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: info
+		fileName: information.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: gray
+		fileName: gray.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: white
+		fileName: white.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: white1
+		fileName: white1.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: focus
+		fileName: focus.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: help_count
+		fileName: help_count.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: bg
+		fileName: bg.png
+		frameRows: 1
+		frameColumns: 1
+	}
+]
+fontMetaList: []
+particleMetaList: []
+}

@@ -1,0 +1,78 @@
+{
+regionMetaList: [
+	{
+		id: rec
+		fileName: rec.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: rec_d
+		fileName: rec_d.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: rec_h
+		fileName: rec_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: circle
+		fileName: circle.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: circle_h
+		fileName: circle_h.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: next
+		fileName: next.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: help
+		fileName: help.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: next_d
+		fileName: next_d.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: reset
+		fileName: reset.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: pre
+		fileName: pre.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: home
+		fileName: home.png
+		frameRows: 1
+		frameColumns: 1
+	}
+	{
+		id: leaderboard
+		fileName: leaderboard.png
+		frameRows: 1
+		frameColumns: 1
+	}
+]
+fontMetaList: []
+particleMetaList: []
+}

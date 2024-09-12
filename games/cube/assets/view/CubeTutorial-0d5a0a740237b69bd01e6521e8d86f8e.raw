@@ -1,0 +1,337 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B_TUTORIAL
+			position_x: -302.53934
+			position_y: -1150.325
+			type: MyStaticBody
+			texture: ""
+			text: Tutorial
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 200
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_BACK
+			position_x: -402.20068
+			position_y: -766.5433
+			type: MyStaticBody
+			texture: bt_rec
+			fontColor: {}
+			textAlign: Align_center
+			text: Back
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 100
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_AUTHOR
+			position_x: 108.24452
+			position_y: -1150.2567
+			type: MyStaticBody
+			texture: ""
+			text: Author
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 199.92618
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PAGE
+			position_x: 105.04874
+			position_y: -766.5433
+			type: MyStaticBody
+			texture: ""
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 394.07617
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_FORMULA
+			position_y: 51.11465
+			type: MyStaticBody
+			texture: ""
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 470
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PANEL
+			position_y: -394.35587
+			type: MyStaticBody
+			texture: ""
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 315.44583
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PLAY
+			position_x: 439.7569
+			position_y: 166.9924
+			type: MyStaticBody
+			texture: play
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 60
+				halfHeight: 60
+			}
+		]
+	}
+	{
+		def: {
+			name: T_DURATION_BG
+			position_x: 153.10994
+			position_y: 851.7783
+			type: MyStaticBody
+			texture: bar
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 120
+				halfHeight: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: T_SIZE_BG
+			position_x: -257.59238
+			position_y: 851.7783
+			type: MyStaticBody
+			texture: bar
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 120
+				halfHeight: 2
+			}
+		]
+	}
+	{
+		def: {
+			name: T_SIZE
+			position_x: -259.74826
+			position_y: 851.7783
+			type: MyStaticBody
+			texture: circle_h
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: T_DURATION
+			position_x: 144.64018
+			position_y: 851.7783
+			type: MyStaticBody
+			texture: circle_h
+		}
+		shapeList: [
+			{
+				class: MyCircleShape
+				radius: 50
+			}
+		]
+	}
+	{
+		def: {
+			name: T_SIZE_TEXT
+			position_x: -434.55945
+			position_y: 859.60443
+			type: MyStaticBody
+			fontColor: {}
+			text: Size
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 64.03311
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: T_DURATION_TEXT
+			position_x: -35.112183
+			position_y: 859.60443
+			type: MyStaticBody
+			fontId: ""
+			fontColor: {}
+			text: Speed
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 62.05952
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_INFO
+			active: false
+			position_x: 1.1062622
+			position_y: 769.9003
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 496.72656
+				halfHeight: 30
+			}
+		]
+	}
+	{
+		def: {
+			name: B_DESC
+			position_x: -56.956543
+			position_y: -33.015472
+			type: MyStaticBody
+			texture: ""
+			text: bbb
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 443.04346
+				halfHeight: 39.945942
+			}
+		]
+	}
+	{
+		def: {
+			name: B_DETAIL
+			position_x: 444.9743
+			position_y: -31.268402
+			type: MyStaticBody
+			texture: info
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 40
+				halfHeight: 40
+			}
+		]
+	}
+	{
+		def: {
+			name: B_EYE
+			position_x: 451.68863
+			position_y: 852.2763
+			type: MyStaticBody
+			texture: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 41.73912
+				halfHeight: 40.434784
+			}
+		]
+	}
+	{
+		def: {
+			name: B_AXIS
+			position_x: 337.5458
+			position_y: 852.2763
+			type: MyStaticBody
+			texture: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 41.73912
+				halfHeight: 40.434784
+			}
+		]
+	}
+	{
+		def: {
+			name: B_SHARE
+			position_x: 439.7569
+			position_y: 297.4272
+			type: MyStaticBody
+			texture: share
+			textAlign: Align_center
+			text: ""
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 60
+				halfHeight: 60
+			}
+		]
+	}
+]
+jointList: []
+}

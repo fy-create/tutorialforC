@@ -1,0 +1,51 @@
+{
+base: {
+	gravity: {
+		y: -9.8
+	}
+	devicesWidth: 1080
+	devicesHeight: 1920
+	viewpointWidth: 1080
+	position: {}
+}
+bodyList: [
+	{
+		def: {
+			name: B1459592935590
+			position_x: 3.961853
+			position_y: 856.252
+			type: MyStaticBody
+			fontColor: {
+				r: 1
+				g: 1
+				b: 1
+			}
+			textAlign: Align_center
+			text: Select Level
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 433.87604
+				halfHeight: 48.076355
+			}
+		]
+	}
+	{
+		def: {
+			name: B_PANEL
+			position_x: 1.7397118
+			position_y: -43.21219
+			type: MyStaticBody
+		}
+		shapeList: [
+			{
+				class: MyRectangleShape
+				halfWidth: 500
+				halfHeight: 700
+			}
+		]
+	}
+]
+jointList: []
+}
