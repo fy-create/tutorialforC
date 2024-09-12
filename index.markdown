@@ -31,6 +31,19 @@ title: Home
             {% endfor %}
         </ul>
     </div>
+    <div>
+        <h2>嵌入式开发</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'embed' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
     <div >
         <h2>C++</h2>
         <ul>
