@@ -1,0 +1,324 @@
+---
+layout: post
+title:  "堆（Heap）"
+categories: dataStruct
+---
+
+### 堆（Heap）的概念和应用
+
+#### 概念
+**堆（Heap）** 是一种特殊的 **完全二叉树** 数据结构，满足 **堆性质**。堆有两种常见类型：
+1. **最大堆（Max-Heap）**：每个节点的值都大于或等于其子节点的值。根节点是最大值。
+2. **最小堆（Min-Heap）**：每个节点的值都小于或等于其子节点的值。根节点是最小值。
+
+由于堆是完全二叉树，使用数组可以方便地存储和管理堆结构，其中：
+- 对于节点 `i`，其左子节点在数组中的位置是 `2*i + 1`，右子节点在数组中的位置是 `2*i + 2`。
+- 父节点在位置 `(i-1) / 2`。
+
+#### 堆的常用操作
+1. **插入（Insert）**：
+   - 将新元素添加到堆的尾部，然后通过 **上浮（swim）** 操作保持堆性质。
+   - 时间复杂度：**O(log n)**，因为每次插入后需要调整堆的深度为 `log n`。
+   
+2. **删除（Delete）**：
+   - 删除堆的根节点（最大堆删除最大值，最小堆删除最小值），然后将堆的最后一个元素放到根节点，再通过 **下沉（sink）** 操作保持堆性质。
+   - 时间复杂度：**O(log n)**，因为删除根节点后需要调整堆。
+
+3. **堆化（Heapify）**：
+   - 将一个无序数组调整成堆，通常通过从最后一个非叶子节点开始下沉来实现。
+   - 时间复杂度：**O(n)**。
+
+#### 复杂度分析
+- **插入** 和 **删除** 操作的时间复杂度为 **O(log n)**，因为堆的高度为 `log n`。
+- **查找最大值或最小值**（只查找根节点）的时间复杂度为 **O(1)**。
+
+#### 堆的应用
+1. **优先队列（Priority Queue）**：使用堆来实现优先队列，快速查找和删除最高优先级的元素。
+2. **K大元素问题**：使用最小堆求解 **K** 个最大元素，或者使用最大堆求解 **K** 个最小元素。
+3. **区间问题**：解决如 **区间合并**、**滑动窗口最大值** 等问题。
+
+---
+
+### 1. **最大堆的实现（C语言）**
+
+#### 代码实现：
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 1000
+
+// 定义最大堆结构
+typedef struct {
+    int size;
+    int arr[MAX_SIZE];
+} MaxHeap;
+
+// 创建并初始化最大堆
+MaxHeap* createMaxHeap() {
+    MaxHeap* heap = (MaxHeap*)malloc(sizeof(MaxHeap));
+    heap->size = 0;
+    return heap;
+}
+
+// 交换两个元素
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// 上浮操作：新插入元素向上调整，保持堆的性质
+void heapifyUp(MaxHeap* heap, int index) {
+    int parent = (index - 1) / 2;
+    if (index > 0 && heap->arr[index] > heap->arr[parent]) {
+        swap(&heap->arr[index], &heap->arr[parent]);
+        heapifyUp(heap, parent); // 递归调整父节点
+    }
+}
+
+// 插入新元素到最大堆中
+void insert(MaxHeap* heap, int value) {
+    if (heap->size == MAX_SIZE) {
+        printf("Heap is full\n");
+        return;
+    }
+    heap->arr[heap->size] = value;
+    heapifyUp(heap, heap->size);
+    heap->size++;
+    printf("Inserted %d into heap\n", value);
+}
+
+// 下沉操作：删除根节点后，堆的调整
+void heapifyDown(MaxHeap* heap, int index) {
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+    int largest = index;
+
+    if (left < heap->size && heap->arr[left] > heap->arr[largest]) {
+        largest = left;
+    }
+    if (right < heap->size && heap->arr[right] > heap->arr[largest]) {
+        largest = right;
+    }
+    if (largest != index) {
+        swap(&heap->arr[index], &heap->arr[largest]);
+        heapifyDown(heap, largest); // 递归调整子节点
+    }
+}
+
+// 删除堆顶元素（最大值）
+int deleteMax(MaxHeap* heap) {
+    if (heap->size == 0) {
+        printf("Heap is empty\n");
+        return -1;
+    }
+    int maxValue = heap->arr[0];
+    heap->arr[0] = heap->arr[heap->size - 1]; // 将最后一个元素移到堆顶
+    heap->size--;
+    heapifyDown(heap, 0);
+    printf("Deleted max value %d from heap\n", maxValue);
+    return maxValue;
+}
+
+// 打印堆
+void printHeap(MaxHeap* heap) {
+    for (int i = 0; i < heap->size; i++) {
+        printf("%d ", heap->arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    MaxHeap* heap = createMaxHeap();
+
+    insert(heap, 10);
+    insert(heap, 20);
+    insert(heap, 5);
+    insert(heap, 30);
+    insert(heap, 15);
+
+    printf("Heap elements: ");
+    printHeap(heap);
+
+    deleteMax(heap);
+    printf("Heap after deleting max: ");
+    printHeap(heap);
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Inserted 10 into heap
+Inserted 20 into heap
+Inserted 5 into heap
+Inserted 30 into heap
+Inserted 15 into heap
+Heap elements: 30 20 5 10 15 
+Deleted max value 30 from heap
+Heap after deleting max: 20 15 5 10 
+```
+
+#### 分析：
+- **插入**：将元素添加到堆的末尾，执行 **上浮** 操作，保持堆的性质。
+- **删除**：将堆顶元素（最大值）删除，将最后一个元素移到堆顶，执行 **下沉** 操作，保持堆的性质。
+- **复杂度**：插入和删除操作的时间复杂度均为 **O(log n)**。
+
+---
+
+### 2. **最小堆的实现（C语言）**
+
+最小堆的实现与最大堆类似，区别在于堆中的每个节点的值都必须小于或等于其子节点的值，堆顶为最小值。
+
+#### 代码实现：
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 1000
+
+// 定义最小堆结构
+typedef struct {
+    int size;
+    int arr[MAX_SIZE];
+} MinHeap;
+
+// 创建并初始化最小堆
+MinHeap* createMinHeap() {
+    MinHeap* heap = (MinHeap*)malloc(sizeof(MinHeap));
+    heap->size = 0;
+    return heap;
+}
+
+// 交换两个元素
+void swap(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+// 上浮操作：新插入元素向上调整，保持堆的性质
+void heapifyUp(MinHeap* heap, int index) {
+    int parent = (index - 1) / 2;
+    if (index > 0 && heap->arr[index] < heap->arr[parent]) {
+        swap(&heap->arr[index], &heap->arr[parent]);
+        heapifyUp(heap, parent); // 递归调整父节点
+    }
+}
+
+// 插入新元素到最小堆中
+void insert(MinHeap* heap, int value) {
+    if (heap->size == MAX_SIZE) {
+        printf("Heap is full\n");
+        return;
+    }
+    heap->arr[heap->size] = value;
+    heapifyUp(heap, heap->size);
+    heap->size++;
+    printf("Inserted %d into heap\n", value);
+}
+
+// 下沉操作：删除根节点后，堆的调整
+void heapifyDown(MinHeap* heap, int index) {
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+    int smallest = index;
+
+    if (left < heap->size && heap->arr[left] < heap->arr[smallest]) {
+        smallest = left;
+    }
+    if (right < heap->size && heap->arr[right] < heap->arr[smallest]) {
+        smallest = right;
+    }
+    if (smallest != index) {
+        swap(&heap->arr[index], &heap->arr[smallest]);
+        heapifyDown(heap, smallest); // 递归调整子节点
+    }
+}
+
+//
+
+ 删除堆顶元素（最小值）
+int deleteMin(MinHeap* heap) {
+    if (heap->size == 0) {
+        printf("Heap is empty\n");
+        return -1;
+    }
+    int minValue = heap->arr[0];
+    heap->arr[0] = heap->arr[heap->size - 1]; // 将最后一个元素移到堆顶
+    heap->size--;
+    heapifyDown(heap, 0);
+    printf("Deleted min value %d from heap\n", minValue);
+    return minValue;
+}
+
+// 打印堆
+void printHeap(MinHeap* heap) {
+    for (int i = 0; i < heap->size; i++) {
+        printf("%d ", heap->arr[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    MinHeap* heap = createMinHeap();
+
+    insert(heap, 10);
+    insert(heap, 20);
+    insert(heap, 5);
+    insert(heap, 30);
+    insert(heap, 15);
+
+    printf("Heap elements: ");
+    printHeap(heap);
+
+    deleteMin(heap);
+    printf("Heap after deleting min: ");
+    printHeap(heap);
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Inserted 10 into heap
+Inserted 20 into heap
+Inserted 5 into heap
+Inserted 30 into heap
+Inserted 15 into heap
+Heap elements: 5 10 20 30 15 
+Deleted min value 5 from heap
+Heap after deleting min: 10 15 20 30 
+```
+
+#### 分析：
+- **插入**：新元素插入堆末尾，进行 **上浮** 操作，保证堆的性质。
+- **删除**：删除堆顶元素（最小值），最后一个元素移到堆顶，进行 **下沉** 操作，保持堆的性质。
+- **复杂度**：插入和删除的时间复杂度均为 **O(log n)**。
+
+---
+
+### 3. **堆的应用场景**
+
+#### 1. **优先队列（Priority Queue）**
+- 堆用于实现优先队列，通过最大堆或最小堆可以快速找到具有最高优先级的元素。
+- **时间复杂度**：插入和删除的时间复杂度均为 **O(log n)**，查找最优元素的时间复杂度为 **O(1)**。
+
+#### 2. **K 大元素问题**
+- 使用 **最小堆** 来求解 **K** 个最大元素，首先构建一个大小为 **K** 的最小堆，然后遍历整个数组，将比堆顶大的元素插入堆中。最后，堆中的元素即为前 **K** 大元素。
+- **时间复杂度**：O(n log K)，其中 **n** 是数组长度，**K** 是堆的大小。
+
+#### 3. **区间问题**
+- 堆可以用于解决区间问题，比如 **滑动窗口最大值**，使用双端队列或堆保持当前窗口的最大值，随着窗口移动更新堆。
+- **时间复杂度**：O(n log n)。
+
+---
+
+### 总结
+
+- **堆（Heap）** 是一种特殊的 **完全二叉树**，分为 **最大堆** 和 **最小堆**。堆的插入和删除操作时间复杂度均为 **O(log n)**，适合高效实现 **优先队列**、**K 大元素问题** 等。
+- 堆通过 **上浮** 和 **下沉** 操作维持堆的性质。最大堆的根节点是最大元素，最小堆的根节点是最小元素。
+- 堆广泛应用于解决需要频繁查找最大/最小元素的场景，如 **优先队列**、**K 大元素问题**、**区间问题** 等。

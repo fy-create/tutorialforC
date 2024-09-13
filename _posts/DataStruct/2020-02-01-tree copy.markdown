@@ -1,0 +1,311 @@
+---
+layout: post
+title:  "树（Tree）"
+categories: dataStruct
+---
+
+### 树（Tree）的概念和应用
+
+#### 概念
+**树（Tree）** 是一种递归定义的数据结构，其中每个节点可以有零个或多个子节点。树是一种 **非线性数据结构**，通常用于表示具有层级关系的结构，如目录结构、家谱树等。每个节点包含：
+1. **数据（Value）**。
+2. **子节点（Children）**：子节点可以是零个、一个或多个。
+
+- **根节点（Root Node）**：树的起点，没有父节点。
+- **叶子节点（Leaf Node）**：没有子节点的节点。
+- **内部节点（Internal Node）**：有至少一个子节点的节点。
+
+#### 树的类型
+
+1. **二叉树（Binary Tree）**：
+   - 每个节点最多有两个子节点，称为 **左子节点** 和 **右子节点**。
+   - 二叉树在许多算法中有着重要作用。
+
+2. **二叉搜索树（Binary Search Tree, BST）**：
+   - 每个节点的值大于其左子树的所有节点值，且小于其右子树的所有节点值。
+   - 常用于高效查找、插入和删除操作，时间复杂度为 **O(log n)**（最坏情况下为 O(n)）。
+
+3. **平衡树**：
+   - 保持平衡性质，确保树的高度在 **O(log n)** 范围内，以保证最坏情况下的操作效率。
+   - **AVL树**：左右子树高度差最多为1。
+   - **红黑树（Red-Black Tree）**：一种近似平衡的二叉搜索树，插入和删除的时间复杂度为 **O(log n)**。
+
+#### 树的常用操作
+1. **插入（Insert）**：向树中添加新节点。
+2. **删除（Delete）**：从树中删除指定节点。
+3. **查找（Search）**：查找树中是否存在特定值。
+4. **遍历（Traversal）**：
+   - **前序遍历（Preorder）**：根 -> 左 -> 右。
+   - **中序遍历（Inorder）**：左 -> 根 -> 右（BST 的中序遍历是升序的）。
+   - **后序遍历（Postorder）**：左 -> 右 -> 根。
+   - **层序遍历（Level-order）**：逐层从左到右遍历节点。
+
+#### 树的应用
+1. **字典树（Trie）**：用于快速字符串查找的树状结构，如自动补全、单词查找。
+2. **区间树（Segment Tree）**：用于处理区间查询问题。
+3. **并查集（Union-Find）**：用于处理不相交集的合并和查找操作，常用于图的连通性问题。
+
+---
+
+### 1. **二叉树的实现与操作**
+
+#### 二叉树节点的定义（C语言）：
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义二叉树节点结构
+typedef struct TreeNode {
+    int value;
+    struct TreeNode* left;
+    struct TreeNode* right;
+} TreeNode;
+
+// 创建新的二叉树节点
+TreeNode* createNode(int value) {
+    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
+    newNode->value = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+```
+
+---
+
+#### 二叉树的遍历操作
+
+##### 1. **前序遍历（Preorder Traversal）**
+前序遍历顺序为：**根 -> 左子树 -> 右子树**。
+
+```c
+void preorder(TreeNode* root) {
+    if (root == NULL) return;
+    printf("%d ", root->value); // 访问根节点
+    preorder(root->left);        // 遍历左子树
+    preorder(root->right);       // 遍历右子树
+}
+```
+
+##### 2. **中序遍历（Inorder Traversal）**
+中序遍历顺序为：**左子树 -> 根 -> 右子树**，对于 **二叉搜索树**，中序遍历的结果是升序的。
+
+```c
+void inorder(TreeNode* root) {
+    if (root == NULL) return;
+    inorder(root->left);        // 遍历左子树
+    printf("%d ", root->value); // 访问根节点
+    inorder(root->right);       // 遍历右子树
+}
+```
+
+##### 3. **后序遍历（Postorder Traversal）**
+后序遍历顺序为：**左子树 -> 右子树 -> 根**。
+
+```c
+void postorder(TreeNode* root) {
+    if (root == NULL) return;
+    postorder(root->left);      // 遍历左子树
+    postorder(root->right);     // 遍历右子树
+    printf("%d ", root->value); // 访问根节点
+}
+```
+
+##### 4. **层序遍历（Level-order Traversal）**
+层序遍历是逐层从左到右访问每个节点，通常使用队列来实现。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 队列节点
+typedef struct QueueNode {
+    TreeNode* treeNode;
+    struct QueueNode* next;
+} QueueNode;
+
+// 队列结构
+typedef struct {
+    QueueNode* front;
+    QueueNode* rear;
+} Queue;
+
+// 创建队列
+Queue* createQueue() {
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    q->front = q->rear = NULL;
+    return q;
+}
+
+// 入队操作
+void enqueue(Queue* q, TreeNode* node) {
+    QueueNode* newNode = (QueueNode*)malloc(sizeof(QueueNode));
+    newNode->treeNode = node;
+    newNode->next = NULL;
+    if (q->rear == NULL) {
+        q->front = q->rear = newNode;
+        return;
+    }
+    q->rear->next = newNode;
+    q->rear = newNode;
+}
+
+// 出队操作
+TreeNode* dequeue(Queue* q) {
+    if (q->front == NULL) return NULL;
+    QueueNode* temp = q->front;
+    TreeNode* node = temp->treeNode;
+    q->front = q->front->next;
+    if (q->front == NULL) {
+        q->rear = NULL;
+    }
+    free(temp);
+    return node;
+}
+
+// 检查队列是否为空
+int isQueueEmpty(Queue* q) {
+    return q->front == NULL;
+}
+
+// 层序遍历
+void levelOrder(TreeNode* root) {
+    if (root == NULL) return;
+    Queue* q = createQueue();
+    enqueue(q, root);
+
+    while (!isQueueEmpty(q)) {
+        TreeNode* current = dequeue(q);
+        printf("%d ", current->value);
+
+        if (current->left != NULL) {
+            enqueue(q, current->left);
+        }
+        if (current->right != NULL) {
+            enqueue(q, current->right);
+        }
+    }
+}
+```
+
+---
+
+### 2. **二叉搜索树（BST）的实现**
+
+二叉搜索树的每个节点的左子树所有值都小于根节点，而右子树所有值都大于根节点。常见操作有插入、查找和删除。
+
+#### 插入操作
+插入操作按照二叉搜索树的性质递归地将新节点插入到合适的位置。
+
+```c
+TreeNode* insert(TreeNode* root, int value) {
+    if (root == NULL) {
+        return createNode(value);
+    }
+
+    if (value < root->value) {
+        root->left = insert(root->left, value);
+    } else if (value > root->value) {
+        root->right = insert(root->right, value);
+    }
+
+    return root;
+}
+```
+
+#### 查找操作
+查找操作按照二叉搜索树的性质递归地查找目标值。
+
+```c
+TreeNode* search(TreeNode* root, int value) {
+    if (root == NULL || root->value == value) {
+        return root;
+    }
+
+    if (value < root->value) {
+        return search(root->left, value);
+    } else {
+        return search(root->right, value);
+    }
+}
+```
+
+#### 删除操作
+删除操作需要处理三种情况：
+1. **删除叶子节点**。
+2. **删除只有一个子节点的节点**。
+3. **删除有两个子节点的节点**：用右子树的最小节点（中序后继）或左子树的最大节点（中序前驱）替换该节点，然后递归删除中序后继或前驱。
+
+```c
+TreeNode* findMin(TreeNode* root) {
+    while (root->left != NULL) {
+        root = root->left;
+    }
+    return root;
+}
+
+TreeNode* deleteNode(TreeNode* root, int value) {
+    if (root == NULL) return root;
+
+    if (value < root->value) {
+        root->left = deleteNode(root->left, value);
+    } else if (value > root->value)
+
+ {
+        root->right = deleteNode(root->right, value);
+    } else {
+        // 找到要删除的节点
+        if (root->left == NULL) {
+            TreeNode* temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            TreeNode* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        // 找到右子树的最小值节点（中序后继）
+        TreeNode* temp = findMin(root->right);
+        root->value = temp->value;
+        root->right = deleteNode(root->right, temp->value);
+    }
+    return root;
+}
+```
+
+---
+
+### 3. **平衡树**
+
+平衡树（如 **AVL树** 和 **红黑树**）确保树的高度在 **O(log n)** 范围内，因此最坏情况下的操作效率仍然是 **O(log n)**。
+
+- **AVL树**：通过旋转操作保持左右子树的高度差不超过1。
+- **红黑树**：通过颜色和旋转操作实现近似平衡。
+
+平衡树常用于构建高效的集合、映射（字典）等数据结构，例如 C++ STL 中的 `map` 和 `set` 就是基于红黑树实现的。
+
+---
+
+### 4. **树的应用**
+
+#### 1. **字典树（Trie）**
+- 字典树用于快速存储和查找字符串前缀，适用于自动补全、拼写检查等应用。
+- 例如：在搜索引擎中，用户输入前几个字母时，可以快速找到以该前缀开头的所有词。
+
+#### 2. **区间树（Segment Tree）**
+- 用于处理 **区间查询** 问题，例如区间最小值、区间和等操作。
+- 通过构建二叉树，能够在 **O(log n)** 时间复杂度内完成区间查询。
+
+#### 3. **并查集（Union-Find）**
+- 处理不相交集合的合并和查找操作，常用于解决连通性问题，如图论中的连通分量问题。
+- 并查集通过 **路径压缩** 和 **按秩合并** 优化操作，将查询和合并操作的时间复杂度优化到接近常数。
+
+---
+
+### 总结
+
+- **树（Tree）** 是一种重要的非线性数据结构，广泛用于表示层级关系。
+- **二叉树** 和 **二叉搜索树（BST）** 是树的常见形式，常用于高效查找、插入和删除操作。
+- **平衡树**（如 AVL 树、红黑树）确保操作的时间复杂度保持在 **O(log n)** 范围内。
+- 树有许多应用场景，如 **字典树（Trie）**、**区间树** 和 **并查集**，分别用于字符串查找、区间问题和连通性问题。

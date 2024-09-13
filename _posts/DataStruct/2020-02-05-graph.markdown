@@ -1,0 +1,313 @@
+---
+layout: post
+title:  "图（Graph）"
+categories: dataStruct
+---
+
+### 图（Graph）的概念和应用
+
+#### 概念
+**图（Graph）** 是由一组 **顶点（Vertices）** 和连接这些顶点的 **边（Edges）** 组成的数据结构，图可以用来表示事物间的关系。
+- **顶点（Vertex）**：图中的一个节点。
+- **边（Edge）**：图中的一条连接两个顶点的线，表示两个顶点之间的关系。
+
+#### 图的类型：
+1. **无向图（Undirected Graph）**：边没有方向，表示两个顶点之间的关系是双向的。
+2. **有向图（Directed Graph）**：边有方向，表示顶点之间的关系是单向的。
+3. **带权图（Weighted Graph）**：每条边有一个权重，表示两个顶点之间关系的“成本”或“距离”。
+4. **稀疏图**：边的数量远小于顶点的平方，`|E| << |V|^2`。
+5. **稠密图**：边的数量接近顶点的平方，`|E| ≈ |V|^2`。
+
+#### 图的表示方法
+1. **邻接矩阵（Adjacency Matrix）**：
+   - 使用二维矩阵来表示图。如果顶点 `i` 和顶点 `j` 之间有边，则 `matrix[i][j] = 1`，否则 `matrix[i][j] = 0`。
+   - 对于带权图，矩阵中的值表示权重。
+
+2. **邻接表（Adjacency List）**：
+   - 使用链表或数组来表示每个顶点的邻接顶点。对于每个顶点，存储所有与其相连的顶点。
+   - 更适合稀疏图，节省空间。
+
+#### 图的常用算法
+图的算法大致可以分为以下几类：
+1. **搜索算法**：遍历图的所有顶点和边。
+2. **最短路径算法**：寻找图中两个顶点之间的最短路径。
+3. **最小生成树算法**：寻找连接所有顶点的最小权重的树。
+4. **拓扑排序**：对有向无环图（DAG）进行拓扑排序。
+
+---
+
+### 图的表示方法
+
+#### 1. **邻接矩阵实现（C语言）**
+
+```c
+#include <stdio.h>
+
+#define MAX 100  // 最大顶点数
+
+// 邻接矩阵表示法
+typedef struct {
+    int matrix[MAX][MAX];  // 图的邻接矩阵
+    int numVertices;       // 顶点数
+} Graph;
+
+// 创建图，初始化顶点数和邻接矩阵
+void createGraph(Graph* graph, int vertices) {
+    graph->numVertices = vertices;
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            graph->matrix[i][j] = 0;  // 初始化为0（没有边）
+        }
+    }
+}
+
+// 添加边（无向图）
+void addEdge(Graph* graph, int src, int dest) {
+    graph->matrix[src][dest] = 1;
+    graph->matrix[dest][src] = 1;
+}
+
+// 打印邻接矩阵
+void printGraph(Graph* graph) {
+    for (int i = 0; i < graph->numVertices; i++) {
+        for (int j = 0; j < graph->numVertices; j++) {
+            printf("%d ", graph->matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    Graph graph;
+    createGraph(&graph, 5);  // 创建一个有5个顶点的图
+
+    addEdge(&graph, 0, 1);
+    addEdge(&graph, 0, 4);
+    addEdge(&graph, 1, 4);
+    addEdge(&graph, 1, 3);
+    addEdge(&graph, 1, 2);
+    addEdge(&graph, 2, 3);
+    addEdge(&graph, 3, 4);
+
+    printGraph(&graph);  // 打印邻接矩阵
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+0 1 0 0 1 
+1 0 1 1 1 
+0 1 0 1 0 
+0 1 1 0 1 
+1 1 0 1 0 
+```
+
+#### 2. **邻接表实现（C语言）**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 链表节点
+typedef struct Node {
+    int vertex;
+    struct Node* next;
+} Node;
+
+// 图结构：邻接表
+typedef struct {
+    int numVertices;
+    Node** adjLists;
+} Graph;
+
+// 创建图
+Graph* createGraph(int vertices) {
+    Graph* graph = (Graph*)malloc(sizeof(Graph));
+    graph->numVertices = vertices;
+    graph->adjLists = (Node**)malloc(vertices * sizeof(Node*));
+
+    for (int i = 0; i < vertices; i++) {
+        graph->adjLists[i] = NULL;  // 初始化每个顶点的邻接表为空
+    }
+
+    return graph;
+}
+
+// 创建链表节点
+Node* createNode(int vertex) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// 添加边（无向图）
+void addEdge(Graph* graph, int src, int dest) {
+    Node* newNode = createNode(dest);
+    newNode->next = graph->adjLists[src];
+    graph->adjLists[src] = newNode;
+
+    // 对于无向图，添加反向边
+    newNode = createNode(src);
+    newNode->next = graph->adjLists[dest];
+    graph->adjLists[dest] = newNode;
+}
+
+// 打印图
+void printGraph(Graph* graph) {
+    for (int v = 0; v < graph->numVertices; v++) {
+        Node* temp = graph->adjLists[v];
+        printf("Vertex %d:", v);
+        while (temp) {
+            printf(" -> %d", temp->vertex);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    Graph* graph = createGraph(5);
+
+    addEdge(graph, 0, 1);
+    addEdge(graph, 0, 4);
+    addEdge(graph, 1, 4);
+    addEdge(graph, 1, 3);
+    addEdge(graph, 1, 2);
+    addEdge(graph, 2, 3);
+    addEdge(graph, 3, 4);
+
+    printGraph(graph);  // 打印邻接表
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Vertex 0: -> 4 -> 1
+Vertex 1: -> 4 -> 3 -> 2 -> 0
+Vertex 2: -> 3 -> 1
+Vertex 3: -> 4 -> 2 -> 1
+Vertex 4: -> 3 -> 1 -> 0
+```
+
+---
+
+### 图的常用算法
+
+#### 1. **搜索算法**
+
+##### 1.1 **深度优先搜索（DFS）**
+DFS 通过递归（或显式栈）遍历图，沿着某条路径一直深入，直到无法深入时回溯。DFS 常用于检测图中的连通性、拓扑排序等问题。
+
+```c
+void DFS(Graph* graph, int vertex, int* visited) {
+    visited[vertex] = 1;
+    printf("%d ", vertex);
+
+    Node* temp = graph->adjLists[vertex];
+    while (temp) {
+        int adjVertex = temp->vertex;
+        if (!visited[adjVertex]) {
+            DFS(graph, adjVertex, visited);
+        }
+        temp = temp->next;
+    }
+}
+
+void DFSUtil(Graph* graph, int startVertex) {
+    int visited[graph->numVertices];
+    for (int i = 0; i < graph->numVertices; i++) {
+        visited[i] = 0;
+    }
+
+    DFS(graph, startVertex, visited);
+}
+```
+
+##### 1.2 **广度优先搜索（BFS）**
+BFS 使用队列逐层遍历图，从起始节点开始依次访问所有相邻节点。常用于查找图中的最短路径。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// BFS实现
+void BFS(Graph* graph, int startVertex) {
+    int visited[graph->numVertices];
+    for (int i = 0; i < graph->numVertices; i++) {
+        visited[i] = 0;
+    }
+
+    int queue[graph->numVertices];
+    int front = 0, rear = 0;
+
+    visited[startVertex] = 1;
+    queue[rear++] = startVertex;
+
+    while (front != rear) {
+        int currentVertex = queue[front++];
+        printf("%d ", currentVertex);
+
+        Node* temp = graph->adjLists[currentVertex];
+        while (temp) {
+            int adjVertex = temp->vertex;
+            if (!visited[adjVertex]) {
+                visited[adjVertex] = 1;
+                queue[
+
+rear++] = adjVertex;
+            }
+            temp = temp->next;
+        }
+    }
+}
+```
+
+---
+
+#### 2. **最短路径算法**
+
+##### 2.1 **Dijkstra算法**（用于非负权图）
+- 使用贪心算法找到从源点到其他顶点的最短路径。
+- 时间复杂度：**O(E log V)**，其中 `E` 是边的数量，`V` 是顶点的数量。
+
+##### 2.2 **Bellman-Ford算法**（允许负权边）
+- 计算源点到所有其他顶点的最短路径，允许图中存在负权边。
+- 时间复杂度：**O(VE)**。
+
+##### 2.3 **Floyd-Warshall算法**（全源最短路径）
+- 计算所有顶点之间的最短路径，适用于稠密图。
+- 时间复杂度：**O(V^3)**。
+
+---
+
+#### 3. **最小生成树（MST）算法**
+
+##### 3.1 **Prim算法**
+- 适用于稠密图，从某个顶点开始，每次选取权重最小的边加入生成树。
+- 使用优先队列的 Prim 算法时间复杂度为 **O(E log V)**。
+
+##### 3.2 **Kruskal算法**
+- 适用于稀疏图，按边的权重从小到大排序，每次选择最小的边，并检测是否形成环。
+- 时间复杂度：**O(E log E)**。
+
+---
+
+### 图的应用
+
+1. **社交网络**：图用于建模用户之间的关系，计算社交距离、影响力等。
+2. **地图导航**：图用于表示城市和道路，最短路径算法（如 Dijkstra）用于计算两地间的最短路径。
+3. **任务调度**：任务的依赖关系可以用图表示，拓扑排序可用于确定任务的执行顺序。
+
+---
+
+### 总结
+
+- **图（Graph）** 是一组顶点和边构成的结构，用于表示事物间的关系。
+- 常用表示方法包括 **邻接矩阵** 和 **邻接表**。邻接表适用于稀疏图，而邻接矩阵适用于稠密图。
+- 图的算法包括 **DFS** 和 **BFS** 搜索算法、**Dijkstra**、**Bellman-Ford** 和 **Floyd-Warshall** 最短路径算法、以及 **Prim** 和 **Kruskal** 最小生成树算法。
+- 图广泛应用于社交网络、地图导航、任务调度等场景。

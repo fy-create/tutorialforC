@@ -1,0 +1,348 @@
+---
+layout: post
+title:  "哈希表（Hash Table）"
+categories: dataStruct
+---
+
+### 哈希表（Hash Table）的概念和应用
+
+#### 概念
+**哈希表（Hash Table）** 是一种用于存储键值对的数据结构，通过 **哈希函数** 将键（Key）映射到表中的一个位置，进而在常数时间内（平均情况下）完成插入、删除和查找操作。哈希表广泛用于需要快速查找、去重、统计频率等场景。
+
+#### 哈希表的常用操作
+1. **插入（Insert）**：将键值对插入哈希表。
+2. **删除（Delete）**：从哈希表中移除键值对。
+3. **查找（Search）**：根据键查找对应的值。
+
+#### 复杂度分析
+- 平均情况下，**插入**、**删除** 和 **查找** 的时间复杂度均为 **O(1)**，因为通过哈希函数直接定位到数据的位置。
+- 最坏情况下（例如哈希冲突非常严重），时间复杂度可能退化为 **O(n)**，但通过适当的冲突解决方法可以有效避免这种情况。
+
+#### 哈希表的碰撞处理方法
+1. **链地址法（Separate Chaining）**：
+   - 将所有哈希到同一位置的键值对使用链表（或其他数据结构）存储在该位置。
+   - 简单且扩展性好，不需要处理空槽问题。
+  
+2. **开放地址法（Open Addressing）**：
+   - 当发生冲突时，利用探测序列（如线性探测、二次探测、双重哈希）寻找下一个空槽。
+   - 不需要额外的链表空间，但容易造成集群效应。
+
+#### 哈希表的应用
+1. **快速查找**：使用哈希表可以在常数时间内查找元素，适用于字典、数据库索引等。
+2. **去重**：通过哈希表来检查数据是否已经存在，适用于集合操作。
+3. **统计频率**：如词频统计、字符出现次数等场景。
+4. **LRU缓存（Least Recently Used）**：结合哈希表和双向链表实现快速的缓存淘汰机制。
+
+---
+
+### 哈希表的实现
+
+我们可以用 **链地址法** 和 **开放地址法** 来处理哈希冲突。下面分别介绍两种常见的哈希表实现。
+
+---
+
+### 1. **基于链地址法的哈希表实现**
+
+链地址法通过在哈希表的每个位置存储一个链表，当多个键哈希到相同位置时，它们会依次插入该链表。
+
+#### 代码实现（链地址法，C语言）：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define TABLE_SIZE 10
+
+// 定义哈希表中的链表节点
+typedef struct HashNode {
+    int key;
+    int value;
+    struct HashNode* next;
+} HashNode;
+
+// 哈希表结构
+typedef struct HashTable {
+    HashNode* table[TABLE_SIZE]; // 哈希表，大小为 TABLE_SIZE
+} HashTable;
+
+// 创建一个新的链表节点
+HashNode* createNode(int key, int value) {
+    HashNode* newNode = (HashNode*)malloc(sizeof(HashNode));
+    newNode->key = key;
+    newNode->value = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// 创建并初始化哈希表
+HashTable* createHashTable() {
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        hashTable->table[i] = NULL;
+    }
+    return hashTable;
+}
+
+// 哈希函数：简单取模法
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+// 插入键值对
+void insert(HashTable* hashTable, int key, int value) {
+    int hashIndex = hashFunction(key);
+    HashNode* newNode = createNode(key, value);
+
+    if (hashTable->table[hashIndex] == NULL) {
+        hashTable->table[hashIndex] = newNode;
+    } else {
+        HashNode* temp = hashTable->table[hashIndex];
+        while (temp->next != NULL) {
+            if (temp->key == key) {
+                temp->value = value; // 如果键已经存在，更新值
+                free(newNode); // 释放新节点，避免内存泄漏
+                return;
+            }
+            temp = temp->next;
+        }
+        if (temp->key == key) {
+            temp->value = value; // 更新最后一个节点的值
+            free(newNode);
+        } else {
+            temp->next = newNode;
+        }
+    }
+    printf("Inserted key %d with value %d\n", key, value);
+}
+
+// 查找键对应的值
+int search(HashTable* hashTable, int key) {
+    int hashIndex = hashFunction(key);
+    HashNode* temp = hashTable->table[hashIndex];
+
+    while (temp != NULL) {
+        if (temp->key == key) {
+            return temp->value;
+        }
+        temp = temp->next;
+    }
+    return -1; // 没有找到
+}
+
+// 删除键值对
+void delete(HashTable* hashTable, int key) {
+    int hashIndex = hashFunction(key);
+    HashNode* temp = hashTable->table[hashIndex];
+    HashNode* prev = NULL;
+
+    while (temp != NULL && temp->key != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp == NULL) {
+        printf("Key %d not found\n", key);
+        return;
+    }
+
+    if (prev == NULL) {
+        hashTable->table[hashIndex] = temp->next; // 删除头节点
+    } else {
+        prev->next = temp->next; // 删除中间或尾部节点
+    }
+
+    free(temp);
+    printf("Deleted key %d\n", key);
+}
+
+int main() {
+    HashTable* hashTable = createHashTable();
+
+    insert(hashTable, 1, 100);
+    insert(hashTable, 2, 200);
+    insert(hashTable, 12, 1200); // 1 和 12 发生碰撞
+    insert(hashTable, 22, 2200); // 2 和 22 发生碰撞
+
+    printf("Value for key 1: %d\n", search(hashTable, 1));
+    printf("Value for key 12: %d\n", search(hashTable, 12));
+    printf("Value for key 22: %d\n", search(hashTable, 22));
+
+    delete(hashTable, 2);
+    printf("Value for key 2 after deletion: %d\n", search(hashTable, 2));
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Inserted key 1 with value 100
+Inserted key 2 with value 200
+Inserted key 12 with value 1200
+Inserted key 22 with value 2200
+Value for key 1: 100
+Value for key 12: 1200
+Value for key 22: 2200
+Deleted key 2
+Value for key 2 after deletion: -1
+```
+
+#### 分析：
+- **插入**：将新键值对插入对应链表的末尾，如果键已经存在则更新值。
+- **查找**：遍历链表找到键，返回对应值。
+- **删除**：从链表中找到对应键并删除节点。
+
+---
+
+### 2. **基于开放地址法的哈希表实现**
+
+开放地址法通过探测下一个空槽来处理哈希冲突。常见的探测方法包括 **线性探测**、**二次探测** 和 **双重哈希**。
+
+#### 代码实现（线性探测，C语言）：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+#define TABLE_SIZE 10
+#define EMPTY -1
+
+// 哈希表结构
+typedef struct {
+    int key;
+    int value;
+} HashItem;
+
+typedef struct {
+    HashItem* table[TABLE_SIZE];
+} HashTable;
+
+// 创建并初始化哈希表
+HashTable* createHashTable() {
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        hashTable->table[i] = NULL; // 初始化为空
+    }
+    return hashTable;
+}
+
+// 哈希函数：简单取模法
+int hashFunction(int key) {
+    return key % TABLE_SIZE;
+}
+
+// 线性探测：插入键值对
+void insert(HashTable* hashTable, int key, int value) {
+    int hashIndex = hashFunction(key);
+    int originalIndex = hashIndex;
+
+    // 线性探测
+    while (hashTable->table[hashIndex] != NULL && hashTable->table[hashIndex]->key != EMPTY) {
+        if (hashTable->table[hashIndex]->key == key) {
+            hashTable->table[hashIndex]->value = value; // 更新值
+            return;
+        }
+        hashIndex = (hashIndex + 1) % TABLE_SIZE;
+        if (hashIndex == originalIndex) { // 如果绕了一圈仍然没有空位
+            printf("Hash table is full\n");
+            return;
+        }
+    }
+
+    HashItem* newItem = (HashItem*)malloc(sizeof(HashItem));
+    newItem->key = key;
+    newItem->value = value;
+    hashTable->table[hashIndex] = newItem;
+    printf("Inserted key %d with value %d at index %d\n", key, value, hashIndex);
+}
+
+// 查找键对应的值
+int search(HashTable* hashTable, int key) {
+    int hashIndex = hashFunction(key);
+    int originalIndex = hashIndex;
+
+    // 线性探测
+    while (hashTable->table[hashIndex] != NULL) {
+        if (hashTable->table[hashIndex]->key == key) {
+            return hashTable->table[hashIndex]->value;
+        }
+        hashIndex = (hashIndex + 1) % TABLE_SIZE;
+        if (hashIndex == originalIndex) { // 遍历一圈未找到
+            break;
+        }
+    }
+
+    return -1; // 没有找到
+}
+
+// 删除键值对
+void delete(HashTable* hashTable, int key) {
+    int hashIndex = hashFunction(key);
+    int originalIndex = hashIndex;
+
+    // 线性探测
+    while (hashTable->table[hashIndex] != NULL) {
+        if (hashTable->table[hashIndex]->key == key) {
+            hashTable->table[hashIndex]->key = EMPTY; // 标记为已删除
+            printf("Deleted key %d from index %d\n", key, hashIndex);
+            return;
+        }
+        hashIndex = (hashIndex + 1) % TABLE_SIZE;
+        if (hashIndex == originalIndex) { // 遍历一圈未找到
+            break;
+        }
+    }
+
+    printf("Key %d not found\n", key);
+}
+
+int main() {
+    HashTable* hashTable = createHashTable();
+
+    insert(hashTable, 1, 100);
+    insert(hashTable, 2, 200);
+    insert(hashTable, 12, 1200); // 冲突处理：线性探测
+
+    printf("Value for key 1: %d\n", search(hashTable, 1));
+    printf("Value for key 12: %d\n", search(hashTable, 12));
+
+    delete(hashTable, 2);
+    printf("Value for key 2 after deletion: %d\n", search(hashTable, 2));
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Inserted key 1 with value 100 at index 1
+Inserted key 2 with value 200 at index 2
+Inserted key 12 with value 1200 at index 3
+Value for key 1: 100
+Value for key 12: 1200
+Deleted key 2 from index 2
+Value for key 2 after deletion: -1
+```
+
+#### 分析：
+- **插入**：使用线性探测处理冲突，直到找到空槽为止。
+- **查找**：同样使用线性探测，直到找到目标键或遍历完所有槽位。
+- **删除**：将目标键标记为删除，继续保留该槽位的探测路径。
+
+---
+
+### 3. **应用场景**
+
+- **快速查找**：哈希表可在常数时间内完成查找，适用于字典、数据库索引、缓存等场景。
+- **去重**：哈希表天然支持集合操作，可用于判断元素是否重复。
+- **频率统计**：统计元素出现的频率，常用于字符串分析、词频统计等。
+- **LRU缓存**：哈希表和双向链表结合使用，可以实现快速的缓存淘汰机制。
+
+---
+
+### 总结
+
+- 哈希表是一种非常高效的数据结构，能够在 **O(1)** 的时间复杂度内完成插入、删除和查找操作（平均情况下）。
+- 通过不同的碰撞处理方法（如 **链地址法** 和 **开放地址法**），哈希表可以有效处理冲突。
+- 哈希表在 **去重**、**频率统计**、**缓存机制** 等场景中广泛应用。
