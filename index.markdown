@@ -22,8 +22,8 @@ title: Home
     <div>
         <h2>数据结构</h2>
         <ul>
-            {% for post in site.posts %}
-                {% if post.categories contains 'data_structure' %}
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'dataStruct' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </li>
