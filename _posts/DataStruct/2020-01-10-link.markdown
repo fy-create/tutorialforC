@@ -1,0 +1,253 @@
+---
+layout: post
+title:  "链表（Linked List）"
+categories: dataStruct
+---
+
+### 链表（Linked List）的概念和实现 - C语言版
+
+#### 概念
+链表（Linked List）是一种线性数据结构，由一系列节点（Node）组成。每个节点包含两部分：
+1. **数据域（Data）**：存储数据的部分。
+2. **指针域（Pointer）**：指向下一个节点的指针。
+
+链表不同于数组，链表的大小是动态的，可以随时插入和删除元素，但它不支持随机访问，需要通过遍历来查找元素。
+
+#### 链表的类型
+
+1. **单链表（Singly Linked List）**：
+   - 每个节点仅包含指向下一个节点的指针。
+   - 最后一节点的指针指向 `NULL`，表示链表结束。
+
+2. **双向链表（Doubly Linked List）**：
+   - 每个节点包含两个指针，一个指向下一个节点，一个指向前一个节点。
+   - 可以双向遍历。
+
+3. **循环链表（Circular Linked List）**：
+   - 最后一个节点指向链表的头节点，形成循环结构。
+   - 既可以是单向的，也可以是双向的循环链表。
+
+#### 常用操作
+
+1. **插入节点**：在链表的任意位置插入新节点。
+2. **删除节点**：从链表中删除指定节点。
+3. **遍历链表**：从头节点开始，依次访问每个节点。
+4. **反转链表**：将链表的顺序逆转，使头节点变成尾节点，尾节点变成头节点。
+5. **检测环**：判断链表中是否存在环结构。
+
+#### 复杂度分析
+
+- **插入/删除**：如果有指向特定节点的指针，时间复杂度为 O(1)；否则，查找特定节点需要 O(n) 的时间。
+- **查找**：在链表中查找某个元素或位置的时间复杂度为 O(n)。
+  
+---
+
+### 链表的基本操作实现（C语言）
+
+#### 1. **单链表的节点结构**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义链表节点
+struct ListNode {
+    int val; // 数据域
+    struct ListNode* next; // 指针域
+};
+```
+
+#### 2. **插入节点**
+插入节点可以在链表头部、尾部或指定位置。对于单链表，常见的操作是头部插入和尾部插入。
+
+- **头部插入**（时间复杂度 O(1)）：
+
+```c
+struct ListNode* insertAtHead(struct ListNode* head, int value) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->val = value;
+    newNode->next = head;
+    return newNode; // 返回新的头节点
+}
+```
+
+- **尾部插入**（时间复杂度 O(n)）：
+
+```c
+struct ListNode* insertAtTail(struct ListNode* head, int value) {
+    struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
+    newNode->val = value;
+    newNode->next = NULL;
+    
+    if (head == NULL) {
+        return newNode; // 如果链表为空，新节点就是头节点
+    }
+    
+    struct ListNode* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+    return head; // 返回原头节点
+}
+```
+
+#### 3. **删除节点**
+删除操作包括从头部、尾部或删除指定节点。
+
+- **头部删除**（时间复杂度 O(1)）：
+
+```c
+struct ListNode* deleteAtHead(struct ListNode* head) {
+    if (head == NULL) return NULL;
+    struct ListNode* temp = head;
+    head = head->next;
+    free(temp); // 释放旧头节点
+    return head; // 返回新的头节点
+}
+```
+
+- **删除指定节点**（时间复杂度 O(n)）：
+
+```c
+struct ListNode* deleteNode(struct ListNode* head, int value) {
+    if (head == NULL) return NULL;
+    
+    if (head->val == value) {
+        struct ListNode* temp = head;
+        head = head->next;
+        free(temp);
+        return head;
+    }
+    
+    struct ListNode* temp = head;
+    while (temp->next != NULL && temp->next->val != value) {
+        temp = temp->next;
+    }
+    
+    if (temp->next != NULL) {
+        struct ListNode* toDelete = temp->next;
+        temp->next = temp->next->next;
+        free(toDelete);
+    }
+    return head;
+}
+```
+
+#### 4. **遍历链表**
+遍历链表需要从头节点开始，依次访问每个节点的值，直到 `next` 指针为 `NULL`。
+
+```c
+void printList(struct ListNode* head) {
+    struct ListNode* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->val);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+```
+
+#### 5. **反转链表**
+反转单链表需要将每个节点的 `next` 指针指向前一个节点。我们使用三个指针 `prev`、`curr` 和 `next` 来完成反转。
+
+```c
+struct ListNode* reverseList(struct ListNode* head) {
+    struct ListNode* prev = NULL;
+    struct ListNode* curr = head;
+    
+    while (curr != NULL) {
+        struct ListNode* nextTemp = curr->next; // 暂存下一个节点
+        curr->next = prev;                      // 当前节点指向前一个节点
+        prev = curr;                            // 更新前一个节点
+        curr = nextTemp;                        // 更新当前节点
+    }
+    
+    return prev; // 返回新头节点
+}
+```
+
+#### 6. **检测链表是否有环**
+使用快慢指针法（Floyd 判圈算法）可以检测链表中是否存在环。快指针每次走两步，慢指针每次走一步，如果有环，两者会相遇。
+
+```c
+int hasCycle(struct ListNode* head) {
+    if (head == NULL || head->next == NULL) return 0;
+    
+    struct ListNode* slow = head;
+    struct ListNode* fast = head->next;
+    
+    while (slow != fast) {
+        if (fast == NULL || fast->next == NULL) return 0;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    
+    return 1; // 检测到环
+}
+```
+
+#### 7. **合并两个有序链表**
+将两个有序链表合并成一个新的有序链表。使用递归或迭代的方法比较两个链表的头节点，按顺序连接。
+
+```c
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+    if (l1 == NULL) return l2;
+    if (l2 == NULL) return l1;
+    
+    if (l1->val < l2->val) {
+        l1->next = mergeTwoLists(l1->next, l2);
+        return l1;
+    } else {
+        l2->next = mergeTwoLists(l1, l2->next);
+        return l2;
+    }
+}
+```
+
+---
+
+### 示例代码：操作链表
+
+```c
+int main() {
+    struct ListNode* head = NULL;
+
+    // 插入节点
+    head = insertAtHead(head, 3);
+    head = insertAtHead(head, 2);
+    head = insertAtHead(head, 1); // 链表变为：1 -> 2 -> 3 -> NULL
+
+    printf("Original List: ");
+    printList(head);
+
+    // 反转链表
+    head = reverseList(head);
+    printf("Reversed List: ");
+    printList(head);
+
+    // 插入尾部
+    head = insertAtTail(head, 4); // 链表变为：3 -> 2 -> 1 -> 4 -> NULL
+    printf("After Insertion at Tail: ");
+    printList(head);
+
+    // 删除节点
+    head = deleteNode(head, 2); // 链表变为：3 -> 1 -> 4 -> NULL
+    printf("After Deletion of 2: ");
+    printList(head);
+
+    return 0;
+}
+```
+
+---
+
+### 复杂度总结
+
+- **插入/删除**：O(1)（如果有指针指向指定节点）；如果需要遍历找到特定节点，则为 O(n)。
+- **查找**：O(n)。
+- **链表反转**：O(n)。
+- **环检测**：O(n)。
+- **合并有序链表**：O(n + m)，其中 `n` 和 `m` 是两个链表的长度。
+
+链表是一种灵活的动态数据结构，适用于需要频繁插入和删除操作的场景，但

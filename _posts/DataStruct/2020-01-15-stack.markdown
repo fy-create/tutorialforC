@@ -1,0 +1,387 @@
+---
+layout: post
+title:  "栈（Stack）"
+categories: dataStruct
+---
+
+### 栈（Stack）概念和应用
+
+#### 概念
+**栈（Stack）** 是一种遵循 **LIFO**（Last In, First Out，后进先出）原则的线性数据结构。也就是说，最后一个压入栈的元素最先被弹出。这种结构非常适合解决递归、回溯、深度优先搜索等问题。
+
+#### 常用操作
+1. **push**：将元素压入栈顶。
+2. **pop**：从栈顶移除并返回元素。
+3. **peek**（或 **top**）：查看栈顶的元素，但不移除它。
+4. **isEmpty**：检查栈是否为空。
+
+#### 复杂度分析
+- 所有栈操作（`push`、`pop`、`peek`、`isEmpty`）的时间复杂度均为 **O(1)**，因为这些操作只涉及到栈顶的指针操作，不需要遍历栈中所有元素。
+
+#### 栈的应用
+1. **括号匹配**：检查表达式中的括号是否成对出现并且匹配。
+2. **DFS（深度优先搜索）**：递归算法的一种非递归实现，用栈来模拟递归调用。
+3. **表达式求值**：后缀表达式（如逆波兰表达式）求值，或者中缀表达式转后缀表达式时需要用栈。
+
+---
+
+### 栈的具体实现和应用（C语言）
+
+我们可以用 **数组** 或 **链表** 实现栈，下面我会使用 `typedef` 定义结构体，以简化代码表示。之后我们会展示几个栈的经典应用。
+
+---
+
+### 1. **基于数组的栈实现（C语言）**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+#define MAX 1000 // 栈的最大容量
+
+// 使用 typedef 定义栈结构
+typedef struct {
+    int top;
+    int arr[MAX]; // 用数组实现栈
+} Stack;
+
+// 初始化栈
+Stack* createStack() {
+    Stack* stack = (Stack*)malloc(sizeof(Stack));
+    stack->top = -1; // 栈初始化为空
+    return stack;
+}
+
+// 检查栈是否为空
+int isEmpty(Stack* stack) {
+    return stack->top == -1;
+}
+
+// 检查栈是否满
+int isFull(Stack* stack) {
+    return stack->top == MAX - 1;
+}
+
+// push 操作：将元素压入栈
+void push(Stack* stack, int value) {
+    if (isFull(stack)) {
+        printf("Stack overflow\n");
+        return;
+    }
+    stack->arr[++stack->top] = value;
+    printf("Pushed %d into stack\n", value);
+}
+
+// pop 操作：移除并返回栈顶元素
+int pop(Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack underflow\n");
+        return INT_MIN;
+    }
+    return stack->arr[stack->top--];
+}
+
+// peek 操作：查看栈顶元素
+int peek(Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+        return INT_MIN;
+    }
+    return stack->arr[stack->top];
+}
+
+int main() {
+    Stack* stack = createStack();
+
+    push(stack, 10);
+    push(stack, 20);
+    push(stack, 30);
+
+    printf("Top element is %d\n", peek(stack));
+
+    printf("Popped element is %d\n", pop(stack));
+    printf("Popped element is %d\n", pop(stack));
+
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Stack is not empty\n");
+    }
+
+    return 0;
+}
+```
+
+---
+
+### 2. **基于链表的栈实现（C语言）**
+
+链表实现的栈不需要预先分配空间，内存使用更灵活，特别适合处理需要动态扩展的场景。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// 使用 typedef 定义链表节点结构
+typedef struct StackNode {
+    int data;
+    struct StackNode* next;
+} StackNode;
+
+// 创建新的栈节点
+StackNode* createNode(int value) {
+    StackNode* newNode = (StackNode*)malloc(sizeof(StackNode));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// 检查栈是否为空
+int isEmpty(StackNode* top) {
+    return !top;
+}
+
+// push 操作：将元素压入栈顶
+void push(StackNode** top, int value) {
+    StackNode* newNode = createNode(value);
+    newNode->next = *top;
+    *top = newNode;
+    printf("Pushed %d into stack\n", value);
+}
+
+// pop 操作：移除并返回栈顶元素
+int pop(StackNode** top) {
+    if (isEmpty(*top)) {
+        printf("Stack underflow\n");
+        return INT_MIN;
+    }
+    StackNode* temp = *top;
+    *top = (*top)->next;
+    int popped = temp->data;
+    free(temp);
+    return popped;
+}
+
+// peek 操作：查看栈顶元素
+int peek(StackNode* top) {
+    if (isEmpty(top)) {
+        printf("Stack is empty\n");
+        return INT_MIN;
+    }
+    return top->data;
+}
+
+int main() {
+    StackNode* stack = NULL;
+
+    push(&stack, 10);
+    push(&stack, 20);
+    push(&stack, 30);
+
+    printf("Top element is %d\n", peek(stack));
+
+    printf("Popped element is %d\n", pop(&stack));
+    printf("Popped element is %d\n", pop(&stack));
+
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+    } else {
+        printf("Stack is not empty\n");
+    }
+
+    return 0;
+}
+```
+
+---
+
+### 3. **括号匹配应用（C语言）**
+
+括号匹配是栈的一个经典应用。通过栈，我们可以轻松检查表达式中的括号是否正确匹配，如 `()`、`{}`、`[]`。
+
+#### 代码实现：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义栈的链表节点结构
+typedef struct StackNode {
+    char data;
+    struct StackNode* next;
+} StackNode;
+
+// 创建新栈节点
+StackNode* createNode(char value) {
+    StackNode* newNode = (StackNode*)malloc(sizeof(StackNode));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// 检查栈是否为空
+int isEmpty(StackNode* top) {
+    return !top;
+}
+
+// push 操作
+void push(StackNode** top, char value) {
+    StackNode* newNode = createNode(value);
+    newNode->next = *top;
+    *top = newNode;
+}
+
+// pop 操作
+char pop(StackNode** top) {
+    if (isEmpty(*top)) {
+        return '\0'; // 返回空字符表示栈为空
+    }
+    StackNode* temp = *top;
+    *top = (*top)->next;
+    char popped = temp->data;
+    free(temp);
+    return popped;
+}
+
+// 检查括号是否匹配
+int isMatchingPair(char left, char right) {
+    return (left == '(' && right == ')') || 
+           (left == '{' && right == '}') || 
+           (left == '[' && right == ']');
+}
+
+// 括号匹配函数
+int areParenthesesBalanced(char* expr) {
+    StackNode* stack = NULL;
+    
+    for (int i = 0; expr[i] != '\0'; i++) {
+        if (expr[i] == '(' || expr[i] == '{' || expr[i] == '[') {
+            push(&stack, expr[i]);
+        } else if (expr[i] == ')' || expr[i] == '}' || expr[i] == ']') {
+            if (isEmpty(stack)) {
+                return 0; // 没有对应的开括号
+            }
+            char top = pop(&stack);
+            if (!isMatchingPair(top, expr[i])) {
+                return 0; // 括号不匹配
+            }
+        }
+    }
+
+    return isEmpty(stack); // 如果栈为空，表示括号匹配
+}
+
+int main() {
+    char expr[] = "{[()]}";
+    
+    if (areParenthesesBalanced(expr)) {
+        printf("Parentheses are balanced\n");
+    } else {
+        printf("Parentheses are not balanced\n");
+    }
+
+    return 0;
+}
+```
+
+#### 输出：
+```
+Parentheses are balanced
+```
+
+---
+
+### 4. **表达式求值（逆波兰表达式）**
+
+栈可以用于 **后缀表达式（逆波兰表达式）** 的求值。遇到操作数时将其压入栈，遇到操作符时从栈中弹出两个操作数并计算结果，最后将结果压回栈中。
+
+#### 示例代码：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+// 栈的定义
+typedef struct StackNode
+
+ {
+    int data;
+    struct StackNode* next;
+} StackNode;
+
+StackNode* createNode(int value) {
+    StackNode* newNode = (StackNode*)malloc(sizeof(StackNode));
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+int isEmpty(StackNode* top) {
+    return !top;
+}
+
+void push(StackNode** top, int value) {
+    StackNode* newNode = createNode(value);
+    newNode->next = *top;
+    *top = newNode;
+}
+
+int pop(StackNode** top) {
+    if (isEmpty(*top)) {
+        return INT_MIN;
+    }
+    StackNode* temp = *top;
+    *top = (*top)->next;
+    int popped = temp->data;
+    free(temp);
+    return popped;
+}
+
+// 计算逆波兰表达式
+int evaluatePostfix(char* expr) {
+    StackNode* stack = NULL;
+
+    for (int i = 0; expr[i]; i++) {
+        if (isdigit(expr[i])) {
+            push(&stack, expr[i] - '0'); // 将数字压入栈
+        } else {
+            int val2 = pop(&stack);
+            int val1 = pop(&stack);
+            
+            switch (expr[i]) {
+                case '+': push(&stack, val1 + val2); break;
+                case '-': push(&stack, val1 - val2); break;
+                case '*': push(&stack, val1 * val2); break;
+                case '/': push(&stack, val1 / val2); break;
+            }
+        }
+    }
+    
+    return pop(&stack); // 最后栈中只剩下结果
+}
+
+int main() {
+    char expr[] = "231*+9-"; // 逆波兰表达式，相当于 (2 + (3 * 1)) - 9
+    printf("Postfix evaluation result: %d\n", evaluatePostfix(expr));
+    return 0;
+}
+```
+
+#### 输出：
+```
+Postfix evaluation result: -4
+```
+
+---
+
+### 总结
+
+栈是一种常用的 **LIFO** 结构，所有操作的时间复杂度均为 **O(1)**，非常高效。栈的应用非常广泛，如：
+- **括号匹配**：用于判断表达式中的括号是否匹配。
+- **深度优先搜索（DFS）**：通过栈实现非递归的 DFS 算法。
+- **表达式求值**：栈可以用于后缀表达式（逆波兰表达式）等的求值。
+
+无论是使用数组还是链表实现，栈都能很好地解决许多经典问题。
