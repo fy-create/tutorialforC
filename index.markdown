@@ -47,7 +47,7 @@ title: Home
     <div >
         <h2>C++</h2>
         <ul>
-            {% for post in site.posts %}
+            {% for post in site.posts reversed %}
                 {% if post.categories contains 'C++' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
@@ -59,7 +59,7 @@ title: Home
     <div>
         <h2>Java</h2>
         <ul>
-            {% for post in site.posts %}
+            {% for post in site.posts reversed %}
                 {% if post.categories contains 'Java' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
@@ -68,11 +68,23 @@ title: Home
             {% endfor %}
         </ul>
     </div>
-     <div>
+    <div>
         <h2>设计模式</h2>
         <ul>
-            {% for post in site.posts %}
+            {% for post in site.posts reversed %}
                 {% if post.categories contains 'Pattern' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <h2>GPT</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'gpt' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </li>
