@@ -111,3 +111,4 @@ title: Home
 
 
 
+![知识]({{ site.baseurl }}/assets/images/zhishi.png)
