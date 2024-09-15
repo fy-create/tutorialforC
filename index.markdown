@@ -92,6 +92,18 @@ title: Home
             {% endfor %}
         </ul>
     </div>
+    <div>
+        <h2>Other</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'other' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 

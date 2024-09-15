@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "方向选型"
-categories: c_language
+categories: other
 ---
 
 当面临选择 **嵌入式开发** 和 **企业信息化（前后端开发）** 这两个方向时，你需要考虑以下几个关键因素来做出决策：
