@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "ChatGPT"
-categories: gpt
+categories: other
 ---
 
 **ChatGPT** 是一种基于 **GPT（Generative Pre-trained Transformer）** 技术的人工智能模型，专门用于自然语言处理任务。它由 OpenAI 开发，是 GPT 系列模型的一部分，属于大规模的语言生成模型。这些模型经过大量文本数据的训练，具备生成、理解和处理人类语言的能力。以下是 ChatGPT 的详细说明：
