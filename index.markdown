@@ -20,6 +20,18 @@ title: Home
         </ul>
     </div>
     <div>
+        <h2>C语言题目</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'question' %}
+                    <li>
+                        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
         <h2>数据结构</h2>
         <ul>
             {% for post in site.posts reversed %}
