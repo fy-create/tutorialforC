@@ -7,6 +7,15 @@ categories: question
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/3.6.5/minified.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+---
+#### ⼗进制转⼆进制在计算机科学中经常⽤到。⼀种常⻅的转换算法即除法取余法，请查找该算法相关内容后⽤C语⾔完成该算法。
+
+输⼊格式：⼀个⼗进制正整数 N  
+输出格式：N转⼆进制后的结果  
+数据范围：0 ≤ N ≤ 1000  
+
+--- 
+<BR><BR><BR><BR>
 
 
 ⼗进制转⼆进制的除法取余法源自于二进制系统的结构和特点。在计算机科学中，二进制表示法是最基础的表示法，数字仅使用两个符号：0 和 1。转换的核心思想来自如何通过逐步减少十进制数，找到它在二进制系统中的每一位。这个过程可以通过以下逻辑推导出：
@@ -64,7 +73,7 @@ $$ 10 = 1 \times 2^3 + 0 \times 2^2 + 1 \times 2^1 + 0 \times 2^0 $$
 ```c
 #include <stdio.h>
 
-void decimalToBinary(int n) {
+void dtob(int n) {
     int binaryNum[32] = {0};
     int i = 0;
 
@@ -87,13 +96,13 @@ int main() {
     int n;
     printf("请输入一个十进制数: ");
     scanf("%d", &n);
-    decimalToBinary(n);
+    dtob(n);
     return 0;
 }
 ```
 
 ### 代码说明：
-1. `decimalToBinary(int n)`函数通过除法取余法将十进制数转换为二进制。
+1. `dtob(int n)`函数通过除法取余法将十进制数转换为二进制。
 2. `binaryNum`数组用于存储每次除以 2 后的余数。
 3. 最终通过逆序输出存储在数组中的余数，得到二进制表示。
 
@@ -129,11 +138,11 @@ int main() {
 #include <stdio.h>
 
 // 输出一个整数的二进制表示
-void printBinary(int n) {
+void dtob(int n) {
     unsigned int mask = 1 << 31;  // 32位系统，最高位的掩码为 1 << 31
     for (int i = 0; i < 32; i++) {
         // 检查当前位是否为1，并打印
-        if (n & mask)
+        if (n & mask) 
             printf("1");
         else
             printf("0");
@@ -152,7 +161,7 @@ int main() {
     printf("请输入一个十进制数: ");
     scanf("%d", &n);
     printf("二进制表示为: ");
-    printBinary(n);
+    dtob(n);
     return 0;
 }
 ```
