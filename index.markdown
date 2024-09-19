@@ -53,6 +53,7 @@ title: Home
                 {% endif %}
             {% endfor %}
         </ul>
+    </div>
     <div>
         <h2>嵌入式开发</h2>
         <ul>
@@ -128,15 +129,14 @@ title: Home
 </div>
 
 
----  
+---
+
 
 <BR>
 
 小游戏
-[计算24]({{ site.baseurl }}/games/calc24)  
-
-[解交叉]({{ site.baseurl }}/games/crossline)  
-
+[计算24]({{ site.baseurl }}/games/calc24)
+[解交叉]({{ site.baseurl }}/games/crossline)
 [魔方]({{ site.baseurl }}/games/cube)
 [除法]({{ site.baseurl }}/games/division)
 [数独]({{ site.baseurl }}/games/sudoku)
