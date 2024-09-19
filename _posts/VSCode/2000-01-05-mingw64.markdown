@@ -68,7 +68,13 @@ categories: vscode
    - 如果显示了相应版本信息，说明 MinGW64 已经成功添加到 `PATH`，可以正常使用。
 
 
-通过上述步骤，将 MinGW64 的 `bin` 目录添加到系统 `PATH` 环境变量中后，VS Code 就可以使用 MinGW64 进行编译和调试。
+通过上述步骤，将 MinGW64 的 `bin` 目录添加到系统 `PATH` 环境变量中后，VS Code 就可以使用 MinGW64 进行编译和调试。  
+
+**至此，如果vscode 是打开的话，就需要重启一下，重启之后VSCode就能获取最新的Path变量，就能直接找到gcc g++ 这些工具了。**   
+
+在vscode的terminal 窗口中输入gcc \-\-version,然后回车，看到如下界面就对了。  
+
+![验证mingw64]({{ site.baseurl }}/assets/images/DEV_ENV/vs3.png)
 
 ### 总结
 MinGW64 是一个适用于 Windows 平台的强大工具，它提供了轻量级的编译环境，使得 Windows 用户可以使用类似 UNIX 的编译工具进行开发。如果你正在使用 Visual Studio Code 编写 C/C++ 代码，MinGW64 是一个理想的选择，可以提供高效的编译和调试体验。
