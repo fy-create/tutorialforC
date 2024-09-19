@@ -6,7 +6,18 @@ title: Home
 <link rel="stylesheet" href="{{ '/assets/custom.css' | relative_url }}">
 
 <div class="container">
-    <!-- 左边：C语言文章 -->
+    <div>
+        <h2>VSCode</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'vscode' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
     <div>
         <h2>C语言</h2>
         <ul>
@@ -42,19 +53,6 @@ title: Home
                 {% endif %}
             {% endfor %}
         </ul>
-    </div>
-        <div>
-        <h2>VSCode</h2>
-        <ul>
-            {% for post in site.posts reversed %}
-                {% if post.categories contains 'vscode' %}
-                    <li>
-                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
     <div>
         <h2>嵌入式开发</h2>
         <ul>
