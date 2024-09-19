@@ -43,10 +43,10 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>数据结构</h2>
+        <h2>嵌入式开发</h2>
         <ul>
             {% for post in site.posts reversed %}
-                {% if post.categories contains 'dataStruct' %}
+                {% if post.categories contains 'embed' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </li>
@@ -55,10 +55,10 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>嵌入式开发</h2>
+        <h2>数据结构</h2>
         <ul>
             {% for post in site.posts reversed %}
-                {% if post.categories contains 'embed' %}
+                {% if post.categories contains 'dataStruct' %}
                     <li>
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </li>
