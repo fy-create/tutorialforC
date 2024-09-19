@@ -1,0 +1,94 @@
+---
+layout: post
+title:  "cmd"
+categories: vscode
+---
+
+**CMD**（命令提示符，Command Prompt）是 Windows 操作系统中的一个命令行解释器，允许用户通过文本命令与操作系统进行交互。通过 CMD，用户可以执行各种任务，例如管理文件和文件夹、运行程序、配置网络、检查系统状态等。
+
+### CMD 常用命令
+
+1. **文件和目录管理**
+   - `dir`：列出当前目录中的文件和子目录。
+     ```bash
+     dir
+     ```
+   - `cd`：切换目录。
+     ```bash
+     cd C:\path\to\directory
+     ```
+   - `mkdir` 或 `md`：创建一个新目录。
+     ```bash
+     mkdir new_folder
+     ```
+   - `rmdir` 或 `rd`：删除空目录。
+     ```bash
+     rmdir new_folder
+     ```
+   - `del`：删除文件。
+     ```bash
+     del file.txt
+     ```
+
+2. **磁盘和文件检查**
+   - `chkdsk`：检查磁盘的状态。
+     ```bash
+     chkdsk C:
+     ```
+   - `copy`：复制文件。
+     ```bash
+     copy source.txt destination.txt
+     ```
+   - `move`：移动文件或重命名文件。
+     ```bash
+     move oldname.txt newname.txt
+     ```
+
+3. **系统信息**
+   - `systeminfo`：显示系统的详细信息。
+     ```bash
+     systeminfo
+     ```
+   - `ipconfig`：显示网络配置信息。
+     ```bash
+     ipconfig
+     ```
+   - `tasklist`：列出当前运行的任务。
+     ```bash
+     tasklist
+     ```
+
+4. **网络工具**
+   - `ping`：检查到某个主机的网络连接情况。
+     ```bash
+     ping www.google.com
+     ```
+   - `tracert`：跟踪数据包到达主机的路径。
+     ```bash
+     tracert www.google.com
+     ```
+   - `netstat`：显示网络连接、路由表、接口信息等。
+     ```bash
+     netstat -an
+     ```
+
+5. **其他命令**
+   - `cls`：清除命令提示符窗口中的所有内容。
+     ```bash
+     cls
+     ```
+   - `exit`：关闭命令提示符窗口。
+     ```bash
+     exit
+     ```
+
+### 管理员模式下运行 CMD
+有些操作（如修改系统文件、执行磁盘修复等）需要以管理员身份运行命令提示符。要以管理员模式打开 CMD，可以按照以下步骤进行：
+
+1. **打开开始菜单**，输入 `cmd` 或 `命令提示符`。
+2. 在搜索结果中，右键单击 **命令提示符**，选择 **以管理员身份运行**。
+
+管理员模式下，您可以执行更多高级的命令，例如修改系统设置或修复系统文件。
+
+### 总结
+CMD 是 Windows 操作系统中的一个强大工具，它通过命令行的方式，允许用户执行各种操作任务，尤其是在批量操作和高级系统配置中非常有用。通过掌握一些常用的命令，您可以更高效地使用 Windows 系统进行任务管理和系统操作。

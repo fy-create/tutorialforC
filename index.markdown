@@ -43,6 +43,18 @@ title: Home
             {% endfor %}
         </ul>
     </div>
+        <div>
+        <h2>VSCode</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'vscode' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
     <div>
         <h2>嵌入式开发</h2>
         <ul>

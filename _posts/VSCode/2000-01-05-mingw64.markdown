@@ -1,0 +1,74 @@
+---
+layout: post
+title:  "MingW64"
+categories: vscode
+---
+
+**MinGW64**（Minimalist GNU for Windows 64-bit）是一个开源项目，提供了在 Windows 平台上使用的 64 位 GNU 编译工具链（包括 GCC、G++ 等）。MinGW64 是 MinGW 的 64 位扩展版本，允许 Windows 用户在不使用 Cygwin 或 WSL（Windows Subsystem for Linux）的情况下编译和链接原生 Windows 应用程序。
+
+### MinGW64 主要功能
+1. **GCC 编译器**：
+   - MinGW64 提供了 GNU 编译器集合（GCC），支持 C、C++、Fortran 等语言的编译。
+   - 可以生成原生 Windows 可执行文件，而无需额外的运行时库，确保程序独立运行。
+
+2. **G++ 编译器**：
+   - G++ 是 MinGW64 中的 C++ 编译器，支持编译 C++ 程序，同时支持最新的 C++ 标准，如 C++11、C++14、C++17 等。
+
+3. **GNU 链接器（LD）**：
+   - MinGW64 提供了 GNU 链接器，用于链接编译后的对象文件，生成最终的可执行程序。
+
+4. **Make 工具**：
+   - MinGW64 附带 `make` 工具，允许开发者使用 `Makefile` 自动化管理项目的构建过程。
+
+5. **头文件与库**：
+   - MinGW64 提供了完整的 Windows API 头文件和库（例如 `kernel32.dll`、`user32.dll`），使得用户可以使用 Windows 的系统调用开发程序。
+
+6. **POSIX 兼容性**：
+   - MinGW64 提供了一定的 POSIX 兼容性，支持部分 UNIX API，例如文件操作、进程管理等，这使得某些跨平台代码可以更容易移植到 Windows 上。
+
+7. **静态与动态链接**：
+   - MinGW64 支持静态和动态链接，允许开发者生成 `.exe` 可执行文件或 `.dll` 动态链接库。
+
+### MinGW64 的优点
+- **轻量级**：相比于 Cygwin 或其他 Windows 编译器，MinGW64 只包含必要的工具和库，没有额外的 POSIX 层，从而使得其生成的可执行文件更轻量和快速。
+- **高效编译**：基于 GCC 工具链，具有较快的编译速度，并且可以针对多核 CPU 优化编译过程。
+- **跨平台代码编译**：虽然 MinGW64 专为 Windows 平台设计，但由于它使用 GCC 工具链，很多用在 UNIX 或 Linux 上的代码可以在 MinGW64 下进行编译。
+- **开源**：MinGW64 完全开源，用户可以根据自己的需要进行定制和扩展。
+
+### 如何安装 MinGW64
+
+要使 MinGW64 在 Windows 系统中生效并被 Visual Studio Code (VS Code) 使用，您需要将 MinGW64 的 `bin` 目录添加到系统的 `PATH` 环境变量中。然后，在 VS Code 中进行配置以使用 MinGW64 编译和调试代码。具体步骤如下：
+
+### 1. 将 MinGW64 的 `bin` 目录添加到 `PATH` 环境变量中
+
+1. **打开系统环境变量设置**：
+   - 在桌面上点击 **开始**，然后在搜索框中输入 "环境变量"，点击 "编辑系统环境变量"。
+   - 在弹出的窗口中，点击 **"环境变量"** 按钮。
+
+2. **编辑 `PATH` 变量**：
+   - 在用户变量或系统变量区域中找到 `Path`，然后点击 **编辑**。
+   - 在 "编辑环境变量" 窗口中，点击 **新建**，然后输入 MinGW64 `bin` 目录的路径，例如：
+     ```
+     C:\mingw64\bin
+     ```
+   - 点击 **确定**，保存所有更改。
+
+3. **验证是否成功添加**：
+   - 打开 **命令提示符**  
+   使用快捷键按下 Windows + R 键 (就是WIN健和R健，这里的R是run的首字母)，打开“运行”对话框。在对话框中输入 cmd，然后按 Enter 键。  
+   [cmd]({{ site.baseurl }}{% post_url 2000-01-10-cmd %})是一个标准的windows程序.  
+   
+   
+   
+   输入以下命令，检查是否可以访问 `g++` 和 `gcc` 命令：
+     ```bash
+     gcc --version
+     g++ --version
+     ```
+   - 如果显示了相应版本信息，说明 MinGW64 已经成功添加到 `PATH`，可以正常使用。
+
+
+通过上述步骤，将 MinGW64 的 `bin` 目录添加到系统 `PATH` 环境变量中后，VS Code 就可以使用 MinGW64 进行编译和调试。
+
+### 总结
+MinGW64 是一个适用于 Windows 平台的强大工具，它提供了轻量级的编译环境，使得 Windows 用户可以使用类似 UNIX 的编译工具进行开发。如果你正在使用 Visual Studio Code 编写 C/C++ 代码，MinGW64 是一个理想的选择，可以提供高效的编译和调试体验。
