@@ -65,7 +65,6 @@ title: Home
             {% endfor %}
         </ul>
     </div>
-
     <div >
         <h2>C++</h2>
         <ul>
@@ -131,11 +130,13 @@ title: Home
 
 ---  
 
+<BR>
+
 小游戏
+[计算24]({{ site.baseurl }}/games/calc24)  
 
+[解交叉]({{ site.baseurl }}/games/crossline)  
 
-[计算24]({{ site.baseurl }}/games/calc24)
-[解交叉]({{ site.baseurl }}/games/crossline)
 [魔方]({{ site.baseurl }}/games/cube)
 [除法]({{ site.baseurl }}/games/division)
 [数独]({{ site.baseurl }}/games/sudoku)
@@ -143,6 +144,3 @@ title: Home
 
 
 
-
-
-![知识]({{ site.baseurl }}/assets/images/zhishi.png)
