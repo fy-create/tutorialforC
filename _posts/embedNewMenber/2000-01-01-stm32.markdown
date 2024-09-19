@@ -1,0 +1,6 @@
+---
+layout: post
+title:  "什么是嵌入式系统"
+categories: embed1
+---
+
