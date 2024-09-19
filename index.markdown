@@ -7,7 +7,7 @@ title: Home
 
 <div class="container">
     <div>
-        <h2>VSCode</h2>
+        <h2>VSCode + MingW64</h2>
         <ul>
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'vscode' %}
