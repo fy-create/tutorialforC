@@ -171,40 +171,7 @@ int main() {
 }
 ```
 
-### 9. **结构体的内存对齐**
 
-结构体的内存布局通常会受到内存对齐的影响。编译器为了提高性能，可能会在结构体成员之间插入填充字节，以确保每个成员都对齐在其大小的边界上。这在处理大型或性能敏感的程序时非常重要。
-
-### 示例：综合示例
-
-```c
-#include <stdio.h>
-#include <string.h>
-
-// 定义 Person 结构体
-typedef struct {
-    char name[50];
-    int  age;
-    char gender[10];
-} Person;
-
-// 函数：打印 Person 信息
-void printPersonInfo(const Person *p) {
-    printf("Name: %s\n", p->name);
-    printf("Age: %d\n", p->age);
-    printf("Gender: %s\n", p->gender);
-}
-
-int main() {
-    // 初始化结构体
-    Person person1 = {"Alice", 30, "Female"};
-
-    // 打印结构体信息
-    printPersonInfo(&person1);
-
-    return 0;
-}
-```
 
 ### 总结
 
@@ -212,6 +179,5 @@ int main() {
 - **结构体的使用**：通过点运算符 `.` 访问结构体成员，通过箭头运算符 `->` 访问结构体指针的成员。
 - **结构体的传递**：结构体可以按值或通过指针传递给函数，传递指针更加高效。
 - **嵌套结构体**：可以将一个结构体作为另一个结构体的成员。
-- **内存对齐**：结构体的内存布局可能会受到编译器的内存对齐规则影响。
 
 结构体是一种非常重要的数据结构，它为我们提供了将多种不同类型的数据组合在一起的方式，使得编写复杂数据结构和管理复杂信息更加方便。

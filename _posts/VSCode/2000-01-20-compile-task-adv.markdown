@@ -55,12 +55,12 @@ d--h--         2024/9/19     13:26                .vscode
 | ------------------------- | ------------ |
 | **cd .vscode**            | 进入目录      | 
 | **cd ..**                 | 退回到上层目录 | 
-| **echo "" > tasks.jsom**   | 创建文件      | 
+| **echo "" > tasks.json**  | 创建文件      | 
 
 
 ```
 PS Z:\C_Study\Digital2Bin> cd .vscode
-PS Z:\C_Study\Digital2Bin\.vscode> echo "Hello" > tasks.json
+PS Z:\C_Study\Digital2Bin\.vscode> echo "" > tasks.json
 PS Z:\C_Study\Digital2Bin\.vscode> ls -Force
 
 
