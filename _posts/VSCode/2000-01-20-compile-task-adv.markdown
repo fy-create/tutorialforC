@@ -157,4 +157,28 @@ PS Z:\C_Study\Digital2Bin>
  *  Terminal will be reused by tasks, press any key to close it. 
 ```
 
-可以看到，用tasks.json自动构建的过程，跟我们之前手动用gcc构建的过程几乎是一致的。但是这是全自动的方式，容易修改，容易扩展，一旦源代码有多个.h .c时优势就体现了。
+**如果程序有语法错误，这里会给出详细的出错信息，要相信这里的出错信息的准的，根据出错提示进一步修改代码，在继续编译，知道编译成功。
+可以看到，用tasks.json自动构建的过程，跟我们之前手动用gcc构建的过程几乎是一致的。但是这是全自动的方式，容易修改，容易扩展，一旦源代码有多个.h .c时优势就体现了。**
+
+
+在 Windows 系统下，Visual Studio Code（VS Code）的 终端窗口 是一个非常实用的内置工具，帮助开发者在编写代码的同时执行命令行操作。下面的命令是用`ls` 先看看当前目录下的文件，我们发现`d2b.exe` 已经产生了，现在就可以在这里直接运行他 `.\d2b.exe` .
+
+```
+PS Z:\C_Study\Digital2Bin> ls
+
+
+    Directory: Z:\C_Study\Digital2Bin
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+------         2024/9/19     13:54           1001 d2b.c
+------         2024/9/19     10:16             48 README.MD
+------         2024/9/19     17:22         140325 d2b.exe
+
+
+PS Z:\C_Study\Digital2Bin> .\d2b.exe
+请输入一个十进制数字:1234
+10011010010
+PS Z:\C_Study\Digital2Bin> 
+```
