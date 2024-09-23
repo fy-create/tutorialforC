@@ -1,6 +1,127 @@
 ---
 layout: post
-title:  "什么是嵌入式系统"
+title:  "学习软件 Keil 的基本使用方法"
 categories: embed1
 ---
 
+## 学习软件 Keil 的基本使用方法
+
+---
+1.学习软件 Keil 的基本使用方法  
+2.在 KEIL 里创建你的第一个工程:模板工程  
+3.使用库函数点亮 STM32F103C8T6 最小系统板上的板载 LED 灯  
+4.实现 LED 的可控闪烁  
+
+--- 
+<BR><BR><BR><BR>
+
+### **1. Keil MDK 的安装与设置**
+
+#### **下载与安装**
+- [参考Bilibili视屏教程](https://www.bilibili.com/video/BV1th411z7sn?p=3)
+
+
+### **2. 创建一个新项目**
+- [参考Bilibili视屏教程](https://www.bilibili.com/video/BV1th411z7sn?p=4)
+
+
+#### **步骤 2：配置项目**
+**编译选项**：
+- 参考Bilibili视屏教程
+- 在 **C/C++ 标签页** 中，可以为项目添加自定义的宏定义（如 `USE_STDPERIPH_DRIVER`）和头文件的路径。
+![inc]({{ site.baseurl }}/assets/images/keil/keil_0.png)
+
+#### **步骤 3：添加源文件**
+
+在 User文件夹中新增 `main.c`， 编写代码，完成后保存。
+
+### **3. 编写并编译代码**
+
+#### **基于库函数的板载LED闪烁代码示例**（以 STM32F103C8T6 为例）
+
+```c
+#include "stm32f10x.h"  // 包含 STM32 标准外设库头文件
+
+void GPIO_Config(void) {
+    // 使能 GPIOC 时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+    // 配置 PC13 为推挽输出模式
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;        // PC13
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // 推挽输出模式
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // 输出速度 50MHz
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+}
+
+void delay(volatile uint32_t count) {
+    while (count--) {
+        // 空循环实现延时
+        __asm("nop");
+    }
+}
+
+int main(void) {
+    GPIO_Config();  // 初始化 GPIO
+
+    while (1) {
+        GPIO_ResetBits(GPIOC, GPIO_Pin_13);  // 点亮 LED
+        delay(500000);
+        
+        GPIO_SetBits(GPIOC, GPIO_Pin_13);    // 熄灭 LED
+        delay(500000);
+    }
+}
+```
+
+#### **编译项目**
+- 编写代码后，点击工具栏上的 **Build** 按钮，或者按 `F7`，进行项目编译。
+- 如果编译成功，Keil 会在输出窗口显示 **"Build completed successfully"**，并生成 `.hex` 文件。
+
+### **4. 下载程序到 STM32 开发板**
+
+#### **步骤 1：连接开发板**
+- 将你的 STM32F103C8T6 开发板（例如 **Blue Pill**）连接到电脑。如果你使用的是 **ST-Link** 或 **USB 转串口**，确保驱动已安装并识别开发板。
+
+#### **步骤 2：配置下载调试工具**
+1. 点击 **Options for Target**，打开项目选项。
+2. 选择 **Debug** 标签页。
+   - 选择 **ST-Link Debugger** 作为调试器（或根据使用的工具选择相应的调试器）。
+3. 选择 **Utilities** 标签页，确保勾选 **Use Debug Driver**，并选择相应的下载工具。
+
+#### **步骤 3：烧录程序**
+- 点击 **Download** 按钮，或者按 `F8`，将程序烧录到开发板。
+- 如果连接正确，程序会成功下载到开发板，板载 LED 将开始按程序闪烁。
+
+### **5. 调试程序**
+
+Keil 提供强大的调试功能，可以帮助你调试代码。
+
+#### **进入调试模式**
+1. 点击工具栏中的 **Debug** 按钮，或者按 **Ctrl + F5** 进入调试模式。
+2. 进入调试模式后，你可以单步执行代码、设置断点、查看寄存器和变量的值。
+
+#### **常用调试功能**
+- **单步执行**：按 `F11` 逐行执行代码，检查程序执行的细节。
+- **设置断点**：点击代码行左侧的灰色区域，设置断点，当程序运行到此处时暂停。
+- **查看寄存器/变量**：在 **Watch** 窗口中添加要监视的变量或寄存器值，查看其实时变化。
+
+#### **退出调试模式**
+- 点击 **Stop Debugging** 按钮，退出调试模式，返回编辑器继续修改代码。
+
+### **6. 常见问题与解决方法**
+
+#### **1. 编译时找不到库函数**
+- 确保在项目配置中正确设置了库的路径，并在项目中定义了 `USE_STDPERIPH_DRIVER` 宏。
+
+#### **2. 烧录程序失败**
+- 确认开发板与电脑连接正常，并确保正确选择了 **ST-Link** 或其他调试器。
+- 检查 **ST-Link** 驱动是否正确安装。
+
+#### **3. 无法调试**
+- 确保选择了正确的 **调试工具**（如 **ST-Link**），并确保设备已经正确识别。
+- 如果设备未识别，尝试重新插拔开发板或重新启动 Keil。
+
+### **7. 总结**
+
+通过以上步骤，你可以在 Keil 中创建一个简单的 STM32 项目，编写代码并烧录到开发板中运行。Keil 提供了强大的代码编辑、编译和调试功能，掌握这些基本使用方法将帮助你更高效地开发 STM32 应用程序。

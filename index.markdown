@@ -55,6 +55,18 @@ title: Home
         </ul>
     </div>
     <div>
+        <h2>嵌入式招新</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'embed1' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
         <h2>数据结构</h2>
         <ul>
             {% for post in site.posts reversed %}

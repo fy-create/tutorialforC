@@ -1,0 +1,161 @@
+---
+layout: post
+title:  "STM32F103C8T6，点亮板载 LED"
+categories: embed
+---
+
+在 **STM32F103C8T6** 中，点亮板载 **LED** 需要直接操作与 **GPIO**（通用输入输出）相关的寄存器。了解这些寄存器并掌握它们的作用，可以更高效地控制微控制器的硬件资源。下面我们将详细介绍与 GPIO 和点亮 LED 相关的寄存器，并解释每个寄存器的作用。
+
+### **相关寄存器概述**
+
+1. **RCC（时钟控制）寄存器**：
+   - **RCC_APB2ENR**：用于启用 GPIO 外设的时钟。
+2. **GPIO 寄存器**：
+   - **GPIOx_CRL/CRH**：用于配置 GPIO 引脚的模式（输入/输出）。
+   - **GPIOx_ODR**：用于设置 GPIO 引脚的输出状态（高电平或低电平）。
+   - **GPIOx_BSRR**：用于原子操作设置或复位引脚的状态（置 1 或置 0）。
+   - **GPIOx_BRR**：用于复位引脚的状态（置 0）。
+
+### **1. RCC_APB2ENR（启用 GPIO 时钟）**
+
+在 **STM32F103C8T6** 中，所有外设（包括 GPIO）都连接到特定的总线，并需要启用相应的时钟才能正常工作。`RCC_APB2ENR` 寄存器负责启用连接在 **APB2 总线** 上的外设时钟，包括 **GPIOA、GPIOB、GPIOC** 等。为了控制 GPIOC 的引脚，我们必须启用 **GPIOC** 的时钟。
+
+- **RCC_APB2ENR 寄存器地址**：0x40021018
+- **位定义**：
+  - **IOPCEN（第 4 位）**：控制 **GPIOC** 时钟的使能。
+    - 0：GPIOC 时钟关闭。
+    - 1：GPIOC 时钟开启。
+
+#### **作用**
+启用 GPIOC 时钟后，才能配置和控制 GPIOC 的引脚。因此，在控制 LED 之前，必须通过设置 `RCC_APB2ENR` 寄存器的 **IOPCEN 位** 来启用 GPIOC 的时钟。
+
+#### **启用 GPIOC 时钟的代码示例**：
+```c
+RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;  // 启用 GPIOC 时钟
+```
+
+### **2. GPIO_CRL/CRH（配置 GPIO 引脚模式）**
+
+GPIO 引脚的工作模式（输入、输出、复用、模拟）由 **GPIO_CRL** 和 **GPIO_CRH** 寄存器控制。
+
+- **GPIO_CRL（低位寄存器）**：用于配置 GPIO 端口 0 到 7 号引脚的模式。
+- **GPIO_CRH（高位寄存器）**：用于配置 GPIO 端口 8 到 15 号引脚的模式。
+
+对于 **PC13** 引脚，它属于 GPIOC 端口的第 13 号引脚，因此我们需要使用 **GPIO_CRH** 寄存器来配置它。
+
+- **GPIO_CRH 寄存器地址**：0x40011004
+- **位定义**：
+  - 每个引脚有 4 位配置（CNF 和 MODE）。
+    - **MODE13**（13号引脚的模式位）：控制引脚的输出速度（0b10 = 2 MHz 输出）。
+    - **CNF13**（13号引脚的配置位）：控制引脚是推挽输出还是开漏输出。
+      - **CNF13 = 00**：推挽输出模式。
+
+#### **作用**
+`GPIO_CRH` 寄存器负责配置 GPIOC 的高位引脚（包括 PC13）的模式。为了控制 LED，我们需要将 **PC13** 引脚设置为 **推挽输出模式**，并选择合适的输出速度。
+
+#### **配置 GPIOC13 为输出模式的代码示例**：
+```c
+GPIOC->CRH &= ~(GPIO_CRH_CNF13);    // 清除 CNF13 位
+GPIOC->CRH |= GPIO_CRH_MODE13_1;    // 设置 MODE13 为 2MHz 输出模式
+```
+
+### **3. GPIO_ODR（输出数据寄存器）**
+
+**GPIO_ODR**（Output Data Register，输出数据寄存器）用于控制 GPIO 引脚的输出状态。每个引脚对应一个位，1 表示高电平，0 表示低电平。
+
+- **GPIO_ODR 寄存器地址**：0x4001100C
+- **位定义**：
+  - **ODR13**（第 13 位）：控制 PC13 引脚的输出状态。
+    - 0：PC13 输出低电平。
+    - 1：PC13 输出高电平。
+
+#### **作用**
+`GPIO_ODR` 直接控制 GPIO 引脚的电平。为了点亮板载 LED，需要将 PC13 引脚设置为 **低电平**，因为许多 STM32 开发板的 LED 是低电平点亮的。
+
+#### **设置 PC13 为低电平的代码示例**：
+```c
+GPIOC->ODR &= ~(1 << 13);  // 设置 PC13 为低电平，点亮 LED
+```
+
+### **4. GPIO_BSRR（位设置和复位寄存器）**
+
+**GPIO_BSRR**（Bit Set/Reset Register，位设置/复位寄存器）是一个 **32 位寄存器**，用于原子操作设置和清除 GPIO 引脚的状态。它的前 16 位用于设置引脚的高电平，后 16 位用于复位引脚（即设置为低电平）。
+
+- **GPIO_BSRR 寄存器地址**：0x40011010
+- **位定义**：
+  - **BS13（13号引脚设置位）**：将 PC13 引脚设置为高电平。
+  - **BR13（13号引脚复位位）**：将 PC13 引脚复位为低电平。
+
+#### **作用**
+`GPIO_BSRR` 寄存器用于高效地设置或清除某个 GPIO 引脚的状态。通过设置 **BS13** 位可以让 PC13 输出高电平，通过设置 **BR13** 位可以让 PC13 输出低电平。
+
+#### **使用 BSRR 点亮 LED 的代码示例**：
+```c
+GPIOC->BSRR = GPIO_BSRR_BR13;  // 将 PC13 复位为低电平，点亮 LED
+```
+
+#### **使用 BSRR 熄灭 LED 的代码示例**：
+```c
+GPIOC->BSRR = GPIO_BSRR_BS13;  // 将 PC13 设置为高电平，熄灭 LED
+```
+
+### **5. GPIO_BRR（复位寄存器）**
+
+**GPIO_BRR**（Bit Reset Register，位复位寄存器）用于复位（清零）指定引脚的状态。写入 `1` 会将对应的引脚状态设置为 **低电平**。
+
+- **GPIO_BRR 寄存器地址**：0x40011014
+- **位定义**：
+  - **BR13（13号引脚复位位）**：复位 PC13 引脚的状态，置为低电平。
+
+#### **作用**
+`GPIO_BRR` 寄存器专门用于将 GPIO 引脚复位为低电平。相比于 `GPIO_BSRR`，`GPIO_BRR` 只能执行清零操作。
+
+#### **使用 BRR 点亮 LED 的代码示例**：
+```c
+GPIOC->BRR = (1 << 13);  // 将 PC13 复位为低电平，点亮 LED
+```
+
+---
+
+### **完整的代码示例（寄存器操作）**
+
+```c
+#include "stm32f10x.h"
+
+void delay(volatile uint32_t count) {
+    while (count--) {
+        __asm("nop");
+    }
+}
+
+int main(void) {
+    // 使能 GPIOC 时钟
+    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+
+    // 配置 PC13 为推挽输出模式
+    GPIOC->CRH &= ~(GPIO_CRH_CNF13);    // 清除 CNF13 位
+    GPIOC->CRH |= GPIO_CRH_MODE13_1;    // 设置 MODE13 为 2MHz 输出模式
+
+    while (1) {
+        // 点亮 LED（PC13 低电平）
+        GPIOC->BSRR = GPIO_BSRR_BR13;
+        delay(500000);
+
+        // 熄灭 LED（PC13 高电平）
+        GPIOC->BSRR = GPIO_BSRR_BS13;
+        delay(500000);
+    }
+}
+```
+
+### **总结**
+
+1. **RCC_APB2ENR**：使能 GPIO 时钟。
+2. **GPIO_CRL/CRH**：配置 GPIO 引脚的模式。
+3. **GPIO_ODR**：设置 GPIO 引脚的输出电平。
+4. **GPIO_BSRR**：高效设置或复位 GPIO 引脚的电平。
+5
+
+. **GPIO_BRR**：用于复位 GPIO 引脚的电平。
+
+这些寄存器共同协作，可以让你通过直接操作寄存器来控制 **STM32F103C8T6** 上的 LED，理解这些寄存器的工作原理是掌握 STM32 嵌入式开发的重要步骤。
