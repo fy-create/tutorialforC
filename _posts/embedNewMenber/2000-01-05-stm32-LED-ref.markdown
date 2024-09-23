@@ -4,6 +4,8 @@ title:  "STM32点亮板载LED相关"
 categories: embed1
 ---
 
+## TODO
+
 ![PC13]({{ site.baseurl }}/assets/images/keil/keil_1.png)
 
 **PC13** 是 **STM32F103C8T6** 微控制器中 **GPIOC（通用输入/输出端口C）** 的第 13 号引脚。STM32 的每个引脚都有一个唯一的名称，其中 `P` 表示 **Pin（引脚）**，`C` 表示该引脚位于 **GPIOC 端口**，`13` 表示引脚的编号。
