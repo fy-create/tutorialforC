@@ -1,0 +1,83 @@
+---
+layout: post
+title:  "STM32点亮板载LED相关"
+categories: embed1
+---
+
+![PC13]({{ site.baseurl }}/assets/images/keil/keil_1.png)
+
+**PC13** 是 **STM32F103C8T6** 微控制器中 **GPIOC（通用输入/输出端口C）** 的第 13 号引脚。STM32 的每个引脚都有一个唯一的名称，其中 `P` 表示 **Pin（引脚）**，`C` 表示该引脚位于 **GPIOC 端口**，`13` 表示引脚的编号。
+
+### **PC13 的基本信息**
+
+1. **GPIOC 端口**：STM32F103C8T6 的 GPIOC 是通用的输入/输出端口，具有 16 个可配置引脚（编号为 PC0-PC15）。这些引脚可以配置为不同的模式，包括输入模式、输出模式、模拟输入模式等。
+2. **PC13 引脚**：PC13 是 GPIOC 端口中的第 13 个引脚，在许多开发板上，**PC13 通常连接到板载 LED**，可以通过配置 GPIOC 端口来控制此引脚的状态，从而控制 LED 的亮灭。
+
+### **PC13 的常见功能**
+
+- **输出模式**：可以配置为输出模式，用于控制外部设备（例如 LED）。通常，PC13 被连接到 **STM32F103C8T6** 的板载 LED，通过设置低电平来点亮 LED。
+  
+- **输入模式**：PC13 也可以配置为输入模式，用于读取外部设备的状态，如按钮或开关的状态。
+
+- **低功耗应用**：在某些低功耗模式下，PC13 具有特殊的功能。例如，在待机模式下，PC13 可以用于唤醒系统。
+
+### **PC13 的电气特性**
+1. **最大输出电流**：PC13 的最大输出电流较其他 GPIO 引脚稍低。STM32F103C8T6 的 PC13 引脚通常只能提供较小的驱动能力，通常适合驱动低功耗设备（如 LED）。
+2. **内部上拉/下拉电阻**：PC13 可以配置为带有上拉或下拉电阻的输入引脚，以确保引脚处于稳定的状态。
+3. **功耗考虑**：PC13 和其他高编号的 GPIO 引脚（如 PC14、PC15）在某些 STM32 芯片中具有较高的泄漏电流，因此适用于低功耗应用时需要格外小心。
+
+### **PC13 在硬件中的应用（以 LED 为例）**
+在 STM32F103C8T6 开发板上，板载 LED 通常连接到 **PC13** 引脚。在大多数开发板中，LED 是 **低电平点亮** 的，这意味着当 PC13 输出 **低电平** 时，电流通过 LED，LED 点亮；当 PC13 输出 **高电平** 时，LED 熄灭。
+
+#### **PC13 控制 LED 的电路（常见连接方式）**
+- **连接方式**：
+  - **LED 的正极** 通常连接到 **VCC** 或通过限流电阻连接到 VCC。
+  - **LED 的负极** 连接到 **PC13**，通过 PC13 控制电流流动。
+  - 当 PC13 输出低电平时，电流从 VCC 流向 PC13，LED 点亮；当 PC13 输出高电平时，LED 熄灭。
+
+### **如何使用 PC13 控制 LED（通过软件）**
+
+#### **配置 PC13 为输出模式**：
+1. 使能 **GPIOC** 时钟。
+2. 配置 **PC13** 为 **推挽输出模式**。
+3. 控制 **PC13** 的输出电平，以控制 LED 的亮灭。
+
+#### **代码示例**：
+
+```c
+#include "stm32f10x.h"  // 包含 STM32 标准外设库头文件
+
+void GPIO_Config(void) {
+    // 启用 GPIOC 时钟
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+
+    // 配置 PC13 为推挽输出模式
+    GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;        // PC13
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // 推挽输出模式
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // 输出速度 50MHz
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
+}
+
+int main(void) {
+    // 初始化 GPIO
+    GPIO_Config();
+    
+    while (1) {
+        // 点亮 LED（PC13 低电平）
+        GPIO_ResetBits(GPIOC, GPIO_Pin_13);  
+        for (int i = 0; i < 1000000; i++);  // 延时
+
+        // 熄灭 LED（PC13 高电平）
+        GPIO_SetBits(GPIOC, GPIO_Pin_13);
+        for (int i = 0; i < 1000000; i++);  // 延时
+    }
+}
+```
+
+### **总结**
+
+- **PC13** 是 **GPIOC 端口**的第 13 号引脚，通常用作控制 **STM32F103C8T6** 开发板上板载 LED 的引脚。
+- 通过配置 **PC13** 为 **推挽输出模式**，可以控制连接在 PC13 引脚上的 LED 的亮灭。
+- **PC13** 在某些开发板上具有特殊的功能，比如 **低功耗唤醒**，但在常规应用中，它主要用于控制低功耗外设如 LED。
+
