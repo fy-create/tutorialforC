@@ -4,7 +4,6 @@ title:  "STM32点亮板载LED(库函数)"
 categories: embed1
 ---
 
-## TODO
 
 ![PC13]({{ site.baseurl }}/assets/images/keil/keil_1.png)
 
