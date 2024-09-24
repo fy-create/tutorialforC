@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "STM32点亮板载LED(库函数) TODO"
+title:  "STM32点亮板载LED(库函数)"
 categories: embed1
 ---
 

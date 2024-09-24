@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "STM32点亮板载LED寄存器相关TODO"
+title:  "附加题"
 categories: embed1
 ---
 
@@ -14,4 +14,4 @@ categories: embed1
 ---
 
 
-## TODO
+## 参见上面几篇文章
