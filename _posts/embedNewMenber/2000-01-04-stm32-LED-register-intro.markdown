@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "寄存器的相关概念"
+title:  "寄存器介绍"
 categories: embed1
 ---
 
