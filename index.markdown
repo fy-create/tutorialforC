@@ -43,7 +43,7 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>嵌入式招新</h2>
+        <h2>嵌入式Q&A</h2>
         <ul>
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'embed1' %}
