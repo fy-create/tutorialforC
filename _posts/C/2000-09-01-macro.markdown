@@ -170,7 +170,9 @@ RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
 - `RCC_BASE` 是 RCC 外设寄存器的基地址，它在 STM32 的芯片手册中指定，例如对于 STM32F103，它可能被定义为：
 
   ```c
-  #define RCC_BASE          (0x40021000UL)  // RCC 外设的基地址
+  #define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region */
+  #define AHBPERIPH_BASE        (PERIPH_BASE + 0x20000)
+  #define RCC_BASE              (AHBPERIPH_BASE + 0x1000)
   ```
 
 - `RCC_TypeDef` 是一个结构体类型，定义了所有 RCC 寄存器的布局。它的定义可能是这样的：
@@ -192,14 +194,11 @@ RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
 
 因此，`RCC->APB2ENR` 实际上指的是 `RCC_BASE` 基地址加上 **APB2ENR** 寄存器的偏移量。`APB2ENR` 通常位于基地址的 `0x18` 偏移处：
 
-```c
-#define RCC_APB2ENR_OFFSET    (0x18)
-```
 
 那么 `RCC->APB2ENR` 展开后实际上是：
 
 ```c
-(*(volatile uint32_t *)(RCC_BASE + RCC_APB2ENR_OFFSET))
+((RCC_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x1000))->APB2ENR
 ```
 
 ### 3. 完全展开后的代码
@@ -207,26 +206,17 @@ RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
 现在我们把这些宏全部展开，最终的代码会是：
 
 ```c
-(*(volatile uint32_t *)(0x40021000 + 0x18)) |= 0x00000010;
+((RCC_TypeDef *) ((((uint32_t)0x40000000) + 0x20000) + 0x1000))->APB2ENR |= ((uint32_t)0x00000010);
 ```
 
 这段代码的解释：
 
 - **`0x40021000`** 是 **RCC 外设**的基地址。
-- **`0x18`** 是 **APB2ENR 寄存器**在 RCC 寄存器中的偏移地址。
 - **`0x00000010`** 是 `RCC_APB2ENR_IOPCEN` 的值，即 GPIOC 外设时钟控制位。
 - **`|=`** 是按位或操作，设置 `APB2ENR` 寄存器的特定位而不改变其他位。
 
 ### 4. 预处理展开后的代码总结
-
-宏展开后的最终代码如下：
-
-```c
-(*(volatile uint32_t *)(0x40021000 + 0x18)) |= 0x00000010;
-```
-
 这段代码直接操作 **RCC_APB2ENR** 寄存器的 GPIOC 使能位，启用 GPIOC 的时钟。
-
 
 宏 `RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;` 完全展开后的代码是直接操作 RCC 寄存器的低级实现。它的目的是对寄存器的特定位进行设置，以启用 GPIOC 的时钟。
 
