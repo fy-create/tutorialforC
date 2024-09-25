@@ -32,7 +32,7 @@ categories: embed1
 
 ---
 
-### 2. **使用 Peripherals 窗口查看寄存器**
+### 2. **使用 Peripherals 窗口查看寄存器(推荐)**
 
 **Peripherals 窗口** 是 Keil μVision 提供的功能，允许您查看和监控与外设相关的寄存器，比如 **RCC**、**GPIO**、**USART** 等。此方法非常直观，适合查看外设的运行状态。
 
@@ -41,11 +41,16 @@ categories: embed1
    
 2. **打开 Peripherals 菜单**：
    - 点击菜单栏中的 **Peripherals**，可以看到当前芯片支持的所有外设模块列表（如 RCC、GPIO、USART、Timers 等）。
+<a href="{{ site.baseurl }}/assets/images/keil/debug_1.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/debug_1.png" alt="打开目标寄存器">
+</a>
 
 3. **选择您要查看的外设寄存器**：
    - 比如要查看 RCC 寄存器，点击 **Peripherals** -> **RCC**，这会打开一个显示 RCC 寄存器的窗口。
    - 要查看 GPIO 的寄存器，点击 **Peripherals** -> **GPIO**，然后选择具体的端口（如 GPIOA、GPIOB、GPIOC 等）。
-
+<a href="{{ site.baseurl }}/assets/images/keil/debug_2.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/debug_2.png" alt="看值">
+</a>
 4. **查看寄存器值**：
    - 在 RCC 或 GPIO 寄存器窗口中，您可以看到如 **RCC_APB2ENR**、**GPIOC_CRH**、**GPIOC_ODR** 等寄存器的当前值。
 
@@ -55,7 +60,7 @@ categories: embed1
 
 ---
 
-### 3. **使用 Watch 窗口手动添加寄存器监控**
+### 3. **使用 Watch 窗口手动添加寄存器监控(复杂不推荐)**
 
 **Watch 窗口** 允许您手动输入变量或寄存器的地址，并监控其值。此方法灵活且适合精确监控某些重要的寄存器。
 
@@ -77,7 +82,7 @@ categories: embed1
 
 ---
 
-### 4. **使用 Memory 窗口直接查看寄存器地址**
+### 4. **使用 Memory 窗口直接查看寄存器地址(复杂不推荐)**
 
 **Memory 窗口** 可以让您直接查看 MCU 内存中的数据，这包括寄存器的物理地址。您可以通过输入寄存器的地址，实时查看其当前值。
 
