@@ -99,8 +99,10 @@ int main(void) {
     }
 }
 ```
+**嵌入式代码,特别是库函数的方式,写起来短小精悍,一般的开发人员可能都不能完全理解，只能是强行的记忆下来，其实这些代码是很精妙的，背后的逻辑非常清楚。
+库函数提供的`宏`和`结构体`充分的展现了C语言的强大优势，对硬件的操作非常的丝滑，这就是一个经典的例子,下面好好费分析他,搞懂之后对C语言的提高也有很大的帮助.**   
 
-**经过编译器预处理之后的代码如下，所有的宏展开了，这里把相关的宏的定义放到了注释中，方便查看**
+**经过编译器预处理之后的代码如下，所有的宏展开了，这里把相关的宏的定义和关键的结构体放到了注释中，方便查看。**
 
 ```c
 #include <stdint.h>
@@ -190,6 +192,7 @@ int main(void)
     }
 }
 ```
+**乍一看上面的代码，感觉都是数字，非常混乱，其实都是有用意的，不用怕。**
 
 ### 2.1 头文件和宏定义
 
@@ -198,6 +201,9 @@ int main(void)
 ```
 
 - **`<stdint.h>`**：标准整数类型头文件，定义了如 `uint32_t` 等类型，确保代码的可移植性。
+```c
+typedef unsigned int uint32_t; // 这是一个4个byte无符号整形的定义
+```
 
 宏定义部分：
 
@@ -218,11 +224,12 @@ int main(void)
 **解释：**
 
 - **`PERIPH_BASE`**：外设基地址，`0x40000000`。
-- **`AHBPERIPH_BASE`**：AHB 总线外设基地址，`0x40000000 + 0x20000 = 0x40020000`。
+- **`AHBPERIPH_BASE`**：AHB(Advanced High-performance Bus 高级高性能总线) 总线外设基地址，`0x40000000 + 0x20000 = 0x40020000`。
 - **`RCC_BASE`**：RCC 寄存器基地址，`0x40020000 + 0x1000 = 0x40021000`。
 - **`RCC`**：通过基地址类型转换，得到 RCC 寄存器的结构体指针。
-- **`RCC_APB2ENR_IOPCEN`**：用于使能 GPIOC 时钟的位掩码，值为 `0x00000010`。
-- **`APB2PERIPH_BASE`**：APB2 总线外设基地址，`0x40000000 + 0x10000 = 0x40010000`。
+- **`RCC_APB2ENR_IOPCEN`**：用于使能 GPIOC 时钟的位掩码，值为 `0x00000010`。  
+
+- **`APB2PERIPH_BASE`**：APB2(Advanced Peripheral Bus 2 高级外设总线 2) 总线外设基地址，`0x40000000 + 0x10000 = 0x40010000`。
 - **`GPIOC_BASE`**：GPIOC 寄存器基地址，`0x40010000 + 0x1000 = 0x40011000`。
 - **`GPIOC`**：通过基地址类型转换，得到 GPIOC 寄存器的结构体指针。
 - **`GPIO_CRH_CNF13`**：用于操作引脚 13 的 CNF13[1:0] 配置位，值为 `0x00C00000`。
@@ -557,3 +564,32 @@ GPIOC_BASE = APB2PERIPH_BASE + 0x1000 = (0x40000000 + 0x10000) + 0x1000 = 0x4001
 
 - **修改代码**：尝试更改延迟时间、控制其他 GPIO 引脚，进一步熟悉 GPIO 的使用。
 
+---
+
+<BR><BR><BR>
+## 硬件手册相关,以下都是抠图出来的。  
+STM32F10xxx参考手册（中文）.pdf
+
+### 可以看到RCC相关寄存器的地址范围，跟我们程序中写的数据是吻合的。
+```c
+((RCC_TypeDef *) ((0x40000000 + 0x20000) + 0x1000))->APB2ENR |= 0x00000010;
+```
+<a href="{{ site.baseurl }}/assets/images/keil/manual_0.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/manual_0.png" alt="存储器映像">
+</a>  
+
+
+
+**RCC寄存器地址映像和复位值**
+<a href="{{ site.baseurl }}/assets/images/keil/manual_1.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/manual_1.png" alt="RCC寄存器地址映像和复位值">
+</a>
+
+---
+
+**GPIOC**
+<a href="{{ site.baseurl }}/assets/images/keil/manual_2.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/manual_2.png" alt="RCC寄存器地址映像和复位值">
+</a>
+
+TODO
