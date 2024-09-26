@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "点亮LED代码完整深入解释(结合参考手册)"
+title:  "点亮LED深入解释(结合参考手册)"
 categories: embed1
 ---
 
