@@ -31,6 +31,7 @@ categories: embed1
    - [5.1 使能 GPIOC 时钟](#51-使能-gpioc-时钟)
    - [5.2 配置 GPIOC 13 引脚为输出模式](#52-配置-gpioc-13-引脚为输出模式)
 6. [总结](#总结)
+7. [硬件手册](#硬件手册相关)
 
 
 ---
@@ -567,7 +568,8 @@ GPIOC_BASE = APB2PERIPH_BASE + 0x1000 = (0x40000000 + 0x10000) + 0x1000 = 0x4001
 ---
 
 <BR><BR><BR>
-## 硬件手册相关,以下都是抠图出来的。  
+
+## 硬件手册相关
 STM32F10xxx参考手册（中文）.pdf
 
 ### 可以看到RCC相关寄存器的地址范围，跟我们程序中写的数据是吻合的。
@@ -586,10 +588,21 @@ STM32F10xxx参考手册（中文）.pdf
 </a>
 
 ---
+<BR>
+### 可以看到GPIOC相关寄存器的地址范围，跟我们程序中写的数据是吻合的。  
+
+
+```c
+((GPIO_TypeDef *) ((0x40000000 + 0x10000) + 0x1000))->CRH &= ~0x00C00000;
+((GPIO_TypeDef *) ((0x40000000 + 0x10000) + 0x1000))->CRH |= 0x00200000;
+```
 
 **GPIOC**
 <a href="{{ site.baseurl }}/assets/images/keil/manual_2.png" target="_blank">
-  <img src="{{ site.baseurl }}/assets/images/keil/manual_2.png" alt="RCC寄存器地址映像和复位值">
+  <img src="{{ site.baseurl }}/assets/images/keil/manual_2.png" alt="GPIOC">
 </a>
 
-TODO
+<a href="{{ site.baseurl }}/assets/images/keil/manual_3.png" target="_blank">
+  <img src="{{ site.baseurl }}/assets/images/keil/manual_3.png" alt="GPIOC">
+</a>
+
