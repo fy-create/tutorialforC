@@ -105,7 +105,7 @@ PWM信号是一种周期性的数字信号，其输出由两个主要参数决�
 
 **1）定时器频率（Timer Frequency）**：
 定时器的频率由系统时钟频率（F\_clk）和预分频器（Prescaler, PSC）决定：
-\[ \text{Timer Frequency} = \frac{F\_clk}{PSC + 1} \]
+$$ \text{Timer Frequency} = \frac{F\_clk}{PSC + 1} $$
 
 **2）PWM频率**：
 PWM的频率由定时器频率和自动重装载值（ARR）确定：
