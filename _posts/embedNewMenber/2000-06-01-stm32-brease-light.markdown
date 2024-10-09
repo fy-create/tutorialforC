@@ -4,6 +4,11 @@ title:  "LED 呼吸灯，并使⽤ 按键1 控制 LED 开关"
 categories: embed1
 ---
 
+<script type="text/javascript" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
 • ⽬标：制作⼀个 LED 呼吸灯，并使⽤ 按键1 控制 LED 开关
 • 提⽰：利⽤ TIM 的 PWM 输出实现
 • 问题：
