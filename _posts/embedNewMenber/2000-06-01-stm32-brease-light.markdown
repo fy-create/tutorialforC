@@ -123,9 +123,9 @@ $$ \text{Duty Cycle} = \frac{CCR}{ARR + 1} $$
 
 #### 3. **PWM参数示例计算**：
 
-假设系统时钟频率 $ F\_clk = 72 \, \text{MHz} $，我们希望PWM频率为1kHz，占空比可以调节，则：
+假设系统时钟频率 $$ F\_clk = 72 \, \text{MHz} $$，我们希望PWM频率为1kHz，占空比可以调节，则：
 
-- 设定预分频器 $ PSC = 71 $，这样定时器频率为：
+- 设定预分频器 $$ PSC = 71 $$，这样定时器频率为：
   $$ \text{Timer Frequency} = \frac{72 \, \text{MHz}}{71 + 1} = 1 \, \text{MHz} $$
   
 - 为了得到1kHz的PWM频率，自动重装载值 $ ARR $ 应该为：
