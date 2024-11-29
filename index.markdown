@@ -31,10 +31,10 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>C语言题目</h2>
+        <h2>C++</h2>
         <ul>
             {% for post in site.posts reversed %}
-                {% if post.categories contains 'question' %}
+                {% if post.categories contains 'cpp' %}
                     <li>
                         <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                     </li>

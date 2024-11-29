@@ -1,0 +1,579 @@
+---
+layout: post
+title:  "C++"
+categories: cpp
+---
+
+从代码层面开始学习C++的新特性。我会通过示例代码来讲解面向对象编程（OOP）、标准模板库（STL）的容器、迭代器和算法等。
+
+---
+
+## **1. 面向对象编程（OOP）**
+
+### **1.1 类和对象**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Person {
+public:
+    // 构造函数
+    Person(const std::string& name, int age) : name(name), age(age) {}
+
+    // 成员函数
+    void introduce() const {
+        std::cout << "大家好，我叫" << name << "，今年" << age << "岁。" << std::endl;
+    }
+
+private:
+    // 成员变量
+    std::string name;
+    int age;
+};
+
+int main() {
+    // 创建对象
+    Person person("张三", 25);
+    person.introduce();
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 使用`class`关键字定义类`Person`，包含成员变量和成员函数。
+- 构造函数用于初始化对象。
+- `introduce`函数输出个人信息。
+- `main`函数中创建`Person`对象并调用其成员函数。
+
+### **1.2 继承**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <string>
+
+// 基类
+class Animal {
+public:
+    void eat() {
+        std::cout << "我正在吃东西。" << std::endl;
+    }
+};
+
+// 派生类
+class Dog : public Animal {
+public:
+    void bark() {
+        std::cout << "汪汪汪！" << std::endl;
+    }
+};
+
+int main() {
+    Dog dog;
+    dog.eat();  // 来自基类的函数
+    dog.bark(); // 派生类自己的函数
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `Dog`类继承自`Animal`类，获得了`eat`函数。
+- 派生类可以添加新的成员函数或成员变量。
+
+### **1.3 多态**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Shape {
+public:
+    virtual void draw() {
+        std::cout << "绘制形状。" << std::endl;
+    }
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        std::cout << "绘制圆形。" << std::endl;
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void draw() override {
+        std::cout << "绘制矩形。" << std::endl;
+    }
+};
+
+int main() {
+    Shape* shape1 = new Circle();
+    Shape* shape2 = new Rectangle();
+
+    shape1->draw(); // 输出：绘制圆形。
+    shape2->draw(); // 输出：绘制矩形。
+
+    delete shape1;
+    delete shape2;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 基类`Shape`的`draw`函数被声明为`virtual`，使其成为虚函数。
+- 派生类`Circle`和`Rectangle`重写了`draw`函数。
+- 通过基类指针调用时，会根据实际对象类型调用相应的函数，实现多态。
+
+---
+
+## **2. 标准模板库（STL）**
+
+### **2.1 容器**
+
+#### **2.1.1 `vector`（动态数组）**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers;
+
+    // 添加元素
+    numbers.push_back(10);
+    numbers.push_back(20);
+    numbers.push_back(30);
+
+    // 访问元素
+    for (size_t i = 0; i < numbers.size(); ++i) {
+        std::cout << "numbers[" << i << "] = " << numbers[i] << std::endl;
+    }
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `vector`是动态数组，可以自动调整大小。
+- 使用`push_back`添加元素，使用`[]`或`at()`访问元素。
+
+#### **2.1.2 `map`（映射容器）**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+
+int main() {
+    std::map<std::string, int> studentScores;
+
+    // 插入元素
+    studentScores["Alice"] = 95;
+    studentScores["Bob"] = 89;
+    studentScores["Charlie"] = 92;
+
+    // 遍历map
+    for (const auto& pair : studentScores) {
+        std::cout << pair.first << "的分数是：" << pair.second << std::endl;
+    }
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `map`存储键值对，键是唯一的，自动按键排序。
+- 可以使用`[]`操作符插入或访问元素。
+
+### **2.2 迭代器**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+
+    // 使用迭代器遍历
+    for (auto it = numbers.begin(); it != numbers.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 迭代器类似于指针，用于遍历容器。
+- `begin()`返回指向容器第一个元素的迭代器，`end()`返回指向容器末尾后一个位置的迭代器。
+
+---
+
+## **3. STL算法**
+
+### **3.1 常用算法**
+
+#### **3.1.1 `sort`（排序）**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> numbers = {30, 10, 50, 20, 40};
+
+    // 排序
+    std::sort(numbers.begin(), numbers.end());
+
+    // 输出排序结果
+    for (const auto& num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `std::sort`对范围内的元素进行升序排序。
+
+#### **3.1.2 `find`（查找）**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> numbers = {10, 20, 30, 40, 50};
+
+    // 查找元素
+    auto it = std::find(numbers.begin(), numbers.end(), 30);
+
+    if (it != numbers.end()) {
+        std::cout << "找到元素：" << *it << std::endl;
+    } else {
+        std::cout << "未找到元素。" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `std::find`在指定范围内查找第一个匹配的元素，返回一个迭代器。
+
+### **3.2 使用算法和Lambda表达式**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int main() {
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+
+    // 使用Lambda表达式进行筛选
+    numbers.erase(std::remove_if(numbers.begin(), numbers.end(),
+                                 [](int x) { return x % 2 == 0; }),
+                  numbers.end());
+
+    // 输出结果
+    for (const auto& num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl; // 输出：1 3 5
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `Lambda`表达式用于定义匿名函数，格式为`[捕获列表](参数列表){函数体}`。
+- `std::remove_if`结合`erase`可以删除满足条件的元素。
+
+---
+
+## **4. 智能指针**
+
+### **4.1 `unique_ptr`**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <memory>
+
+class MyClass {
+public:
+    MyClass() { std::cout << "构造函数调用" << std::endl; }
+    ~MyClass() { std::cout << "析构函数调用" << std::endl; }
+    void display() { std::cout << "展示内容" << std::endl; }
+};
+
+int main() {
+    std::unique_ptr<MyClass> ptr = std::make_unique<MyClass>();
+    ptr->display();
+
+    // 不需要手动delete，智能指针会自动管理内存
+    return 0;
+}
+```
+
+**说明：**
+
+- `unique_ptr`是独占式的智能指针，不可复制。
+- 使用`std::make_unique`创建对象。
+
+### **4.2 `shared_ptr`**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <memory>
+
+class MyClass {
+public:
+    MyClass() { std::cout << "构造函数调用" << std::endl; }
+    ~MyClass() { std::cout << "析构函数调用" << std::endl; }
+    void display() { std::cout << "展示内容" << std::endl; }
+};
+
+int main() {
+    std::shared_ptr<MyClass> ptr1 = std::make_shared<MyClass>();
+    {
+        std::shared_ptr<MyClass> ptr2 = ptr1;
+        ptr2->display();
+        std::cout << "引用计数：" << ptr2.use_count() << std::endl;
+    }
+    std::cout << "引用计数：" << ptr1.use_count() << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `shared_ptr`是共享式智能指针，使用引用计数管理内存。
+- `use_count()`函数可以获取当前的引用计数。
+
+---
+
+## **5. 模板编程**
+
+### **5.1 函数模板**
+
+**示例：**
+
+```cpp
+#include <iostream>
+
+// 定义函数模板
+template <typename T>
+T add(T a, T b) {
+    return a + b;
+}
+
+int main() {
+    int intResult = add(3, 5);
+    double doubleResult = add(2.5, 4.5);
+
+    std::cout << "整数相加结果：" << intResult << std::endl;
+    std::cout << "浮点数相加结果：" << doubleResult << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 函数模板使得函数可以处理不同类型的数据。
+- 编译器会根据传入的参数类型自动实例化模板。
+
+### **5.2 类模板**
+
+**示例：**
+
+```cpp
+#include <iostream>
+
+// 定义类模板
+template <typename T>
+class MyPair {
+public:
+    MyPair(T first, T second) : first(first), second(second) {}
+    T getMax() const;
+
+private:
+    T first;
+    T second;
+};
+
+template <typename T>
+T MyPair<T>::getMax() const {
+    return (first > second) ? first : second;
+}
+
+int main() {
+    MyPair<int> intPair(100, 75);
+    std::cout << "较大的数是：" << intPair.getMax() << std::endl;
+
+    MyPair<double> doublePair(12.5, 18.3);
+    std::cout << "较大的数是：" << doublePair.getMax() << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 类模板允许类的成员变量和成员函数使用模板参数。
+- 需要在类外定义成员函数时，注意模板语法。
+
+---
+
+## **6. 异常处理**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <stdexcept>
+
+double divide(double numerator, double denominator) {
+    if (denominator == 0)
+        throw std::runtime_error("除数不能为零！");
+    return numerator / denominator;
+}
+
+int main() {
+    try {
+        double result = divide(10.0, 0);
+        std::cout << "结果是：" << result << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "捕获异常：" << e.what() << std::endl;
+    }
+
+    return 0;
+}
+```
+
+**说明：**
+
+- 使用`throw`抛出异常，`try-catch`块捕获异常。
+- `std::exception`是标准库中所有异常的基类。
+
+---
+
+## **7. 现代C++特性**
+
+### **7.1 `auto`关键字**
+
+**示例：**
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    // 自动推导变量类型
+    auto number = 10;             // int
+    auto pi = 3.14;               // double
+    auto message = "Hello World"; // const char*
+
+    // 使用auto遍历容器
+    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    for (auto num : numbers) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `auto`让编译器根据初始化表达式自动推导变量类型。
+- 在范围for循环中，`auto`简化迭代变量的类型声明。
+
+### **7.2 `nullptr`关键字**
+
+**示例：**
+
+```cpp
+#include <iostream>
+
+void func(int* ptr) {
+    if (ptr == nullptr) {
+        std::cout << "指针为空。" << std::endl;
+    } else {
+        std::cout << "指针指向的值是：" << *ptr << std::endl;
+    }
+}
+
+int main() {
+    int* p = nullptr;
+    func(p);
+
+    int value = 10;
+    p = &value;
+    func(p);
+
+    return 0;
+}
+```
+
+**说明：**
+
+- `nullptr`是空指针常量，替代了C语言中的`NULL`。
+- 提高了代码的类型安全性。
+
+---
+
+## **总结和建议**
+
+通过以上示例代码，我们涵盖了C++中面向对象编程、STL容器、迭代器、算法、智能指针、模板编程以及现代C++特性等重要内容。
+
+**学习建议：**
+
+- **动手实践**：将这些代码在您的开发环境中运行，尝试修改和扩展功能。
+- **查阅文档**：在学习过程中，参考C++标准库文档（如cppreference）以获取更详细的信息。
+- **项目练习**：尝试编写一个小型项目，如学生成绩管理系统，综合运用所学知识。
+
+如果您有任何疑问或需要进一步的讲解，请随时提问！
