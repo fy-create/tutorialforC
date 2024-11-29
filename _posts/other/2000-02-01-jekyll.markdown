@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "jekyll"
+categories: other
+---
+
+jekyll serve --config _config_local.yml

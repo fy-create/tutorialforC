@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "markdown test"
+title:  "markdown test with github"
 categories: other
 ---
 

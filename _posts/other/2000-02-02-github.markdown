@@ -1,0 +1,7 @@
+---
+layout: post
+title:  "github"
+categories: other
+---
+
+git add .; git commit -m"update" ; git push;
