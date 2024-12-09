@@ -43,6 +43,18 @@ title: Home
         </ul>
     </div>
     <div>
+        <h2>算法</h2>
+        <ul>
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'arithmetic' %}
+                    <li>
+                        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
         <h2>嵌入式Q&A</h2>
         <ul>
             {% for post in site.posts reversed %}
