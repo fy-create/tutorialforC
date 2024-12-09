@@ -1,0 +1,12 @@
+
+.page-content {
+    max-width: 1000px; /* 调整为你想要的宽度 */
+    margin: 0 auto; /* 保持居中 */
+}
+
+
+pre {
+    max-width: 100%;
+    padding: 16px;
+    overflow-x: auto;
+}
