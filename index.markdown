@@ -8,7 +8,7 @@ title: Home
 <div class="container">
     <div>
         <h2>VSCode + MingW64</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'vscode' %}
                     <li>
@@ -20,7 +20,7 @@ title: Home
     </div>
     <div>
         <h2>C语言</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'c_language' %}
                     <li>
@@ -43,8 +43,20 @@ title: Home
         </ul>
     </div>
     <div>
+        <h2>数据结构</h2>
+        <ul class="arithmetic-list multi-column">
+            {% for post in site.posts reversed %}
+                {% if post.categories contains 'dataStruct' %}
+                    <li>
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
         <h2>算法</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'arithmetic' %}
                     <li>
@@ -56,7 +68,7 @@ title: Home
     </div>
     <div>
         <h2>嵌入式Q&A</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'embed1' %}
                     <li>
@@ -68,7 +80,7 @@ title: Home
     </div>
     <div>
         <h2>嵌入式开发</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'embed' %}
                     <li>
@@ -79,20 +91,8 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>数据结构</h2>
-        <ul>
-            {% for post in site.posts reversed %}
-                {% if post.categories contains 'dataStruct' %}
-                    <li>
-                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
         <h2>Other</h2>
-        <ul>
+        <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
                 {% if post.categories contains 'other' %}
                     <li>

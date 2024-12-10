@@ -1,6 +1,6 @@
 
 
-title:  SW Study
+title:  
 
 
 # Markdown settings
@@ -15,6 +15,9 @@ highlighter: rouge
 
 # Build settings
 theme: minima
+
+
+
 
 
 url: "https://fy-create.github.io"

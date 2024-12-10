@@ -7,6 +7,39 @@
 
 pre {
     max-width: 100%;
-    padding: 16px;
+    padding: 0px;
     overflow-x: auto;
 }
+
+.arithmetic-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* 自动分配列宽 */
+    gap: 4px; /* 列与列之间的间距 */
+    list-style: none; /* 去掉默认列表样式 */
+    padding: 0;
+}
+
+.arithmetic-list li {
+    background: #f9f9f9; /* 背景色可选 */
+    padding: 2px;
+    border-radius: 0px;
+    box-shadow: 0 0px 0px rgba(0, 0, 0, 0.8); /* 阴影效果 */
+}
+
+.arithmetic-list a {
+    text-decoration: none; /* 去掉下划线 */
+    color: #007acc; /* 链接颜色 */
+}
+
+.arithmetic-list a:hover {
+    color: #007acc; /* 悬停颜色 */
+}
+
+
+
+/* 调整 wrapper 的宽度 */
+div.wrapper {
+    max-width: 800px; /* 设置新的最大宽度 */
+    width: 90%;       /* 保持一定的自适应性 */
+    margin: 0 auto;   /* 居中显示 */
+  }

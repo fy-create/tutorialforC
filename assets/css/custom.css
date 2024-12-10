@@ -1,0 +1,13 @@
+/* 调整 wrapper 的宽度 */
+div.wrapper {
+  max-width: 1024px; /* 设置新的最大宽度 */
+  width: 90%;       /* 保持一定的自适应性 */
+  margin: 0 auto;   /* 居中显示 */
+}
+
+/* 如果需要更宽的屏幕兼容 */
+@media (min-width: 1600px) {
+  div.wrapper {
+      max-width: 1400px; /* 超宽屏下更大宽度 */
+  }
+}
