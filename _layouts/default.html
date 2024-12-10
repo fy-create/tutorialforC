@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
   <link rel="stylesheet" href="{{ '/assets/css/custom-style.css' | relative_url }}">
-
-  <!--script src="{{ '/assets/js/copy-code.js' | relative_url }}"></script -->
   
+  <script src="{{ '/assets/js/copy-code.js' | relative_url }}" defer></script>
 
 
   {%- include head.html -%}
@@ -14,6 +13,7 @@
   <body>
 
     {%- include header.html -%}
+    <link rel="stylesheet" href="{{ '/assets/custom.css' | relative_url }}">
 
     <main class="page-content" aria-label="Content" style="max-width: 1024px; margin: 0 auto; width: 90%;">
       <div class="wrapper" style="max-width: 1024px; margin: 0 auto; width: 90%;">
