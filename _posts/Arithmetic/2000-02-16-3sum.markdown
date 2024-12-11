@@ -1,0 +1,242 @@
+---
+layout: post
+title:  "15. 三数之和"
+categories: arithmetic
+---
+
+[15. 三数之和](https://leetcode.cn/problems/3sum)
+
+**题目描述：**
+
+给定一个包含 *n* 个整数的数组 `nums`，判断 `nums` 中是否存在三个元素 *a*，*b*，*c* ，使得 *a* + *b* + *c* = 0 ？请你找出所有和为 0 且不重复的三元组。
+
+**注意：**答案中不可以包含重复的三元组。
+
+**示例：**
+
+```
+输入：nums = [-1,0,1,2,-1,-4]
+输出：[[-1,-1,2],[-1,0,1]]
+```
+
+**提示：**
+
+- `0 <= nums.length <= 3000`
+- `-10⁵ <= nums[i] <= 10⁵`
+
+**C语言解答：**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 比较函数，用于 qsort
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+// 主函数
+int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    *returnSize = 0;
+    if (numsSize < 3) return NULL;
+
+    // 先对数组进行排序
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    // 分配最大可能的结果空间
+    int** result = (int**)malloc(sizeof(int*) * (numsSize * (numsSize - 1) * (numsSize - 2)) / 6);
+    *returnColumnSizes = (int*)malloc(sizeof(int) * (numsSize * (numsSize - 1) * (numsSize - 2)) / 6);
+
+    for (int i = 0; i < numsSize - 2; i++) {
+        // 跳过重复元素
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+        int left = i + 1;
+        int right = numsSize - 1;
+
+        while (left < right) {
+            int sum = nums[i] + nums[left] + nums[right];
+            if (sum == 0) {
+                // 找到一组解，添加到结果中
+                result[*returnSize] = (int*)malloc(sizeof(int) * 3);
+                result[*returnSize][0] = nums[i];
+                result[*returnSize][1] = nums[left];
+                result[*returnSize][2] = nums[right];
+                (*returnColumnSizes)[*returnSize] = 3;
+                (*returnSize)++;
+
+                // 跳过重复元素
+                while (left < right && nums[left] == nums[left + 1]) left++;
+                while (left < right && nums[right] == nums[right - 1]) right--;
+
+                left++;
+                right--;
+            } else if (sum < 0) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+
+    return result;
+}
+
+// 测试函数
+int main() {
+    int nums[] = {-1, 0, 1, 2, -1, -4};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    int returnSize;
+    int* returnColumnSizes;
+    int** result = threeSum(nums, numsSize, &returnSize, &returnColumnSizes);
+
+    printf("结果共有 %d 个三元组：\n", returnSize);
+    for (int i = 0; i < returnSize; i++) {
+        printf("[%d, %d, %d]\n", result[i][0], result[i][1], result[i][2]);
+        free(result[i]);
+    }
+    free(result);
+    free(returnColumnSizes);
+
+    return 0;
+}
+```
+
+**代码解析：**
+
+1. **排序数组：**使用 `qsort` 对数组进行升序排序，方便后续使用双指针法查找三元组。
+
+2. **遍历数组：**使用一个循环固定第一个元素 `nums[i]`，并使用双指针 `left` 和 `right` 分别指向 `i+1` 和数组末尾，寻找满足三数之和为零的组合。
+
+3. **双指针查找：**计算当前三数之和 `sum`：
+   - 如果 `sum == 0`，找到一组解，存入结果数组，并移动双指针，跳过重复元素。
+   - 如果 `sum < 0`，说明需要更大的数，将 `left` 右移。
+   - 如果 `sum > 0`，说明需要更小的数，将 `right` 左移。
+
+4. **跳过重复元素：**在每次移动指针后，检查当前元素是否与前一个元素相同，若相同则继续移动，避免重复三元组。
+
+5. **存储结果：**使用动态内存分配存储找到的三元组，并记录每个三元组的大小（均为 3）。
+
+**C++解答：**
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> result;
+        int n = nums.size();
+        if (n < 3) return result;
+
+        // 排序数组
+        sort(nums.begin(), nums.end());
+
+        for (int i = 0; i < n - 2; i++) {
+            // 跳过重复元素
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1;
+            int right = n - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    // 找到一组解，添加到结果中
+                    result.push_back({nums[i], nums[left], nums[right]});
+
+                    // 跳过重复元素
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
+// 测试函数
+int main() {
+    Solution sol;
+    vector<int> nums = {-1, 0, 1, 2, -1, -4};
+    vector<vector<int>> result = sol.threeSum(nums);
+
+    cout << "结果共有 " << result.size() << " 个三元组：" << endl;
+    for (const auto& triplet : result) {
+        cout << "[" << triplet[0] << ", " << triplet[1] << ", " << triplet[2] << "]" << endl;
+    }
+
+    return 0;
+}
+```
+
+---
+
+### **代码解析：**
+
+1. **排序数组：**
+   - 使用 `sort` 对数组进行升序排序，便于使用双指针法查找三元组。
+
+2. **遍历数组：**
+   - 使用循环固定第一个元素 `nums[i]`，并跳过重复元素。
+
+3. **双指针查找：**
+   - 使用双指针 `left` 和 `right`，分别从 `i+1` 和数组末尾开始。
+   - 计算三数之和 `sum`：
+     - 如果 `sum == 0`，将结果存入 `result`，并移动双指针，同时跳过重复元素。
+     - 如果 `sum < 0`，将 `left` 右移，寻找更大的数。
+     - 如果 `sum > 0`，将 `right` 左移，寻找更小的数。
+
+4. **存储结果：**
+   - 使用 `vector` 存储三元组，每个三元组作为一个 `vector<int>`，并将其添加到最终结果 `result` 中。
+
+5. **测试函数：**
+   - 创建 `Solution` 对象，并调用 `threeSum` 方法，传入测试数组 `nums`。
+   - 打印结果中的所有三元组。
+
+---
+
+### 示例运行
+
+#### 输入：
+```text
+nums = [-1, 0, 1, 2, -1, -4]
+```
+
+#### 输出：
+```text
+结果共有 2 个三元组：
+[-1, -1, 2]
+[-1, 0, 1]
+```
+
+---
+
+### 时间复杂度和空间复杂度
+
+1. **时间复杂度：** O(n²)
+   - 排序需要 O(n log n)，双指针查找需要 O(n²)。
+
+2. **空间复杂度：**
+   - C语言：动态分配内存，与结果大小成正比。
+   - C++：`vector` 的动态内存分配，与结果大小成正比。
+
+---
+
+### 总结
+
+- **C语言**：实现中使用动态分配内存存储结果，逻辑清晰，适合低级语言操作。
+- **C++**：通过 STL 容器和算法简化代码，使用 `vector` 动态存储结果，更加优雅高效。
+- 双版本均实现了三数之和的高效解决方案，适用于各种输入数组。

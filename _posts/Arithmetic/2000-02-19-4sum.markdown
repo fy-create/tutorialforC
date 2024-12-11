@@ -1,0 +1,272 @@
+---
+layout: post
+title:  "18. 四数之和"
+categories: arithmetic
+---
+
+[18. 四数之和](https://leetcode.cn/problems/4sum)
+
+**题目描述：**
+
+给定一个包含 *n* 个整数的数组 `nums` 和一个目标值 `target`，请你找出并返回满足下述全部条件且 **不重复** 的四元组 `[nums[a], nums[b], nums[c], nums[d]]`（若两个四元组元素一一对应，则认为两个四元组重复）：
+
+- 0 <= a, b, c, d < n
+- a、b、c 和 d 互不相同
+- `nums[a] + nums[b] + nums[c] + nums[d] == target`
+
+你可以按 **任意顺序** 返回答案。
+
+**示例：**
+
+- **示例 1：**
+  - **输入：** `nums = [1,0,-1,0,-2,2]`, `target = 0`
+  - **输出：** `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+
+- **示例 2：**
+  - **输入：** `nums = [2,2,2,2,2]`, `target = 8`
+  - **输出：** `[[2,2,2,2]]`
+
+**提示：**
+
+- 1 <= `nums.length` <= 200
+- -10<sup>9</sup> <= `nums[i]` <= 10<sup>9</sup>
+- -10<sup>9</sup> <= `target` <= 10<sup>9</sup>
+
+**C语言解答：**
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 比较函数，用于qsort排序
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+// 四数之和函数
+int** fourSum(int* nums, int numsSize, int target, int* returnSize, int** returnColumnSizes) {
+    *returnSize = 0;
+    if (numsSize < 4) return NULL;
+
+    // 对数组进行排序
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    // 预分配结果数组的空间
+    int maxResults = numsSize * (numsSize - 1) * (numsSize - 2) * (numsSize - 3) / 24;
+    int** results = (int**)malloc(maxResults * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(maxResults * sizeof(int));
+
+    // 四重循环，使用双指针法
+    for (int i = 0; i < numsSize - 3; i++) {
+        // 跳过重复元素
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+        for (int j = i + 1; j < numsSize - 2; j++) {
+            // 跳过重复元素
+            if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+            int left = j + 1;
+            int right = numsSize - 1;
+            while (left < right) {
+                long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
+                if (sum == target) {
+                    // 找到符合条件的四元组
+                    int* quadruplet = (int*)malloc(4 * sizeof(int));
+                    quadruplet[0] = nums[i];
+                    quadruplet[1] = nums[j];
+                    quadruplet[2] = nums[left];
+                    quadruplet[3] = nums[right];
+                    results[*returnSize] = quadruplet;
+                    (*returnColumnSizes)[*returnSize] = 4;
+                    (*returnSize)++;
+                    // 跳过重复元素
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+                    left++;
+                    right--;
+                } else if (sum < target) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+    }
+
+    // 调整结果数组的大小
+    results = (int**)realloc(results, (*returnSize) * sizeof(int*));
+    *returnColumnSizes = (int*)realloc(*returnColumnSizes, (*returnSize) * sizeof(int));
+
+    return results;
+}
+
+// 测试函数
+int main() {
+    int nums[] = {1, 0, -1, 0, -2, 2};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    int target = 0;
+    int returnSize;
+    int* returnColumnSizes;
+    int** result = fourSum(nums, numsSize, target, &returnSize, &returnColumnSizes);
+
+    // 输出结果
+    for (int i = 0; i < returnSize; i++) {
+        printf("[");
+        for (int j = 0; j < returnColumnSizes[i]; j++) {
+            printf("%d", result[i][j]);
+            if (j < returnColumnSizes[i] - 1) printf(", ");
+        }
+        printf("]\n");
+        free(result[i]);
+    }
+    free(result);
+    free(returnColumnSizes);
+
+    return 0;
+}
+```
+
+**代码解析：**
+
+1. **排序数组：** 使用 `qsort` 对输入数组进行升序排序，以便后续使用双指针法。
+
+2. **双指针法：** 通过四重循环，其中后两层使用双指针 `left` 和 `right`，寻找四个数的和等于目标值的组合。
+
+3. **跳过重复元素：** 在每层循环中，检查当前元素是否与前一个元素相同，若相同则跳过，以避免结果中出现重复的四元组。
+
+4. **存储结果：** 当找到符合条件的四元组时，将其存储在结果数组中，并记录每个四元组的大小。
+
+5. **调整结果数组大小：** 在所有操作完成后，使用 `realloc` 调整结果数组和列大小数组的大小，以匹配实际找到的四元组数量。
+
+**C++解答：**
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> result;
+        int n = nums.size();
+        if (n < 4) return result;
+
+        // 对数组进行排序
+        sort(nums.begin(), nums.end());
+
+        // 四重循环，使用双指针法
+        for (int i = 0; i < n - 3; i++) {
+            // 跳过重复元素
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            for (int j = i + 1; j < n - 2; j++) {
+                // 跳过重复元素
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                int left = j + 1;
+                int right = n - 1;
+
+                while (left < right) {
+                    long sum = (long)nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum == target) {
+                        // 找到符合条件的四元组
+                        result.push_back({nums[i], nums[j], nums[left], nums[right]});
+
+                        // 跳过重复元素
+                        while (left < right && nums[left] == nums[left + 1]) left++;
+                        while (left < right && nums[right] == nums[right - 1]) right--;
+
+                        left++;
+                        right--;
+                    } else if (sum < target) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+};
+
+// 测试函数
+int main() {
+    Solution sol;
+    vector<int> nums = {1, 0, -1, 0, -2, 2};
+    int target = 0;
+    vector<vector<int>> result = sol.fourSum(nums, target);
+
+    // 输出结果
+    for (const auto& quadruplet : result) {
+        cout << "[";
+        for (size_t i = 0; i < quadruplet.size(); i++) {
+            cout << quadruplet[i];
+            if (i < quadruplet.size() - 1) cout << ", ";
+        }
+        cout << "]" << endl;
+    }
+
+    return 0;
+}
+```
+
+---
+
+### C++代码解析
+
+1. **数组排序：**
+   - 使用 `std::sort` 对输入数组进行升序排序，便于后续使用双指针法。
+
+2. **四重循环：**
+   - 外层两层循环遍历前两个数的位置，内层通过双指针法寻找符合条件的另外两个数。
+
+3. **跳过重复元素：**
+   - 在每层循环中，检查当前元素是否与前一个元素相同，若相同则跳过，以避免结果中出现重复的四元组。
+
+4. **双指针法：**
+   - 使用两个指针 `left` 和 `right`，分别从当前范围的两端向中间靠拢。
+   - 如果四数之和等于目标值，将当前四元组存入结果。
+   - 如果和小于目标值，移动 `left` 指针增大和；如果和大于目标值，移动 `right` 指针减小和。
+
+5. **结果存储：**
+   - 使用 `std::vector<std::vector<int>>` 存储所有符合条件的四元组，自动避免内存管理问题。
+
+6. **主函数测试：**
+   - 创建 `Solution` 对象，调用 `fourSum` 方法，将输入数组 `[1, 0, -1, 0, -2, 2]` 和目标值 `0` 作为参数，输出所有符合条件的四元组。
+
+---
+
+### 示例运行
+
+#### 输入：
+```text
+nums = [1, 0, -1, 0, -2, 2]
+target = 0
+```
+
+#### 输出：
+```text
+[-2, -1, 1, 2]
+[-2, 0, 0, 2]
+[-1, 0, 0, 1]
+```
+
+---
+
+### 时间复杂度和空间复杂度
+
+1. **时间复杂度：** O(n³)  
+   - 外层两层循环为 O(n²)，内层双指针遍历为 O(n)，总时间复杂度为 O(n³)。
+
+2. **空间复杂度：** O(k)  
+   - 使用了一个动态数组 `result` 来存储结果，`k` 为最终结果中四元组的数量。
+
+---
+
+### 总结
+
+- **C语言版本**：手动管理内存，灵活性高，但代码较复杂。
+- **C++版本**：利用 STL 容器和算法，代码简洁优雅，更适合复杂场景。
+- **双版本均采用排序和双指针法**，在 O(n³) 的时间复杂度内解决了问题，适用于中等规模的输入。
