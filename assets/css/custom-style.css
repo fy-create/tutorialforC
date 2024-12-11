@@ -56,8 +56,18 @@ div.wrapper {
     /* 居中显示 */
 }
 
+/* 覆盖代码块背景颜色 */
+.highlight {
+    background-color: #f9f9f9 !important; /* 确保生效 */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-x: auto;
+}
 
-
-
-  
-  
+/* 进一步覆盖 pre 和 code 标签样式 */
+pre, code {
+    background-color: #f9f9f9 !important;
+    color: #333;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
