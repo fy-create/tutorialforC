@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "34. 在排序数组中查找元素的第一个和最后一个位置"
+title:  "34. 排序数组中查找第一个和最后一个"
 categories: arithmetic
 ---
 

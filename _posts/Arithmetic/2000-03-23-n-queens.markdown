@@ -1,0 +1,198 @@
+---
+layout: post
+title:  "51. N 皇后"
+categories: arithmetic
+---
+
+[51. N 皇后](https://leetcode.cn/problems/n-queens)
+
+### 题目描述：
+按照国际象棋规则，皇后可以攻击同一行、同一列和对角线上的棋子。
+
+n 皇后问题即在 n×n 的棋盘上放置 n 个皇后，使它们不能互相攻击。
+
+给你一个整数 n ，返回所有不同的 n 皇后问题的解决方案。
+
+每一种解法包含一个不同的 n 皇后问题的棋子放置方案，该方案中 'Q' 和 '.' 分别代表了皇后和空位。
+
+**示例：**
+
+**输入：** n = 4
+
+**输出：** [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+
+**解释：**
+![图片说明](https://assets.leetcode.com/uploads/2020/11/13/queens.jpg)
+
+**提示：**
+- 1 <= n <= 9
+- 每个皇后必须位于不同的行和列，并且不能共享对角线。
+
+---
+
+### 解题思路：
+
+1. **回溯法**：
+   - 回溯法是解决 n 皇后问题的经典方法。
+   - 在每一行中尝试放置一个皇后，检查是否安全（即不在同一列或同一对角线）。
+   - 如果安全，则继续尝试下一行；否则回退并尝试其他列。
+
+2. **对角线判定**：
+   - 主对角线：行索引与列索引之差相等（`row - col`）。
+   - 副对角线：行索引与列索引之和相等（`row + col`）。
+
+3. **结果存储**：
+   - 使用一个数组存储每个解法。
+   - 每个解法是一个字符串数组，表示棋盘。
+
+4. **时间复杂度**：
+   - 最坏情况下为 O(n!)，每个皇后有 n 种选择。
+
+5. **空间复杂度**：
+   - 空间复杂度为 O(n)，存储递归调用栈。
+
+---
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void addSolution(int n, int* queens, char**** result, int* returnSize, int** returnColumnSizes) {
+    char** board = (char**)malloc(n * sizeof(char*));
+    for (int i = 0; i < n; i++) {
+        board[i] = (char*)malloc((n + 1) * sizeof(char));
+        memset(board[i], '.', n);
+        board[i][queens[i]] = 'Q';
+        board[i][n] = '\0';
+    }
+
+    char*** res = *result;
+    res = (char***)realloc(res, (*returnSize + 1) * sizeof(char**));
+    *result = res;
+    (*result)[*returnSize] = board;
+    int* colSizes = *returnColumnSizes;
+    colSizes = (int*)realloc(colSizes, (*returnSize + 1) * sizeof(int));
+    *returnColumnSizes = colSizes;
+    (*returnColumnSizes)[*returnSize] = n;
+    (*returnSize)++;
+}
+
+void backtrack(int n, int row, int* queens, int* cols, int* diag1, int* diag2, char**** result, int* returnSize, int** returnColumnSizes) {
+    if (row == n) {
+        addSolution(n, queens, result, returnSize, returnColumnSizes);
+        return;
+    }
+
+    for (int col = 0; col < n; col++) {
+        if (cols[col] || diag1[row - col + n - 1] || diag2[row + col]) {
+            continue;
+        }
+
+        queens[row] = col;
+        cols[col] = diag1[row - col + n - 1] = diag2[row + col] = 1;
+        backtrack(n, row + 1, queens, cols, diag1, diag2, result, returnSize, returnColumnSizes);
+        cols[col] = diag1[row - col + n - 1] = diag2[row + col] = 0;
+    }
+}
+
+char*** solveNQueens(int n, int* returnSize, int** returnColumnSizes) {
+    char*** result = NULL;
+    *returnSize = 0;
+    *returnColumnSizes = NULL;
+
+    int* queens = (int*)malloc(n * sizeof(int));
+    int* cols = (int*)calloc(n, sizeof(int));
+    int* diag1 = (int*)calloc(2 * n - 1, sizeof(int));
+    int* diag2 = (int*)calloc(2 * n - 1, sizeof(int));
+
+    backtrack(n, 0, queens, cols, diag1, diag2, &result, returnSize, returnColumnSizes);
+
+    free(queens);
+    free(cols);
+    free(diag1);
+    free(diag2);
+
+    return result;
+}
+
+int main() {
+    int n = 4;
+    int returnSize;
+    int* returnColumnSizes;
+
+    char*** result = solveNQueens(n, &returnSize, &returnColumnSizes);
+
+    for (int i = 0; i < returnSize; i++) {
+        printf("Solution %d:\n", i + 1);
+        for (int j = 0; j < returnColumnSizes[i]; j++) {
+            printf("%s\n", result[i][j]);
+            free(result[i][j]);
+        }
+        free(result[i]);
+    }
+    free(result);
+    free(returnColumnSizes);
+
+    return 0;
+}
+```
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Solution {
+public:
+    void backtrack(int n, int row, vector<int>& queens, vector<bool>& cols, vector<bool>& diag1, vector<bool>& diag2, vector<vector<string>>& result) {
+        if (row == n) {
+            vector<string> board(n, string(n, '.'));
+            for (int i = 0; i < n; i++) {
+                board[i][queens[i]] = 'Q';
+            }
+            result.push_back(board);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (cols[col] || diag1[row - col + n - 1] || diag2[row + col]) {
+                continue;
+            }
+
+            queens[row] = col;
+            cols[col] = diag1[row - col + n - 1] = diag2[row + col] = true;
+            backtrack(n, row + 1, queens, cols, diag1, diag2, result);
+            cols[col] = diag1[row - col + n - 1] = diag2[row + col] = false;
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> result;
+        vector<int> queens(n);
+        vector<bool> cols(n, false);
+        vector<bool> diag1(2 * n - 1, false);
+        vector<bool> diag2(2 * n - 1, false);
+
+        backtrack(n, 0, queens, cols, diag1, diag2, result);
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    int n = 4;
+    vector<vector<string>> result = sol.solveNQueens(n);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << "Solution " << i + 1 << ":\n";
+        for (const string& row : result[i]) {
+            cout << row << endl;
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
