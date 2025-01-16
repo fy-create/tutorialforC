@@ -1,10 +1,10 @@
 ---
 layout: post
-title:  ""
+title:  "935. 骑士拨号器"
 categories: arithmetic
 ---
 
-[](https://leetcode.cn/problems/knight-dialer)
+[935. 骑士拨号器](https://leetcode.cn/problems/knight-dialer)
 
 ### 题目要求
 国际象棋中的骑士可以按“L”形移动到8个可能的位置之一，如下图所示：  
