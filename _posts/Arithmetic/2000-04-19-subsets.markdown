@@ -1,0 +1,214 @@
+---
+layout: post
+title:  "78. 子集"
+categories: arithmetic
+---
+
+[78. 子集](https://leetcode.cn/problems/subsets)
+
+### 题目要求：
+
+给你一个整数数组 `nums`，其中可能包含重复元素，返回该数组所有可能的子集（幂集）。
+
+**示例 1**：
+```
+输入：nums = [1,2,3]
+输出：
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+```
+
+**示例 2**：
+```
+输入：nums = [0]
+输出：
+[
+  [0],
+  []
+]
+```
+
+#### 提示：
+- 1 <= nums.length <= 10
+- -10 <= nums[i] <= 10
+
+### 解题思路：
+
+本题可以通过回溯法（Backtracking）或者迭代法（Iterative）来解决。为了生成所有可能的子集，我们需要考虑每个元素是否加入当前的子集中。 
+
+#### 回溯法：
+1. **回溯思想**：我们从一个空的子集开始，逐渐往其中加入元素。每次递归时，决定是否将当前元素加入子集，然后进入下一个元素的决策。
+2. **终止条件**：当所有元素都被遍历过时，回溯结束。每次递归时都记录当前的子集。
+
+#### 迭代法：
+- 初始时，集合只有一个元素：空集 `[]`。
+- 对于数组中的每个元素，我们将其加入到已有的每个子集，形成新的子集，并把这些新的子集加入结果集。
+
+由于数组可能包含重复元素，因此在回溯法中，需要确保对每个重复元素的处理顺序是正确的，以避免生成重复的子集。
+
+### C语言解法：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+void backtrack(int* nums, int numsSize, int* temp, int tempSize, int start, int*** result, int* returnSize, int* returnColumnSizes) {
+    // 每次递归时都记录当前子集
+    (*result)[*returnSize] = (int*)malloc(tempSize * sizeof(int));
+    for (int i = 0; i < tempSize; i++) {
+        (*result)[*returnSize][i] = temp[i];
+    }
+    returnColumnSizes[*returnSize] = tempSize;
+    (*returnSize)++;
+    
+    // 从start位置开始递归，尝试将每个元素加入当前子集
+    for (int i = start; i < numsSize; i++) {
+        temp[tempSize] = nums[i];
+        backtrack(nums, numsSize, temp, tempSize + 1, i + 1, result, returnSize, returnColumnSizes);
+    }
+}
+
+int** subsets(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {
+    // 最大子集数
+    int maxSubsets = 1 << numsSize;
+    
+    // 结果数组
+    int** result = (int**)malloc(maxSubsets * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(maxSubsets * sizeof(int));
+    *returnSize = 0;
+
+    int* temp = (int*)malloc(numsSize * sizeof(int));
+    
+    // 递归生成所有子集
+    backtrack(nums, numsSize, temp, 0, 0, &result, returnSize, *returnColumnSizes);
+
+    free(temp);
+    return result;
+}
+
+int main() {
+    int nums[] = {1, 2, 3};
+    int numsSize = 3;
+    int returnSize = 0;
+    int* returnColumnSizes = NULL;
+
+    // 获取所有子集
+    int** result = subsets(nums, numsSize, &returnSize, &returnColumnSizes);
+
+    // 打印所有子集
+    for (int i = 0; i < returnSize; i++) {
+        printf("[");
+        for (int j = 0; j < returnColumnSizes[i]; j++) {
+            printf("%d", result[i][j]);
+            if (j < returnColumnSizes[i] - 1) printf(", ");
+        }
+        printf("]\n");
+    }
+
+    // 释放内存
+    for (int i = 0; i < returnSize; i++) {
+        free(result[i]);
+    }
+    free(result);
+    free(returnColumnSizes);
+
+    return 0;
+}
+```
+
+### C++解法：
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    // 回溯法生成所有子集
+    void backtrack(int start, vector<int>& temp, vector<int>& nums, vector<vector<int>>& result) {
+        // 记录当前子集
+        result.push_back(temp);
+        
+        // 遍历nums中的元素，尝试将每个元素加入当前子集
+        for (int i = start; i < nums.size(); i++) {
+            temp.push_back(nums[i]);
+            backtrack(i + 1, temp, nums, result); // 递归调用
+            temp.pop_back(); // 回溯，撤销选择
+        }
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> result;
+        vector<int> temp;
+        backtrack(0, temp, nums, result); // 从索引0开始生成子集
+        return result;
+    }
+};
+
+int main() {
+    Solution solution;
+    
+    vector<int> nums = {1, 2, 3};
+    
+    // 获取所有子集
+    vector<vector<int>> result = solution.subsets(nums);
+    
+    // 打印所有子集
+    for (const auto& subset : result) {
+        cout << "[";
+        for (size_t i = 0; i < subset.size(); i++) {
+            cout << subset[i];
+            if (i < subset.size() - 1) cout << ", ";
+        }
+        cout << "]" << endl;
+    }
+    
+    return 0;
+}
+```
+
+### 代码解析：
+
+#### C语言实现：
+1. **回溯函数 `backtrack`**：
+   - `temp` 是当前的子集，`tempSize` 表示当前子集的大小，`start` 是递归的起始位置。
+   - 每次递归时，我们都将当前子集 `temp` 存入 `result` 数组。
+   - 遍历数组中的每个元素，递归地尝试将元素添加到当前子集。递归完后，撤销选择，继续探索其他可能的子集。
+
+2. **主函数 `subsets`**：
+   - 使用 `backtrack` 函数来生成所有子集，最终返回所有子集的集合。
+   - 通过位运算计算最大可能的子集数。
+
+#### C++实现：
+1. **回溯函数 `backtrack`**：
+   - 通过递归生成所有子集，每次递归将当前的子集添加到结果中。
+   - 遍历数组中的元素，逐一尝试将每个元素加入到当前子集中，递归下去。
+
+2. **主函数 `subsets`**：
+   - 调用回溯函数 `backtrack` 来生成所有可能的子集，并返回结果。
+
+### 时间和空间复杂度：
+- **时间复杂度**：O(2^n)，其中 `n` 是输入数组的长度。每个元素有两种选择：加入当前子集或不加入。
+- **空间复杂度**：O(2^n)，用于存储所有子集。每个子集最多包含 `n` 个元素，因此总的空间复杂度为 `O(2^n * n)`。
+
+### 示例输出：
+
+```
+[]
+[1]
+[1, 2]
+[1, 2, 3]
+[1, 3]
+[2]
+[2, 3]
+[3]
+```

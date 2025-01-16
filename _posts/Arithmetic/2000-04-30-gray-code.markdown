@@ -1,0 +1,154 @@
+---
+layout: post
+title:  "89. 格雷编码"
+categories: arithmetic
+---
+
+[89. 格雷编码](https://leetcode.cn/problems/gray-code)
+
+### 题目要求：
+
+**格雷码（Gray Code）** 是一种二进制数的编码方式，其特点是相邻的两个数字仅有一个二进制位的不同。
+
+**题目**：给定一个整数 `n`，返回 **n 位的格雷码**。其规则是，对于任意的两个相邻的格雷码，它们的二进制表示只有一个位的不同。
+
+### 示例：
+#### 示例 1：
+```
+输入：n = 2
+输出：[0, 1, 3, 2]
+```
+
+#### 示例 2：
+```
+输入：n = 1
+输出：[0, 1]
+```
+
+#### 提示：
+- `1 <= n <= 16`
+
+### 解题思路：
+
+格雷码的构造可以通过以下几种方法实现。常见的方法有：
+1. **递归生成**：通过递归方法构造格雷码。
+2. **公式法**：通过与其二进制数的右移操作来获得格雷码。
+3. **迭代法**：通过对已有的格雷码列表进行迭代生成。
+
+最常见且直观的方式是使用 **递归生成** 格雷码，并且有一个已知的递推公式来生成新的格雷码。
+
+#### 递推关系：
+- `GrayCode(n) = GrayCode(n-1) + reverse(GrayCode(n-1))`，其中 `reverse(GrayCode(n-1))` 表示对 `GrayCode(n-1)` 列表进行逆序，并且将其每个数字加上 `2^(n-1)`，以确保生成的数字的最左边一位与 `GrayCode(n-1)` 不同。
+
+#### 步骤：
+1. **基础情况**：当 `n = 1` 时，格雷码为 `[0, 1]`。
+2. **递归生成**：每增加一位，先复制之前的格雷码，然后将其逆序并加上一个偏移量。
+3. **生成规则**：
+   - 对于 `n` 位格雷码，先生成 `n-1` 位的格雷码。
+   - 然后逆序这些 `n-1` 位的格雷码，并且加上 `2^(n-1)`，将其加到原先的格雷码后。
+
+### C语言解答：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 生成 n 位的格雷码
+int* grayCode(int n, int* returnSize) {
+    *returnSize = 1 << n;  // 格雷码的个数为 2^n
+    int* result = (int*)malloc(sizeof(int) * (*returnSize));  // 动态分配数组
+
+    result[0] = 0;  // 初始格雷码为 [0]
+    
+    // 逐步生成格雷码
+    for (int i = 1; i < *returnSize; i++) {
+        result[i] = i ^ (i >> 1);  // 使用公式 i ^ (i >> 1) 计算格雷码
+    }
+
+    return result;
+}
+
+int main() {
+    int n = 2;
+    int returnSize = 0;
+    int* result = grayCode(n, &returnSize);
+
+    // 输出格雷码
+    for (int i = 0; i < returnSize; i++) {
+        printf("%d ", result[i]);
+    }
+    printf("\n");
+
+    free(result);  // 释放动态分配的内存
+    return 0;
+}
+```
+
+### C++解答：
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> grayCode(int n) {
+        vector<int> result;
+        int size = 1 << n;  // 格雷码的个数为 2^n
+        result.push_back(0);  // 初始格雷码为 [0]
+        
+        // 逐步生成格雷码
+        for (int i = 1; i < size; i++) {
+            result.push_back(i ^ (i >> 1));  // 使用公式 i ^ (i >> 1) 计算格雷码
+        }
+        
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    int n = 2;
+    vector<int> result = sol.grayCode(n);
+
+    // 输出格雷码
+    for (int i : result) {
+        cout << i << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
+
+### 代码解析：
+
+#### C语言：
+1. **输入与输出**：输入一个整数 `n`，表示生成 `n` 位格雷码。输出是生成的格雷码数组。
+2. **动态数组**：使用 `malloc` 动态分配数组存储格雷码的结果，数组大小为 `2^n`。
+3. **格雷码计算**：利用公式 `i ^ (i >> 1)` 生成每个整数的格雷码，`i` 是当前数值，`i >> 1` 是右移一位的数，`^` 是按位异或运算符。
+4. **内存管理**：生成完毕后释放动态分配的内存。
+
+#### C++：
+1. **类封装**：通过 `Solution` 类封装 `grayCode` 方法。
+2. **vector 容器**：使用 `vector` 容器来存储格雷码，自动管理内存。
+3. **格雷码计算**：使用相同的公式 `i ^ (i >> 1)` 来生成格雷码，遍历从 0 到 `2^n - 1` 的数，逐个生成对应的格雷码。
+
+### 时间复杂度：
+- **O(2^n)**：因为我们需要生成 `2^n` 个格雷码，每个格雷码的生成时间是常数。
+
+### 空间复杂度：
+- **O(2^n)**：需要一个大小为 `2^n` 的数组来存储生成的格雷码。
+
+### 示例输出：
+
+#### C语言：
+```
+0 1 3 2 
+```
+
+#### C++：
+```
+0 1 3 2 
+```

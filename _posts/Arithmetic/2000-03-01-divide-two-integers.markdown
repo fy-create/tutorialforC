@@ -6,126 +6,166 @@ categories: arithmetic
 
 [29. 两数相除](https://leetcode.cn/problems/divide-two-integers)
 
-### 题目描述：
-给你两个整数，被除数 `dividend` 和除数 `divisor`。将两数相除，要求不使用乘法、除法和 mod 运算符。
+### 题目描述
+
+给定两个整数 `dividend` 和 `divisor`，将两数相除，要求不使用乘法、除法和取余运算符。
+
+整数除法的结果应当截去（truncate）其小数部分，例如：`truncate(8.345) = 8` 以及 `truncate(-2.7335) = -2`。
 
 返回被除数 `dividend` 除以除数 `divisor` 得到的商。
 
-**示例：**
+**注意：**
 
-**输入：** dividend = 10, divisor = 3
+- 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−2³¹, 2³¹ − 1]。本题中，如果商超过这个范围，返回 2³¹ − 1。
 
-**输出：** 3
+**示例 1：**
 
-**输入：** dividend = 7, divisor = -3
+```
+输入: dividend = 10, divisor = 3
+输出: 3
+解释: 10/3 = 3.33333..，截断小数部分后得到 3。
+```
 
-**输出：** -2
+**示例 2：**
 
-**说明：**
+```
+输入: dividend = 7, divisor = -3
+输出: -2
+解释: 7/-3 = -2.33333..，截断小数部分后得到 -2。
+```
+
+**提示：**
 
 - 被除数和除数均为 32 位有符号整数。
 - 除数不为 0。
-- 假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−2³¹,  2³¹ − 1]。本题中，如果除法结果溢出，则返回 2³¹ − 1。
+- 假设除法结果均可用 32 位有符号整数表示，且不会溢出。
 
-### 解题思路：
+---
 
-1. **模拟除法运算：**
-   - 使用减法和移位运算模拟除法。
-   - 倍增法：通过移位操作快速找到可以减去的最大倍数。
+**解题思路：**
 
-2. **处理正负号：**
-   - 结果的符号由被除数和除数的符号决定。
-   - 使用异或运算来确定符号。
+1. **处理特殊情况：**
+   - 如果 `divisor` 为 0，直接返回最大整数值（因为除数不能为 0）。
+   - 如果 `dividend` 为 0，结果必然为 0。
+   - 如果 `dividend` 是最小负数且 `divisor` 为 -1，结果会超出 32 位整数范围，应返回最大整数值。
 
-3. **溢出处理：**
-   - 如果结果超过 32 位整数范围，返回 2³¹ − 1。
+2. **确定结果符号：**
+   - 如果 `dividend` 和 `divisor` 的符号相同，结果为正；否则结果为负。
 
+3. **使用位移操作进行除法：**
+   - 将 `dividend` 和 `divisor` 转换为正数。
+   - 通过左移操作找到最大的倍数，使得 `(divisor << x) <= dividend`。
+   - 从 `dividend` 中减去这个倍数的值，并将对应的倍数加到结果中。
+   - 重复上述步骤，直到 `dividend` 小于 `divisor`。
 
+4. **返回结果：**
+   - 根据之前确定的符号，返回正或负的结果。
+   - 如果结果超出 32 位整数范围，返回最大整数值。
+
+---
+
+**C 语言实现：**
 
 ```c
 #include <stdio.h>
 #include <limits.h>
 
+// 函数：实现两个整数的除法
 int divide(int dividend, int divisor) {
     // 处理特殊情况
-    if (dividend == INT_MIN && divisor == -1) return INT_MAX;
+    if (divisor == 0) return INT_MAX; // 除数为0，返回最大整数
+    if (dividend == 0) return 0;      // 被除数为0，结果为0
+    if (dividend == INT_MIN && divisor == -1) return INT_MAX; // 溢出情况
 
     // 确定结果的符号
-    int negative = (dividend < 0) ^ (divisor < 0);
+    int negative = (dividend > 0) ^ (divisor > 0);
 
-    // 转换为负数避免溢出
-    long long a = (dividend < 0) ? -(long long)dividend : dividend;
-    long long b = (divisor < 0) ? -(long long)divisor : divisor;
+    // 将被除数和除数转换为负数，避免溢出
+    unsigned int dvd = (dividend > 0) ? -dividend : dividend;
+    unsigned int dvs = (divisor > 0) ? -divisor : divisor;
 
     int result = 0;
-    while (a >= b) {
-        long long temp = b;
+
+    // 通过位移进行除法运算
+    while (dvd <= dvs) {
+        unsigned int temp = dvs;
         int multiple = 1;
-        while (a >= (temp << 1) && (temp << 1) <= a) {
+        while (dvd <= (temp << 1) && (temp << 1) < temp) {
             temp <<= 1;
             multiple <<= 1;
         }
-        a -= temp;
+        dvd -= temp;
         result += multiple;
     }
 
+    // 根据符号返回结果
     return negative ? -result : result;
 }
 
+// 测试函数
 int main() {
-    int dividend = 10, divisor = 3;
-    printf("结果: %d\n", divide(dividend, divisor));
-
-    dividend = 7; divisor = -3;
-    printf("结果: %d\n", divide(dividend, divisor));
-
+    int dividend = 10;
+    int divisor = 3;
+    int quotient = divide(dividend, divisor);
+    printf("商是: %d\n", quotient); // 输出：商是: 3
     return 0;
 }
 ```
+
+---
+
+**C++ 语言实现：**
 
 ```cpp
 #include <iostream>
 #include <climits>
+
 using namespace std;
 
 class Solution {
 public:
+    // 函数：实现两个整数的除法
     int divide(int dividend, int divisor) {
         // 处理特殊情况
-        if (dividend == INT_MIN && divisor == -1) return INT_MAX;
+        if (divisor == 0) return INT_MAX; // 除数为0，返回最大整数
+        if (dividend == 0) return 0;      // 被除数为0，结果为0
+        if (dividend == INT_MIN && divisor == -1) return INT_MAX; // 溢出情况
 
         // 确定结果的符号
-        bool negative = (dividend < 0) ^ (divisor < 0);
+        bool negative = (dividend > 0) ^ (divisor > 0);
 
-        // 转换为正数避免溢出
-        long long a = abs((long long)dividend);
-        long long b = abs((long long)divisor);
+        // 将被除数和除数转换为负数，避免溢出
+        unsigned int dvd = (dividend > 0) ? -dividend : dividend;
+        unsigned int dvs = (divisor > 0) ? -divisor : divisor;
 
         int result = 0;
-        while (a >= b) {
-            long long temp = b;
+
+        // 通过位移进行除法运算
+        while (dvd <= dvs) {
+            unsigned int temp = dvs;
             int multiple = 1;
-            while (a >= (temp << 1) && (temp << 1) > 0) {
+            while (dvd <= (temp << 1) && (temp << 1) < temp) {
                 temp <<= 1;
                 multiple <<= 1;
             }
-            a -= temp;
+            dvd -= temp;
             result += multiple;
         }
 
+        // 根据符号返回结果
         return negative ? -result : result;
     }
 };
 
+// 测试函数
 int main() {
-    Solution sol;
-
-    int dividend = 10, divisor = 3;
-    cout << "结果: " << sol.divide(dividend, divisor) << endl;
-
-    dividend = 7; divisor = -3;
-    cout << "结果: " << sol.divide(dividend, divisor) << endl;
-
+    Solution solution;
+    int dividend = 10;
+    int divisor = 3;
+    int quotient = solution.divide(dividend, divisor);
+    cout << "商是: " << quotient << endl; // 输出：商是: 3
     return 0;
 }
 ```
+
+上述代码实现了在不使用乘法 

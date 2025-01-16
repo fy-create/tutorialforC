@@ -1,0 +1,191 @@
+---
+layout: post
+title:  "1. 两数之和"
+categories: arithmetic
+---
+
+[1. 两数之和](https://leetcode.cn/problems/two-sum)
+
+### 题目描述
+
+给定一个整数数组 `nums` 和一个目标值 `target`，请你在该数组中找出和为目标值 `target` 的两个整数，并返回它们的数组下标。
+
+假设每种输入只会有一个答案，而且你不能重复使用数组中的元素。
+
+你可以按任意顺序返回答案。
+
+### 示例
+
+**示例 1：**
+
+输入：`nums = [2, 7, 11, 15], target = 9`  
+输出：[0, 1]  
+解释：因为 nums[0] + nums[1] == 9，所以返回 [0, 1]。
+
+**示例 2：**
+
+输入：`nums = [3, 2, 4], target = 6`  
+输出：[1, 2]
+
+**示例 3：**
+
+输入：`nums = [3, 3], target = 6`  
+输出：[0, 1]
+
+### 提示
+
+- 2 <= `nums.length` <= 10^4
+- -10^9 <= `nums[i]` <= 10^9
+- -10^9 <= `target` <= 10^9
+- 只会有一个有效答案
+
+---
+
+### 解题思路
+
+为了高效地解决这个问题，我们可以使用一个哈希表来存储数组中已经遍历过的元素及其对应的索引。哈希表允许我们在常数时间内查找一个元素是否已经出现过。
+
+#### 步骤如下：
+1. 遍历数组，对于每个元素 `num`，计算目标值 `target` 与当前元素的差值 `complement = target - num`。
+2. 在哈希表中查找 `complement` 是否存在。如果存在，则找到了两个数，它们的和为目标值 `target`，直接返回这两个数的索引。
+3. 如果不存在，则将当前元素 `num` 和它的索引 `i` 存入哈希表中，继续遍历下一个元素。
+
+这种方法的时间复杂度是 O(n)，空间复杂度是 O(n)，其中 `n` 是数组的长度。
+
+---
+
+### C 语言解答
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义哈希表的结构
+#define MAX_SIZE 10000
+typedef struct {
+    int key; // 数值
+    int value; // 数值对应的索引
+} HashNode;
+
+typedef struct {
+    HashNode table[MAX_SIZE]; // 哈希表
+    int size; // 哈希表当前存储的元素数量
+} HashMap;
+
+// 哈希函数
+int hash(int key) {
+    return abs(key) % MAX_SIZE;
+}
+
+// 初始化哈希表
+void initHashMap(HashMap* map) {
+    map->size = 0;
+}
+
+// 在哈希表中查找一个键，返回其对应的值，如果没有找到返回 -1
+int get(HashMap* map, int key) {
+    int index = hash(key);
+    // 线性探测查找
+    for (int i = 0; i < map->size; i++) {
+        if (map->table[i].key == key) {
+            return map->table[i].value;
+        }
+    }
+    return -1;
+}
+
+// 将键值对插入哈希表
+void put(HashMap* map, int key, int value) {
+    int index = hash(key);
+    // 如果哈希表已满，则需要重新扩容（但此处不考虑扩容）
+    map->table[map->size].key = key;
+    map->table[map->size].value = value;
+    map->size++;
+}
+
+// Two Sum 函数
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    HashMap map;
+    initHashMap(&map);
+    int* result = (int*)malloc(2 * sizeof(int));  // 存储结果的数组
+    *returnSize = 2;  // 结果数组的大小是 2
+
+    for (int i = 0; i < numsSize; i++) {
+        int complement = target - nums[i];  // 计算差值
+        int index = get(&map, complement);  // 查找差值是否存在
+        if (index != -1) {  // 如果找到，返回结果
+            result[0] = index;
+            result[1] = i;
+            return result;
+        }
+        put(&map, nums[i], i);  // 否则将当前元素及其索引加入哈希表
+    }
+
+    return result;  // 不会到达这里，因为题目保证有解
+}
+
+int main() {
+    int nums[] = {2, 7, 11, 15};
+    int target = 9;
+    int returnSize;
+    int* result = twoSum(nums, 4, target, &returnSize);
+
+    printf("Indices: [%d, %d]\n", result[0], result[1]);
+    free(result);  // 释放内存
+
+    return 0;
+}
+```
+
+---
+
+### C++ 语言解答
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // 创建哈希表来存储已经访问过的元素及其索引
+        unordered_map<int, int> map;
+        
+        // 遍历 nums 数组
+        for (int i = 0; i < nums.size(); ++i) {
+            int complement = target - nums[i];  // 计算差值
+            // 如果差值存在于哈希表中，说明找到了两个数
+            if (map.find(complement) != map.end()) {
+                return {map[complement], i};  // 返回结果
+            }
+            // 否则，将当前数值和其索引存入哈希表
+            map[nums[i]] = i;
+        }
+        // 如果没有解，返回空数组（但题目保证有解）
+        return {};
+    }
+};
+
+int main() {
+    Solution solution;
+    vector<int> nums = {2, 7, 11, 15};
+    int target = 9;
+    vector<int> result = solution.twoSum(nums, target);
+
+    cout << "Indices: [" << result[0] << ", " << result[1] << "]" << endl;
+    return 0;
+}
+```
+
+### 解释
+1. **C 语言版本**:
+   - 使用哈希表存储每个数字的值和其对应的索引，通过线性探测方式解决哈希冲突问题。
+   - `twoSum` 函数遍历数组，计算每个元素的补数并查找是否存在于哈希表中。
+
+2. **C++ 语言版本**:
+   - 使用 `unordered_map` 作为哈希表容器，简化了代码。
+   - `twoSum` 函数的实现与 C 语言类似，利用哈希表快速查找补数。
+
+两种语言的解法思路相同，时间复杂度均为 O(n)，空间复杂度为 O(n)，其中 `n` 是数组长度。

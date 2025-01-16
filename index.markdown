@@ -5,7 +5,10 @@ title: Home
 
 <link rel="stylesheet" href="{{ '/assets/custom.css' | relative_url }}">
 
-
+<div>
+    <h2><a href="{{ site.baseurl }}/leetcode">LeetCode算法</a></h2>
+    
+</div>
 
 <div class="container">
     <div>
@@ -57,18 +60,6 @@ title: Home
         </ul>
     </div>
     <div>
-        <h2>算法</h2>
-        <ul class="arithmetic-list multi-column">
-            {% for post in site.posts reversed %}
-                {% if post.categories contains 'arithmetic' %}
-                    <li>
-                        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
         <h2>嵌入式Q&A</h2>
         <ul class="arithmetic-list multi-column">
             {% for post in site.posts reversed %}
@@ -105,7 +96,6 @@ title: Home
         </ul>
     </div>
 </div>
-
 
 ---
 

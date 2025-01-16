@@ -1,0 +1,216 @@
+---
+layout: post
+title:  "112. 路径总和"
+categories: arithmetic
+---
+
+[112. 路径总和](https://leetcode.cn/problems/path-sum)
+
+### 题目描述
+
+给定一个二叉树和一个目标和，判断该树中是否存在一条从根节点到叶子节点的路径，使得路径上的节点值之和等于目标和。
+
+**叶子节点** 是指没有子节点的节点。
+
+### 示例
+
+#### 示例 1:
+
+```
+输入: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], sum = 22
+输出: true
+```
+
+#### 示例 2:
+
+```
+输入: root = [1,2,3], sum = 5
+输出: false
+```
+
+#### 示例 3:
+
+```
+输入: root = [], sum = 0
+输出: false
+```
+
+### 提示
+
+- 树中的节点数目范围是 `[0, 5000]`。
+- `-1000 <= Node.val <= 1000`
+- `-1000 <= sum <= 1000`
+
+### 解题思路
+
+这个问题要求判断一条从根到叶子的路径的节点值之和是否等于给定的目标和。我们可以使用**深度优先搜索（DFS）**来解决这个问题。
+
+1. **递归遍历二叉树**：
+   - 从根节点开始，递归地遍历树的每一条路径。
+   - 对于每个节点，我们减去节点的值，将剩余的目标和传递给子节点。
+   - 如果我们到达一个叶子节点，并且当前目标和为 `0`，说明找到了符合条件的路径，返回 `true`。
+   - 如果遍历结束后没有找到符合条件的路径，返回 `false`。
+
+2. **注意事项**：
+   - 当树为空时，应该返回 `false`。
+   - 当节点是叶子节点时，检查剩余的目标和是否为 `0`。
+   - 使用递归的方式，沿着树的每一条路径进行判断。
+
+### 时间和空间复杂度
+
+- **时间复杂度**：O(n)，其中 `n` 是树中的节点数。我们需要遍历每个节点一次。
+- **空间复杂度**：O(h)，其中 `h` 是树的高度，空间复杂度主要来自递归栈的深度。
+
+### C语言解答
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+// 定义二叉树节点结构
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+// 深度优先搜索（DFS）判断路径和
+bool hasPathSum(struct TreeNode* root, int sum) {
+    if (root == NULL) {
+        return false;  // 空树，没有路径
+    }
+
+    // 如果当前节点是叶子节点，检查目标和是否为当前节点的值
+    if (root->left == NULL && root->right == NULL) {
+        return sum == root->val;
+    }
+
+    // 递归检查左右子树，目标和减去当前节点的值
+    return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+}
+
+// 创建树节点
+struct TreeNode* createNode(int val) {
+    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    node->val = val;
+    node->left = node->right = NULL;
+    return node;
+}
+
+int main() {
+    // 创建一个二叉树: [5,4,8,11,null,13,4,7,2,null,null,null,1]
+    struct TreeNode* root = createNode(5);
+    root->left = createNode(4);
+    root->right = createNode(8);
+    root->left->left = createNode(11);
+    root->right->left = createNode(13);
+    root->right->right = createNode(4);
+    root->left->left->left = createNode(7);
+    root->left->left->right = createNode(2);
+    root->right->right->right = createNode(1);
+
+    int sum = 22;
+    
+    // 判断是否存在路径和为目标值
+    bool result = hasPathSum(root, sum);
+    printf("是否存在路径和为 %d: %s\n", sum, result ? "true" : "false");
+
+    return 0;
+}
+```
+
+### C++解答
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// 定义二叉树节点结构
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    // 深度优先搜索（DFS）判断路径和
+    bool hasPathSum(TreeNode* root, int sum) {
+        if (root == NULL) {
+            return false;  // 空树，没有路径
+        }
+
+        // 如果当前节点是叶子节点，检查目标和是否为当前节点的值
+        if (root->left == NULL && root->right == NULL) {
+            return sum == root->val;
+        }
+
+        // 递归检查左右子树，目标和减去当前节点的值
+        return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+    }
+};
+
+// 创建树节点
+TreeNode* createNode(int val) {
+    return new TreeNode(val);
+}
+
+int main() {
+    // 创建一个二叉树: [5,4,8,11,null,13,4,7,2,null,null,null,1]
+    TreeNode* root = createNode(5);
+    root->left = createNode(4);
+    root->right = createNode(8);
+    root->left->left = createNode(11);
+    root->right->left = createNode(13);
+    root->right->right = createNode(4);
+    root->left->left->left = createNode(7);
+    root->left->left->right = createNode(2);
+    root->right->right->right = createNode(1);
+
+    int sum = 22;
+
+    Solution sol;
+    
+    // 判断是否存在路径和为目标值
+    bool result = sol.hasPathSum(root, sum);
+    cout << "是否存在路径和为 " << sum << ": " << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
+
+### 代码解释
+
+#### C语言版：
+1. **`hasPathSum` 函数**：
+   - 如果当前节点为空，返回 `false`，表示没有路径。
+   - 如果当前节点是叶子节点，检查当前节点的值是否等于目标和。如果相等，返回 `true`，否则返回 `false`。
+   - 否则，递归检查左右子树是否存在路径和为目标值，目标和减去当前节点的值。
+
+2. **`createNode` 函数**：创建一个新的树节点并返回。
+
+3. **`main` 函数**：创建一个二叉树并调用 `hasPathSum` 函数判断是否存在路径和为目标值。
+
+#### C++版：
+1. **`hasPathSum` 函数**：与 C 语言版类似，递归判断树是否有路径和为目标值。
+2. **`createNode` 函数**：创建新的树节点。
+3. **`main` 函数**：创建树并调用 `hasPathSum` 判断路径和。
+
+### 测试输出
+
+对于示例输入 `root = [5,4,8,11,null,13,4,7,2,null,null,null,1]` 和 `sum = 22`，输出：
+```
+是否存在路径和为 22: true
+```
+
+对于示例输入 `root = [1,2,3]` 和 `sum = 5`，输出：
+```
+是否存在路径和为 5: false
+```
+
+对于示例输入 `root = []` 和 `sum = 0`，输出：
+```
+是否存在路径和为 0: false
+```

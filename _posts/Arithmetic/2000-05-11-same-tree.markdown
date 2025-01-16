@@ -1,0 +1,217 @@
+---
+layout: post
+title:  "100. 相同的树"
+categories: arithmetic
+---
+
+[100. 相同的树](https://leetcode.cn/problems/same-tree)
+
+### 题目描述
+
+给定两个二叉树，编写一个函数来检查它们是否相同。
+
+如果两个二叉树在结构上相同，并且节点的值也相同，则认为它们是相同的。
+
+### 示例
+
+#### 示例 1:
+```
+输入：
+    1          1
+   / \        / \
+  2   3      2   3
+输出：true
+```
+
+#### 示例 2:
+```
+输入：
+    1          1
+   /           \
+  2             2
+输出：false
+解释：树1和树2的结构不同。
+```
+
+#### 示例 3:
+```
+输入：
+    1          1
+   / \        / \
+  2   1      1   2
+输出：false
+解释：树1和树2的值不同。
+```
+
+### 提示
+- 两棵树的节点数目范围是 `[0, 100]`。
+- `-10^4 <= Node.val <= 10^4`
+
+### 解题思路
+
+本题要求判断两棵二叉树是否相同。判断两棵树相同主要有两个条件：
+1. 结构相同：两棵树的结构必须完全一致，即每个节点的左右子树结构应该相同。
+2. 节点值相同：两棵树的节点值应该一一对应。
+
+#### 思路
+1. **递归判断**：
+   - 如果两棵树的根节点为空，那么它们是相同的。
+   - 如果两棵树的根节点不为空，但它们的节点值不同，或者一棵树为空而另一棵树不为空，那么它们是不相同的。
+   - 否则，递归地检查两棵树的左子树和右子树是否相同。
+
+2. **递归的终止条件**：
+   - 如果两个树的根节点都为空，返回 `true`。
+   - 如果一个树为空，另一个树不为空，返回 `false`。
+   - 如果两个树的根节点值不同，返回 `false`。
+   - 如果两个树的根节点值相同，继续递归检查它们的左子树和右子树。
+
+3. **时间复杂度**：
+   - 最坏情况下需要遍历两棵树的所有节点，所以时间复杂度为 O(n)，其中 n 是树的节点数。
+
+4. **空间复杂度**：
+   - 由于使用了递归，空间复杂度为 O(h)，其中 h 是树的高度。在最坏情况下，树是链状的，空间复杂度为 O(n)。
+
+### C语言实现
+
+```c
+#include <stdio.h>
+#include <stdbool.h>
+
+// 定义二叉树节点结构
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+};
+
+// 判断两棵树是否相同的辅助函数
+bool isSameTree(struct TreeNode* p, struct TreeNode* q) {
+    // 如果两个节点都为空，返回true
+    if (p == NULL && q == NULL) {
+        return true;
+    }
+    // 如果一个为空，一个不为空，返回false
+    if (p == NULL || q == NULL) {
+        return false;
+    }
+    // 如果当前节点的值不同，返回false
+    if (p->val != q->val) {
+        return false;
+    }
+    // 递归检查左子树和右子树
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+}
+
+int main() {
+    // 创建一个简单的二叉树
+    struct TreeNode root1 = {1, NULL, NULL};
+    struct TreeNode left1 = {2, NULL, NULL};
+    struct TreeNode right1 = {3, NULL, NULL};
+    root1.left = &left1;
+    root1.right = &right1;
+
+    struct TreeNode root2 = {1, NULL, NULL};
+    struct TreeNode left2 = {2, NULL, NULL};
+    struct TreeNode right2 = {3, NULL, NULL};
+    root2.left = &left2;
+    root2.right = &right2;
+
+    // 判断两棵树是否相同
+    if (isSameTree(&root1, &root2)) {
+        printf("True\n");
+    } else {
+        printf("False\n");
+    }
+
+    return 0;
+}
+```
+
+### C++实现
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// 定义二叉树节点结构
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    // 判断两棵树是否相同的辅助函数
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        // 如果两个节点都为空，返回true
+        if (p == NULL && q == NULL) {
+            return true;
+        }
+        // 如果一个为空，一个不为空，返回false
+        if (p == NULL || q == NULL) {
+            return false;
+        }
+        // 如果当前节点的值不同，返回false
+        if (p->val != q->val) {
+            return false;
+        }
+        // 递归检查左子树和右子树
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    }
+};
+
+int main() {
+    Solution sol;
+
+    // 创建一个简单的二叉树
+    TreeNode* root1 = new TreeNode(1);
+    TreeNode* left1 = new TreeNode(2);
+    TreeNode* right1 = new TreeNode(3);
+    root1->left = left1;
+    root1->right = right1;
+
+    TreeNode* root2 = new TreeNode(1);
+    TreeNode* left2 = new TreeNode(2);
+    TreeNode* right2 = new TreeNode(3);
+    root2->left = left2;
+    root2->right = right2;
+
+    // 判断两棵树是否相同
+    if (sol.isSameTree(root1, root2)) {
+        cout << "True" << endl;
+    } else {
+        cout << "False" << endl;
+    }
+
+    // 释放内存
+    delete root1;
+    delete left1;
+    delete right1;
+    delete root2;
+    delete left2;
+    delete right2;
+
+    return 0;
+}
+```
+
+### 代码说明
+
+#### C语言版本
+
+- **结构体 `TreeNode`**：定义二叉树节点，包含一个整型值 `val` 和指向左右子节点的指针。
+- **`isSameTree` 函数**：该函数递归地判断两棵树是否相同。如果两棵树的根节点相同，且它们的左子树和右子树也相同，则返回 `true`，否则返回 `false`。
+- **`main` 函数**：在主函数中，我们创建了两个相同的二叉树，并调用 `isSameTree` 判断它们是否相同。
+
+#### C++版本
+
+- **`TreeNode` 类**：定义了一个二叉树节点类，包含节点值 `val`，以及指向左、右子树的指针。
+- **`isSameTree` 方法**：与 C 语言版本相同，使用递归判断两棵树是否相同。
+- **`main` 函数**：在主函数中，我们创建了两个相同的二叉树，使用 `Solution` 类的 `isSameTree` 方法判断它们是否相同，并打印结果。
+
+### 时间和空间复杂度
+
+- **时间复杂度**：O(n)，其中 n 是树的节点数。我们需要遍历每个节点一次，进行比较。
+- **空间复杂度**：O(h)，其中 h 是树的高度。递归调用栈的深度取决于树的高度，在最坏情况下，树是链状的，空间复杂度为 O(n)。

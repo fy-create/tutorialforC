@@ -1,0 +1,220 @@
+---
+layout: post
+title:  "120. 三角形最小路径和"
+categories: arithmetic
+---
+
+[120. 三角形最小路径和](https://leetcode.cn/problems/triangle)
+
+### 题目描述
+
+给定一个 **三角形**，例如：
+```
+     [2]
+    [3,4]
+   [6,5,7]
+  [4,1,8,3]
+```
+
+请计算从顶到底的 **最小路径和**。每一步只能移动到下一行中相邻的数字。
+
+例如，从顶部开始，我们选择：
+- 2 -> 3 -> 5 -> 1，总路径和为 11。
+
+**说明**:
+- 进入每个数字所在位置时，都只能从其上方相邻的两个数字中的一个移动过来。
+- 每个数字只会向下一行的相邻数字移动。
+  
+要求返回从顶部到底部的最小路径和。
+
+### 示例：
+
+#### 示例 1：
+```
+输入：triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]
+输出：11
+解释：最小路径和是 11（即：2 + 3 + 5 + 1 = 11）。
+```
+
+#### 示例 2：
+```
+输入：triangle = [[-1],[2,3],[1,-1,-3]]
+输出：-1
+解释：最小路径和是 -1（即：-1 + 2 + -3 = -1）。
+```
+
+### 提示：
+- `1 <= triangle.length <= 200`
+- `triangle[i].length == i + 1`
+- `-1000 <= triangle[i][j] <= 1000`
+
+---
+
+### 解题思路
+
+此题是典型的动态规划问题，目标是从底到顶更新每个位置的最小路径和。我们可以从最后一行开始，逐步向上更新每一行的最小路径和。
+
+#### 动态规划步骤：
+
+1. **定义状态**：  
+   设 `dp[i][j]` 表示到达 `triangle[i][j]` 位置的最小路径和。
+
+2. **状态转移方程**：  
+   对于三角形中的每个位置 `triangle[i][j]`，我们可以从 `triangle[i+1][j]` 或 `triangle[i+1][j+1]` 处到达。  
+   因此，`dp[i][j]` 的值可以通过以下公式计算：
+   \[
+   dp[i][j] = triangle[i][j] + \min(dp[i+1][j], dp[i+1][j+1])
+   \]
+
+3. **优化空间**：  
+   我们不需要存储整个 `dp` 数组，只需要一个一维数组来存储当前的最小路径和，因为每次我们只需要上一行的数据来计算当前行。
+
+4. **初始化**：
+   从最后一行开始初始化 `dp` 数组的值为最后一行的元素，然后逐行向上更新，直到第一行。
+
+5. **最终答案**：
+   最终，`dp[0]` 即为从顶部到底部的最小路径和。
+
+#### 时间复杂度：
+- 时间复杂度为 O(n)，其中 n 为三角形的元素总数。
+
+#### 空间复杂度：
+- 空间复杂度为 O(n)，我们仅使用一个一维数组。
+
+---
+
+### C语言解答
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+// 函数：计算三角形的最小路径和
+int minimumTotal(int** triangle, int triangleSize, int* triangleColSize) {
+    // 如果三角形没有元素，返回0
+    if (triangleSize == 0) return 0;
+    
+    // 动态规划数组，大小为三角形的最后一行
+    int* dp = (int*)malloc(triangleSize * sizeof(int));
+
+    // 初始化 dp 数组为最后一行的元素
+    for (int i = 0; i < triangleColSize[triangleSize - 1]; i++) {
+        dp[i] = triangle[triangleSize - 1][i];
+    }
+
+    // 从倒数第二行开始，逐行更新 dp 数组
+    for (int i = triangleSize - 2; i >= 0; i--) {
+        // 更新当前行的 dp 值
+        for (int j = 0; j < triangleColSize[i]; j++) {
+            dp[j] = triangle[i][j] + fmin(dp[j], dp[j + 1]);
+        }
+    }
+
+    // 最终结果为 dp[0]，即从顶部到底部的最小路径和
+    int result = dp[0];
+
+    // 释放 dp 数组内存
+    free(dp);
+
+    return result;
+}
+
+// 主函数
+int main() {
+    // 测试案例
+    int triangle[4][4] = { {2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}};
+    int* trianglePtr[4];
+    int triangleColSize[4] = {1, 2, 3, 4};
+
+    // 将二维数组转换为指针数组
+    for (int i = 0; i < 4; i++) {
+        trianglePtr[i] = triangle[i];
+    }
+
+    // 计算最小路径和
+    int result = minimumTotal(trianglePtr, 4, triangleColSize);
+    printf("最小路径和是: %d\n", result);
+
+    return 0;
+}
+```
+
+### C++ 解答
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int n = triangle.size();
+        
+        // 从最后一行开始，初始化 dp 数组为最后一行的元素
+        vector<int> dp = triangle[n - 1];
+        
+        // 从倒数第二行开始，逐行更新 dp 数组
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                // 当前行的最小路径和为 triangle[i][j] + min(dp[j], dp[j + 1])
+                dp[j] = triangle[i][j] + min(dp[j], dp[j + 1]);
+            }
+        }
+
+        // 最终结果为 dp[0]，即从顶部到底部的最小路径和
+        return dp[0];
+    }
+};
+
+int main() {
+    Solution solution;
+    vector<vector<int>> triangle = { {2}, {3, 4}, {6, 5, 7}, {4, 1, 8, 3}};
+    
+    // 计算并输出最小路径和
+    cout << "最小路径和是: " << solution.minimumTotal(triangle) << endl;
+    
+    return 0;
+}
+```
+
+### 代码解释
+
+#### C语言版：
+1. **`minimumTotal` 函数**：
+   - `dp` 数组存储当前行的最小路径和。
+   - 从最后一行开始，逐行向上更新 `dp` 数组。
+   - 使用 `fmin` 函数来计算当前元素的最小路径和。
+
+2. **`main` 函数**：
+   - 构造一个二维数组 `triangle` 来表示三角形数据。
+   - 调用 `minimumTotal` 函数，输出最小路径和。
+
+3. **内存管理**：
+   - 使用 `malloc` 为 `dp` 数组分配内存，并在结束时 `free` 释放内存。
+
+#### C++版：
+1. **`minimumTotal` 函数**：
+   - 使用 `vector<int>` 来存储当前行的最小路径和。
+   - 从最后一行开始，逐行向上更新 `dp` 数组。
+
+2. **`main` 函数**：
+   - 创建一个 `Solution` 类对象，调用 `minimumTotal` 计算最小路径和，并输出结果。
+
+### 输出示例
+
+对于输入：
+```
+[[2],[3,4],[6,5,7],[4,1,8,3]]
+```
+输出：
+```
+最小路径和是: 11
+```
+
+### 总结
+- 通过动态规划，从底部逐行更新最小路径和。
+- 空间优化：只使用一个一维数组存储当前行的最小路径和。
+- 时间复杂度为 O(n)，其中 n 为三角形的元素总数。

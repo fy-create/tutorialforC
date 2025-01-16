@@ -1,0 +1,521 @@
+---
+layout: post
+title:  "146. LRU 缓存"
+categories: arithmetic
+---
+
+[146. LRU 缓存](https://leetcode.cn/problems/lru-cache)
+
+### 题目描述
+
+**LRU 缓存机制**
+
+运用你所掌握的数据结构，设计和实现一个 **LRU (最近最少使用)** 缓存机制。它应该支持以下操作：`get` 和 `put`。
+
+- `get(key)` - 如果关键字 `key` 存在于缓存中，则返回关键字的值（总是正数），否则返回 `-1`。
+- `put(key, value)` - 如果关键字 `key` 已经存在，则变更其数据值 `value`；如果关键字 `key` 不存在，则插入该组 `key-value`。当缓存容量达到上限时，它应该在写入新数据之前删除最久未使用的数据值，从而为新的数据值留出空间。
+
+**进阶:**
+
+你是否可以在 `O(1)` 时间复杂度内完成这两种操作？
+
+**示例:**
+
+```
+输入
+["LRUCache","put","put","get","put","get","put","get","get","get"]
+[[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]
+
+输出
+[null,null,null,1,null,-1,null,-1,3,4]
+
+解释
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // 缓存是 {1=1}
+lRUCache.put(2, 2); // 缓存是 {1=1, 2=2}
+lRUCache.get(1);    // 返回 1
+lRUCache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+lRUCache.get(2);    // 返回 -1 (未找到)
+lRUCache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {4=4, 3=3}
+lRUCache.get(1);    // 返回 -1 (未找到)
+lRUCache.get(3);    // 返回 3
+lRUCache.get(4);    // 返回 4
+```
+
+**提示:**
+
+- `1 <= capacity <= 3000`
+- `0 <= key <= 10^4`
+- `0 <= value <= 10^5`
+- 最多调用 `3 * 10^4` 次 `get` 和 `put`
+
+### 解题思路
+
+要实现一个 **LRU (最近最少使用)** 缓存机制，并且保证 `get` 和 `put` 操作的时间复杂度都是 **O(1)**，我们需要结合 **哈希表** 和 **双向链表** 两种数据结构。
+
+**核心思路：**
+
+1. **哈希表（Hash Table）：**
+   - 用于存储键（key）到节点（Node）的映射，以实现快速的查找操作。
+   - 这样在 `get` 操作时，可以在 **O(1)** 时间内定位到对应的节点。
+
+2. **双向链表（Doubly Linked List）：**
+   - 用于维护缓存的使用顺序。
+   - 最近使用的节点放在链表的头部，最久未使用的节点放在尾部。
+   - 当进行 `get` 或 `put` 操作时，相关节点需要被移动到链表的头部。
+   - 当缓存容量满时，删除尾部节点以腾出空间。
+
+**具体步骤：**
+
+- **初始化：**
+  - 创建一个哈希表，用于存储键到节点的映射。
+  - 创建一个双向链表，并设置虚拟的头部和尾部节点，以简化插入和删除操作。
+
+- **`get(key)` 操作：**
+  1. 检查哈希表中是否存在键 `key`。
+  2. 如果不存在，返回 `-1`。
+  3. 如果存在，获取对应的节点。
+  4. 将该节点移动到链表的头部，表示最近使用。
+  5. 返回节点的值。
+
+- **`put(key, value)` 操作：**
+  1. 检查哈希表中是否存在键 `key`。
+  2. 如果存在：
+     - 更新节点的值。
+     - 将该节点移动到链表的头部。
+  3. 如果不存在：
+     - 创建一个新的节点。
+     - 将该节点插入到链表的头部。
+     - 将键和节点的映射加入哈希表。
+     - 检查缓存是否超过容量：
+       - 如果超过，删除链表尾部的节点。
+       - 同时，从哈希表中移除对应的键。
+
+**时间复杂度分析：**
+
+- **`get` 操作：** **O(1)**
+  - 哈希表查找为 **O(1)**。
+  - 双向链表的插入和删除操作为 **O(1)**。
+
+- **`put` 操作：** **O(1)**
+  - 哈希表查找和插入为 **O(1)**。
+  - 双向链表的插入和删除操作为 **O(1)**。
+
+通过结合哈希表和双向链表，我们能够有效地实现 **LRU 缓存机制**，并满足 **O(1)** 的时间复杂度要求。
+
+### C语言解答
+
+由于C语言不具备内建的哈希表和双向链表，我们需要手动实现这些数据结构。以下是一个基于哈希表和双向链表的 **LRU Cache** 实现，并附有详细注释。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义双向链表节点
+typedef struct DLinkedNode {
+    int key;
+    int value;
+    struct DLinkedNode* prev;
+    struct DLinkedNode* next;
+} DLinkedNode;
+
+// 定义哈希表节点
+typedef struct HashNode {
+    int key;
+    DLinkedNode* node;
+    struct HashNode* next;
+} HashNode;
+
+// 定义哈希表
+typedef struct {
+    int size;
+    HashNode** table;
+} HashTable;
+
+// 定义 LRU 缓存结构体
+typedef struct {
+    int capacity;
+    int count;
+    HashTable* hashTable;
+    DLinkedNode* head;
+    DLinkedNode* tail;
+} LRUCache;
+
+// 创建双向链表节点
+DLinkedNode* createDLinkedNode(int key, int value) {
+    DLinkedNode* node = (DLinkedNode*)malloc(sizeof(DLinkedNode));
+    node->key = key;
+    node->value = value;
+    node->prev = NULL;
+    node->next = NULL;
+    return node;
+}
+
+// 创建哈希表
+HashTable* createHashTable(int size) {
+    HashTable* hashTable = (HashTable*)malloc(sizeof(HashTable));
+    hashTable->size = size;
+    hashTable->table = (HashNode**)calloc(size, sizeof(HashNode*));
+    return hashTable;
+}
+
+// 简单的哈希函数
+int hashFunction(HashTable* hashTable, int key) {
+    return key % hashTable->size;
+}
+
+// 在哈希表中查找节点
+DLinkedNode* hashGet(HashTable* hashTable, int key) {
+    int hash = hashFunction(hashTable, key);
+    HashNode* current = hashTable->table[hash];
+    while (current) {
+        if (current->key == key) {
+            return current->node;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+// 在哈希表中插入节点
+void hashPut(HashTable* hashTable, int key, DLinkedNode* node) {
+    int hash = hashFunction(hashTable, key);
+    HashNode* newHashNode = (HashNode*)malloc(sizeof(HashNode));
+    newHashNode->key = key;
+    newHashNode->node = node;
+    newHashNode->next = hashTable->table[hash];
+    hashTable->table[hash] = newHashNode;
+}
+
+// 在哈希表中删除节点
+void hashRemove(HashTable* hashTable, int key) {
+    int hash = hashFunction(hashTable, key);
+    HashNode* current = hashTable->table[hash];
+    HashNode* prev = NULL;
+    while (current) {
+        if (current->key == key) {
+            if (prev == NULL) {
+                hashTable->table[hash] = current->next;
+            } else {
+                prev->next = current->next;
+            }
+            free(current);
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+// 初始化 LRU 缓存
+LRUCache* lRUCacheCreate(int capacity) {
+    LRUCache* cache = (LRUCache*)malloc(sizeof(LRUCache));
+    cache->capacity = capacity;
+    cache->count = 0;
+    cache->hashTable = createHashTable(capacity * 2); // 哈希表大小为容量的两倍
+
+    // 创建虚拟头部和尾部节点
+    cache->head = createDLinkedNode(0, 0);
+    cache->tail = createDLinkedNode(0, 0);
+    cache->head->next = cache->tail;
+    cache->tail->prev = cache->head;
+
+    return cache;
+}
+
+// 添加节点到头部
+void addToHead(LRUCache* cache, DLinkedNode* node) {
+    node->prev = cache->head;
+    node->next = cache->head->next;
+    cache->head->next->prev = node;
+    cache->head->next = node;
+}
+
+// Remove node from the list
+void removeNode(LRUCache* cache, DLinkedNode* node) {
+    node->prev->next = node->next;
+    node->next->prev = node->prev;
+}
+
+// 移动节点到头部
+void moveToHead(LRUCache* cache, DLinkedNode* node) {
+    removeNode(cache, node);
+    addToHead(cache, node);
+}
+
+// 移除尾部节点
+DLinkedNode* removeTail(LRUCache* cache) {
+    DLinkedNode* node = cache->tail->prev;
+    removeNode(cache, node);
+    return node;
+}
+
+// 获取值
+int lRUCacheGet(LRUCache* cache, int key) {
+    DLinkedNode* node = hashGet(cache->hashTable, key);
+    if (node == NULL) {
+        return -1;
+    }
+    // 移动到头部
+    moveToHead(cache, node);
+    return node->value;
+}
+
+// 放入值
+void lRUCachePut(LRUCache* cache, int key, int value) {
+    DLinkedNode* node = hashGet(cache->hashTable, key);
+    if (node == NULL) {
+        // 创建新节点
+        DLinkedNode* newNode = createDLinkedNode(key, value);
+        // 添加到头部
+        addToHead(cache, newNode);
+        // 插入到哈希表
+        hashPut(cache->hashTable, key, newNode);
+        cache->count++;
+
+        if (cache->count > cache->capacity) {
+            // 移除尾部节点
+            DLinkedNode* tail = removeTail(cache);
+            // 从哈希表中移除
+            hashRemove(cache->hashTable, tail->key);
+            // 释放内存
+            free(tail);
+            cache->count--;
+        }
+    } else {
+        // 更新值
+        node->value = value;
+        // 移动到头部
+        moveToHead(cache, node);
+    }
+}
+
+// 释放哈希表
+void freeHashTable(HashTable* hashTable) {
+    for (int i = 0; i < hashTable->size; i++) {
+        HashNode* current = hashTable->table[i];
+        while (current) {
+            HashNode* temp = current;
+            current = current->next;
+            free(temp);
+        }
+    }
+    free(hashTable->table);
+    free(hashTable);
+}
+
+// 释放 LRU 缓存
+void lRUCacheFree(LRUCache* cache) {
+    // 释放所有节点
+    DLinkedNode* current = cache->head;
+    while (current) {
+        DLinkedNode* temp = current;
+        current = current->next;
+        free(temp);
+    }
+    // 释放哈希表
+    freeHashTable(cache->hashTable);
+    // 释放缓存结构体
+    free(cache);
+}
+
+// 简单的主函数测试
+int main(){
+    // 创建一个容量为2的LRU缓存
+    LRUCache* cache = lRUCacheCreate(2);
+    
+    // 操作序列
+    lRUCachePut(cache, 1, 1); // 缓存是 {1=1}
+    lRUCachePut(cache, 2, 2); // 缓存是 {1=1, 2=2}
+    printf("get(1) = %d\n", lRUCacheGet(cache, 1));    // 返回 1，缓存变为 {2=2, 1=1}
+    lRUCachePut(cache, 3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+    printf("get(2) = %d\n", lRUCacheGet(cache, 2));    // 返回 -1 (未找到)
+    lRUCachePut(cache, 4, 4); // 该操作会使得关键字 1 作废，缓存是 {3=3, 4=4}
+    printf("get(1) = %d\n", lRUCacheGet(cache, 1));    // 返回 -1 (未找到)
+    printf("get(3) = %d\n", lRUCacheGet(cache, 3));    // 返回 3
+    printf("get(4) = %d\n", lRUCacheGet(cache, 4));    // 返回 4
+    
+    // 释放缓存内存
+    lRUCacheFree(cache);
+    
+    return 0;
+}
+```
+
+**代码说明：**
+
+1. **数据结构设计：**
+   - **双向链表节点 (`DLinkedNode`)：** 包含键 (`key`)、值 (`value`)、前驱指针 (`prev`) 和后继指针 (`next`)。
+   - **哈希表节点 (`HashNode`)：** 包含键 (`key`)、指向对应双向链表节点的指针 (`node`) 和下一个哈希表节点的指针 (`next`)。
+   - **哈希表 (`HashTable`)：** 包含表的大小和一个指向哈希表数组的指针。
+   - **LRU 缓存结构体 (`LRUCache`)：** 包含缓存的容量、当前数量、哈希表指针以及双向链表的虚拟头部和尾部节点。
+
+2. **哈希表操作：**
+   - **`hashFunction`：** 简单的模哈希函数，根据键值计算哈希表中的索引。
+   - **`hashGet`：** 在哈希表中查找键对应的双向链表节点。
+   - **`hashPut`：** 将键和双向链表节点插入哈希表。
+   - **`hashRemove`：** 从哈希表中删除指定键的节点。
+
+3. **双向链表操作：**
+   - **`addToHead`：** 将节点添加到双向链表的头部。
+   - **`removeNode`：** 从双向链表中移除指定节点。
+   - **`moveToHead`：** 将节点移动到双向链表的头部。
+   - **`removeTail`：** 移除双向链表的尾部节点，并返回该节点。
+
+4. **LRU 缓存操作：**
+   - **`lRUCacheCreate`：** 初始化 LRU 缓存，创建虚拟头部和尾部节点，并初始化哈希表。
+   - **`lRUCacheGet`：** 获取键对应的值，如果存在则将节点移动到头部，否则返回 `-1`。
+   - **`lRUCachePut`：** 插入或更新键值对，如果缓存容量已满，则移除尾部节点。
+   - **`lRUCacheFree`：** 释放缓存的所有内存，包括双向链表和哈希表。
+
+5. **主函数测试：**
+   - 创建一个容量为2的 LRU 缓存。
+   - 执行一系列 `put` 和 `get` 操作，验证缓存的行为是否符合预期。
+   - 输出结果应与示例中的预期结果一致。
+
+**输出结果：**
+
+```
+get(1) = 1
+get(2) = -1
+get(1) = -1
+get(3) = 3
+get(4) = 4
+```
+
+### C++ 解答
+
+C++ 提供了丰富的标准库容器，如 `unordered_map` 和 `list`，可以简化哈希表和双向链表的实现。以下是使用 STL 容器实现的 **LRU Cache**，并附有详细注释。
+
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <list>
+using namespace std;
+
+// 定义 LRUCache 类
+class LRUCache {
+private:
+    int capacity; // 缓存容量
+    list<pair<int, int>> cacheList; // 双向链表，存储键值对
+    unordered_map<int, list<pair<int, int>>::iterator> cacheMap; // 哈希表，键到链表节点的映射
+
+public:
+    // 构造函数，初始化缓存容量
+    LRUCache(int capacity_) : capacity(capacity_) {}
+    
+    // 获取值
+    int get(int key) {
+        auto it = cacheMap.find(key);
+        if (it == cacheMap.end()) {
+            return -1; // 未找到
+        }
+        // 将该节点移动到链表头部，表示最近使用
+        cacheList.splice(cacheList.begin(), cacheList, it->second);
+        return it->second->second; // 返回值
+    }
+    
+    // 放入值
+    void put(int key, int value) {
+        auto it = cacheMap.find(key);
+        if (it != cacheMap.end()) {
+            // 更新值，并将节点移动到头部
+            it->second->second = value;
+            cacheList.splice(cacheList.begin(), cacheList, it->second);
+            return;
+        }
+        // 插入新的键值对到链表头部
+        cacheList.emplace_front(key, value);
+        cacheMap[key] = cacheList.begin();
+        // 如果超过容量，移除尾部节点
+        if (cacheMap.size() > capacity) {
+            int removedKey = cacheList.back().first;
+            cacheList.pop_back();
+            cacheMap.erase(removedKey);
+        }
+    }
+};
+
+// 简单的主函数测试
+int main(){
+    // 创建一个容量为2的LRU缓存
+    Solution cache(2);
+    
+    // 操作序列
+    cache.put(1, 1); // 缓存是 {1=1}
+    cache.put(2, 2); // 缓存是 {1=1, 2=2}
+    cout << "get(1) = " << cache.get(1) << endl;    // 返回 1，缓存变为 {2=2, 1=1}
+    cache.put(3, 3); // 该操作会使得关键字 2 作废，缓存是 {1=1, 3=3}
+    cout << "get(2) = " << cache.get(2) << endl;    // 返回 -1 (未找到)
+    cache.put(4, 4); // 该操作会使得关键字 1 作废，缓存是 {3=3, 4=4}
+    cout << "get(1) = " << cache.get(1) << endl;    // 返回 -1 (未找到)
+    cout << "get(3) = " << cache.get(3) << endl;    // 返回 3
+    cout << "get(4) = " << cache.get(4) << endl;    // 返回 4
+    
+    return 0;
+}
+```
+
+**代码说明：**
+
+1. **数据结构设计：**
+   - **双向链表 (`list<pair<int, int>>`)：** 用于维护缓存的使用顺序。链表头部表示最近使用，尾部表示最久未使用。
+   - **哈希表 (`unordered_map<int, list<pair<int, int>>::iterator>`)：** 存储键到链表节点的映射，实现 **O(1)** 的查找和更新。
+
+2. **构造函数：**
+   - 初始化缓存容量，并准备好双向链表和哈希表。
+
+3. **`get` 操作：**
+   - 在哈希表中查找键 `key`。
+   - 如果未找到，返回 `-1`。
+   - 如果找到，将对应的节点移动到链表头部，表示最近使用。
+   - 返回节点的值。
+
+4. **`put` 操作：**
+   - 在哈希表中查找键 `key`。
+   - 如果存在，更新节点的值，并将节点移动到链表头部。
+   - 如果不存在，创建一个新的键值对并插入到链表头部，同时在哈希表中添加映射。
+   - 检查缓存是否超过容量：
+     - 如果超过，移除链表尾部的节点，并从哈希表中删除对应的键。
+
+5. **主函数测试：**
+   - 创建一个容量为2的 LRU 缓存。
+   - 执行一系列 `put` 和 `get` 操作，验证缓存的行为是否符合预期。
+   - 输出结果应与示例中的预期结果一致。
+
+**输出结果：**
+
+```
+get(1) = 1
+get(2) = -1
+get(1) = -1
+get(3) = 3
+get(4) = 4
+```
+
+### 总结
+
+通过结合 **哈希表** 和 **双向链表**，我们能够高效地实现 **LRU 缓存机制**，并满足 **O(1)** 时间复杂度的要求。
+
+- **哈希表：** 提供了快速的键到节点的映射，使得 `get` 和 `put` 操作能够在常数时间内完成。
+  
+- **双向链表：** 维护了缓存的使用顺序，使得我们能够快速地移动节点到头部（表示最近使用），以及移除尾部节点（表示最久未使用）。
+
+**关键点：**
+
+1. **双向链表的使用：**
+   - 允许我们在 **O(1)** 时间内进行节点的插入和删除操作。
+   - 虚拟的头部和尾部节点简化了边界条件的处理。
+
+2. **哈希表的使用：**
+   - 提供了快速的查找、插入和删除操作。
+   - 通过存储键到链表节点的迭代器，可以直接操作链表中的节点。
+
+3. **容量管理：**
+   - 在 `put` 操作中，当缓存容量超过限制时，及时移除最久未使用的节点，保持缓存的大小。
+
+4. **内存管理：**
+   - 在C语言实现中，需要手动管理内存的分配和释放，尤其是在哈希表和双向链表的操作中。
+   - 在C++实现中，利用 STL 容器自动管理内存，简化了代码复杂度。
+
+通过以上方法和设计，我们能够实现一个高效且符合 **LRU 缓存机制** 要求的解决方案。如果有进一步的问题或需要更多的解释，欢迎继续交流！

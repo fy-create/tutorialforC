@@ -6,103 +6,109 @@ categories: arithmetic
 
 [60. 排列序列](https://leetcode.cn/problems/permutation-sequence)
 
-## Permutation Sequence
+### 题目要求
 
-**题目描述：**
+**题目名称**: 排列序列
 
-给定数字 `n` 和 `k`，返回第 `k` 个排列。
+**题目描述**:  
+给定 `n` 和 `k`，返回第 `k` 个排列。请注意，`n` 的范围是 `[1, 9]`，`k` 的范围是 `[1, n!]`。
 
-**示例：**
+**输入**:  
+- 一个整数 `n`，表示数字的个数。
+- 一个整数 `k`，表示排列的序号（从 1 开始）。
 
-1. 输入: n = 3, k = 3
-   输出: "213"
+**输出**:  
+- 返回第 `k` 个排列的字符串。
 
-2. 输入: n = 4, k = 9
-   输出: "2314"
+**示例 1**:  
+输入：`n = 3, k = 3`  
+输出：`"213"`
 
-3. 输入: n = 3, k = 1
-   输出: "123"
+**示例 2**:  
+输入：`n = 4, k = 9`  
+输出：`"2314"`
 
-**提示：**
+**提示**:  
+- 1 <= n <= 9
+- 1 <= k <= n!
 
-- `1 <= n <= 9`
-- `1 <= k <= n!`
+### 解题思路
 
-## 解题思路：
+1. **排列的基本性质**:  
+   对于一个包含 `n` 个元素的排列，其排列总数是 `n!`（n的阶乘）。每个数字的选择会影响后续数字的排列。因此，可以利用这种递推关系来生成第 `k` 个排列。
 
-1. 将数字 `1` 到 `n` 组成一个数组 `numbers`，用于记录未使用的数字。
-2. 计算从 0 开始的第 `k` 个排列的索引 `k`（即 `k-1`）。
-3. 使用阶乘数组 `factorials` 来存储 0 到 `n-1` 的阶乘值。
-4. 初始化一个空的字符串 `result`，用于存储第 `k` 个排列。
-5. 遍历数字 `1` 到 `n`，在每一轮中确定当前数字的位置：
-   - 使用阶乘数组确定当前数字的位置索引。
-   - 将该数字添加到 `result` 中，并从 `numbers` 中移除该数字。
-   - 更新 `k` 的值。
-6. 返回 `result`，即第 `k` 个排列。
+2. **思路分析**:
+   - 假设我们已经确定了第 `i` 个位置的数字，剩下的位置继续按照相同的方式确定。
+   - 对于每一位数字：
+     - 每一个数字能生成的排列数为 `(n-1)!`。例如，如果 `n=4`，那么固定某一位后，剩下的 `3` 个数字的排列数是 `3! = 6`。所以，第一位的选择可以通过对 `k` 进行整除和取余来快速定位。
+     - 将 `k` 分成不同的区段。区间大小为 `(n-1)!`，即每选择一个数字就跳过相应的区间。
 
-## C 语言解答：
+3. **步骤**:
+   - 创建一个包含 `1` 到 `n` 的数字列表。
+   - 利用数学方法和区间划分来确定每一位的数字。
+   - 逐步缩小问题规模，直到所有数字都被确定。
+   
+4. **时间复杂度**:  
+   时间复杂度为 O(n)，因为每次确定一个数字，剩下的问题规模逐步减小。
+
+---
+
+### C 语言解答
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-// 计算阶乘
-void calculateFactorials(int* factorials, int n) {
-    factorials[0] = 1;
-    for (int i = 1; i < n; i++) {
-        factorials[i] = factorials[i - 1] * i;
+// 计算n的阶乘
+int factorial(int n) {
+    int result = 1;
+    for (int i = 1; i <= n; i++) {
+        result *= i;
     }
+    return result;
 }
 
-// 获取第 k 个排列
+// 返回第k个排列的字符串
 char* getPermutation(int n, int k) {
-    int* factorials = (int*)malloc(n * sizeof(int));
-    calculateFactorials(factorials, n);
-
-    int* numbers = (int*)malloc(n * sizeof(int));
+    // 创建一个数字数组 1 到 n
+    int* nums = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++) {
-        numbers[i] = i + 1;
+        nums[i] = i + 1;
     }
 
-    k--; // 将 k 调整为从 0 开始的索引
-    char* result = (char*)malloc((n + 1) * sizeof(char));
-    result[n] = '\0';
+    // 初始化k为从0开始的索引
+    k--;  
+    char* result = (char*)malloc(sizeof(char) * (n + 1));
+    result[n] = '\0';  // 结果字符串末尾加上 '\0'
 
+    // 计算每一位的数字
     for (int i = 0; i < n; i++) {
-        int index = k / factorials[n - 1 - i];
-        result[i] = numbers[index] + '0';
+        int fact = factorial(n - 1 - i);  // (n-1-i)! 即剩余数字的排列数
+        int index = k / fact;  // 当前选择的数字索引
+        result[i] = nums[index] + '0';  // 转为字符并添加到结果中
 
+        // 删除已经选择的数字
         for (int j = index; j < n - 1; j++) {
-            numbers[j] = numbers[j + 1];
+            nums[j] = nums[j + 1];
         }
-        k %= factorials[n - 1 - i];
+        
+        k %= fact;  // 更新k，指向剩余数字中应选择的位置
     }
 
-    free(factorials);
-    free(numbers);
-
+    free(nums);
     return result;
 }
 
 int main() {
-    int n = 4;
-    int k = 9;
-    char* permutation = getPermutation(n, k);
-    printf("The %d-th permutation of %d is: %s\n", k, n, permutation);
-    free(permutation);
+    int n = 3, k = 3;  // 示例输入
+    char* result = getPermutation(n, k);
+    printf("The %d-th permutation is: %s\n", k, result);
+    free(result);
     return 0;
 }
 ```
 
-**代码解析：**
-
-1. 使用 `calculateFactorials` 函数计算阶乘数组。
-2. 初始化 `numbers` 数组和 `result` 字符串。
-3. 在每一轮中确定当前数字的位置，并更新 `k` 的值。
-4. 返回结果字符串 `result`。
-
-## C++ 语言解答：
+### C++ 语言解答
 
 ```cpp
 #include <iostream>
@@ -113,29 +119,35 @@ using namespace std;
 
 class Solution {
 public:
+    // 计算n的阶乘
+    int factorial(int n) {
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    // 返回第k个排列的字符串
     string getPermutation(int n, int k) {
-        vector<int> factorials(n, 1);
-        vector<int> numbers;
-
-        // 计算阶乘数组
-        for (int i = 1; i < n; ++i) {
-            factorials[i] = factorials[i - 1] * i;
+        // 创建一个数字数组 1 到 n
+        vector<int> nums;
+        for (int i = 1; i <= n; i++) {
+            nums.push_back(i);
         }
 
-        // 初始化数字数组
-        for (int i = 1; i <= n; ++i) {
-            numbers.push_back(i);
-        }
+        k--;  // 将k调整为从0开始的索引
+        string result = "";
 
-        k--; // 将 k 调整为从 0 开始的索引
-        string result;
+        // 计算每一位的数字
+        for (int i = 0; i < n; i++) {
+            int fact = factorial(n - 1 - i);  // (n-1-i)! 即剩余数字的排列数
+            int index = k / fact;  // 当前选择的数字索引
+            result += to_string(nums[index]);  // 将数字转为字符并添加到结果中
 
-        // 确定每一位数字
-        for (int i = n; i > 0; --i) {
-            int index = k / factorials[i - 1];
-            result += to_string(numbers[index]);
-            numbers.erase(numbers.begin() + index);
-            k %= factorials[i - 1];
+            // 删除已经选择的数字
+            nums.erase(nums.begin() + index);
+            k %= fact;  // 更新k，指向剩余数字中应选择的位置
         }
 
         return result;
@@ -143,11 +155,25 @@ public:
 };
 
 int main() {
-    Solution sol;
-    int n = 4;
-    int k = 9;
-    string permutation = sol.getPermutation(n, k);
-    cout << "The " << k << "-th permutation of " << n << " is: " << permutation << endl;
+    Solution solution;
+    int n = 3, k = 3;  // 示例输入
+    string result = solution.getPermutation(n, k);
+    cout << "The " << k << "-th permutation is: " << result << endl;
     return 0;
 }
 ```
+
+### 说明
+
+1. **C语言解答**:
+   - 我们首先创建一个包含从 1 到 n 的数字数组，然后在每个步骤中计算当前应该选择哪个数字。
+   - 通过计算 `(n-1)!`，我们知道每个数字所能生成的排列数，从而确定第 `k` 个排列的每个数字。
+   - 选择数字后，我们更新 `k`，并从列表中删除已选择的数字。
+   - 最后，将结果保存为字符串，并返回。
+
+2. **C++解答**:
+   - 使用 `vector<int>` 存储数字集合，`to_string` 函数将整数转换为字符串。
+   - 通过不断减少问题规模并更新 `k`，我们找到了每一位应选的数字。
+   - 每次选择一个数字后，使用 `erase` 删除选中的数字，并更新 `k` 的值。
+
+两种语言的实现采用相同的思路，并且代码简洁易懂，逐步解出排列的每一位。

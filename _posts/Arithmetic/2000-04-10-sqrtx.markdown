@@ -1,0 +1,159 @@
+---
+layout: post
+title:  "69. x 的平方根"
+categories: arithmetic
+---
+
+[69. x 的平方根](https://leetcode.cn/problems/sqrtx)
+
+### 题目要求：
+
+实现一个函数 `mySqrt(x)`，计算并返回 `x` 的平方根。结果只保留整数部分，并对结果进行向下取整。
+
+#### 示例：
+
+**示例 1**：
+```
+输入: x = 4
+输出: 2
+```
+
+**示例 2**：
+```
+输入: x = 8
+输出: 2
+解释: 8 的平方根是 2.82842...，所以返回 2。
+```
+
+#### 提示：
+- 0 <= x <= 2³¹ - 1
+
+### 解题思路：
+
+要求计算 `x` 的平方根并向下取整。常见的计算平方根的方式有以下几种：
+
+1. **暴力法**：
+   - 直接从 `0` 到 `x` 遍历所有整数，找出最大的整数 `i`，使得 `i^2 <= x`。这种方法虽然直观，但效率较低，时间复杂度为 O(√x)。
+
+2. **二分查找**：
+   - 由于平方根是一个单调递增的函数，因此可以使用二分查找来加速计算。我们可以将搜索范围设为 `0` 到 `x`。
+   - 每次计算中点 `mid`，如果 `mid^2 == x`，则找到了平方根。如果 `mid^2 < x`，则可以将 `left` 设置为 `mid + 1`，否则将 `right` 设置为 `mid - 1`。
+   - 最终，`right` 就是我们需要的结果。
+
+3. **牛顿法（Newton's method）**：
+   - 牛顿法可以用来求平方根。通过反复迭代更新猜测值 `guess`，直到收敛。公式为：  
+     `guess = (guess + x / guess) / 2`
+   - 这种方法收敛速度较快，常用于高效求解平方根。
+
+### 选择二分查找进行实现：
+
+由于本题要求计算平方根的整数部分并进行向下取整，因此我们可以使用二分查找算法，它的时间复杂度为 O(log(x))，比较适合。
+
+### C语言实现：
+
+```c
+#include <stdio.h>
+
+int mySqrt(int x) {
+    // 边界条件：如果 x 是 0 或 1，直接返回 x
+    if (x == 0 || x == 1) {
+        return x;
+    }
+
+    // 定义二分查找的区间
+    int left = 0, right = x;
+    
+    while (left <= right) {
+        // 计算中点
+        int mid = left + (right - left) / 2;
+        
+        // 判断 mid^2 是否等于 x
+        if (mid * mid == x) {
+            return mid;
+        } else if (mid * mid < x) {
+            // 如果 mid^2 小于 x，说明平方根在右边
+            left = mid + 1;
+        } else {
+            // 如果 mid^2 大于 x，说明平方根在左边
+            right = mid - 1;
+        }
+    }
+
+    // 返回右边界，即向下取整的平方根
+    return right;
+}
+
+int main() {
+    int x = 8;
+    int result = mySqrt(x);
+    printf("The square root of %d is: %d\n", x, result);
+    return 0;
+}
+```
+
+### C++实现：
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Solution {
+public:
+    int mySqrt(int x) {
+        // 边界条件：如果 x 是 0 或 1，直接返回 x
+        if (x == 0 || x == 1) {
+            return x;
+        }
+
+        // 定义二分查找的区间
+        int left = 0, right = x;
+        
+        while (left <= right) {
+            // 计算中点
+            int mid = left + (right - left) / 2;
+            
+            // 判断 mid^2 是否等于 x
+            if (mid * mid == x) {
+                return mid;
+            } else if (mid * mid < x) {
+                // 如果 mid^2 小于 x，说明平方根在右边
+                left = mid + 1;
+            } else {
+                // 如果 mid^2 大于 x，说明平方根在左边
+                right = mid - 1;
+            }
+        }
+
+        // 返回右边界，即向下取整的平方根
+        return right;
+    }
+};
+
+int main() {
+    Solution solution;
+    int x = 8;
+    int result = solution.mySqrt(x);
+    cout << "The square root of " << x << " is: " << result << endl;
+    return 0;
+}
+```
+
+### 代码解析：
+
+#### C语言：
+1. **边界条件**：首先判断输入 `x` 是否为 0 或 1，如果是，直接返回 `x`。因为平方根的整数部分就是它本身。
+2. **二分查找**：
+   - 设置 `left` 为 0，`right` 为 `x`。
+   - 通过不断调整 `left` 和 `right` 来查找平方根。在每一步，计算 `mid`，并检查 `mid * mid` 是否等于 `x`。
+   - 如果 `mid * mid < x`，说明平方根在右边，因此更新 `left` 为 `mid + 1`。
+   - 如果 `mid * mid > x`，说明平方根在左边，因此更新 `right` 为 `mid - 1`。
+3. **返回结果**：最终，当 `left > right` 时，`right` 就是最接近的整数平方根。返回 `right` 即为结果。
+
+#### C++：
+1. **边界条件**：与 C 语言实现一样，先判断 `x` 是否为 0 或 1，若是，直接返回 `x`。
+2. **二分查找**：通过调整 `left` 和 `right` 来实现二分查找，查找平方根的整数部分。
+3. **返回结果**：当 `left` 超过 `right`，返回 `right`，它就是向下取整的平方根。
+
+### 时间复杂度与空间复杂度：
+- **时间复杂度**：O(log x)，由于每次二分查找都会将搜索范围缩小一半，所以总的时间复杂度为对数级别。
+- **空间复杂度**：O(1)，我们只使用了常数级别的额外空间。

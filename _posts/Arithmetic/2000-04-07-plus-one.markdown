@@ -1,0 +1,168 @@
+---
+layout: post
+title:  "66. 加一"
+categories: arithmetic
+---
+
+[66. 加一](https://leetcode.cn/problems/plus-one)
+
+### 题目要求：
+
+给定一个由数字组成的非空数组 `digits`，表示一个非负整数。该整数的每一位由数组中的元素表示，数组的第一个元素表示最高位，最后一个元素表示最低位。你需要将这个数字加 1，并返回一个新的数组表示加 1 后的结果。
+
+#### 示例：
+
+**示例 1**：
+```
+输入: digits = [1, 2, 3]
+输出: [1, 2, 4]
+解释: 输入数组表示数字 123，加 1 后得到 124。
+```
+
+**示例 2**：
+```
+输入: digits = [4, 3, 2, 1]
+输出: [4, 3, 2, 2]
+解释: 输入数组表示数字 4321，加 1 后得到 4322。
+```
+
+**示例 3**：
+```
+输入: digits = [9, 9, 9]
+输出: [1, 0, 0, 0]
+解释: 输入数组表示数字 999，加 1 后得到 1000。
+```
+
+#### 提示：
+- `1 <= digits.length <= 100`
+- `0 <= digits[i] <= 9`
+- `digits` 中的数字不代表负数。
+
+### 解题思路：
+
+这道题的核心是模拟数字加 1 的过程。我们需要从数组的最低位（即最右边的元素）开始，逐位加 1。具体的步骤如下：
+
+1. 从最后一位开始，加 1。
+2. 如果当前位的数字为 9，设置当前位为 0，并向前进位。
+3. 如果当前位的数字小于 9，直接加 1，返回结果。
+4. 如果进位到数组的最左边，还需要在数组前面插入 1。例如，`999` 变为 `1000`。
+
+我们可以用一个简单的循环来模拟加法过程，处理每一位的进位情况。这样，时间复杂度为 O(n)，其中 n 为数组的长度。
+
+### C语言实现：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+// 函数：给数字加1
+int* plusOne(int* digits, int digitsSize, int* returnSize) {
+    // 初始化结果数组，最多可能会多一位
+    int* result = (int*)malloc((digitsSize + 1) * sizeof(int));
+    
+    // 从最后一位开始加1
+    int carry = 1;  // 初始进位是1
+    int i;
+    
+    // 从末尾到开头处理每一位
+    for (i = digitsSize - 1; i >= 0; i--) {
+        int sum = digits[i] + carry;
+        result[i + 1] = sum % 10;  // 当前位的值
+        carry = sum / 10;  // 进位
+    }
+    
+    // 如果还有进位，处理最高位
+    if (carry) {
+        result[0] = carry;
+        *returnSize = digitsSize + 1;  // 新数组大小
+    } else {
+        for (i = 0; i < digitsSize; i++) {
+            result[i] = result[i + 1];  // 把数组元素前移
+        }
+        *returnSize = digitsSize;  // 新数组大小
+    }
+
+    return result;
+}
+
+int main() {
+    int digits[] = {9, 9, 9};
+    int size = sizeof(digits) / sizeof(digits[0]);
+    int returnSize = 0;
+    
+    int* result = plusOne(digits, size, &returnSize);
+    
+    printf("Result: ");
+    for (int i = 0; i < returnSize; i++) {
+        printf("%d ", result[i]);
+    }
+    printf("\n");
+    
+    // 释放内存
+    free(result);
+
+    return 0;
+}
+```
+
+### C++实现：
+
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        
+        // 从最后一位开始加1
+        for (int i = n - 1; i >= 0; --i) {
+            if (digits[i] < 9) {
+                digits[i]++;  // 如果当前位小于9，直接加1
+                return digits;
+            }
+            digits[i] = 0;  // 如果当前位为9，变为0，并继续进位
+        }
+
+        // 如果所有位都为9，结果是 [1, 0, 0, ..., 0]
+        digits.insert(digits.begin(), 1);
+        return digits;
+    }
+};
+
+int main() {
+    Solution solution;
+    vector<int> digits = {9, 9, 9};
+    
+    vector<int> result = solution.plusOne(digits);
+    
+    cout << "Result: ";
+    for (int num : result) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
+```
+
+### 代码解析：
+
+#### C语言：
+1. 我们使用 `malloc` 来动态分配一个数组，数组大小为 `digitsSize + 1`，以防进位到更高的位数（例如 `[9, 9, 9]` 变成 `[1, 0, 0, 0]`）。
+2. 从数组的最后一位开始加 1，检查是否需要进位。如果当前位加上进位后大于或等于 10，则该位设为 0，并继续向前进位。
+3. 如果进位到数组的最左边（即原数组的最高位），我们需要把进位的 1 插入数组的最前面，数组的大小增加 1。
+4. 如果没有进位，结果数组的大小保持不变，我们将计算出的结果复制到原数组的位置。
+5. 最后返回处理后的数组。
+
+#### C++：
+1. 通过 `vector<int>` 来表示数组，避免了手动管理内存。
+2. 从最后一位开始加 1，并检查是否进位。如果当前位为 9，设置该位为 0，继续进位。
+3. 如果进位到数组的最左边，直接在 `vector` 的开头插入一个 1，表示新的一位。
+4. 最终返回结果 `vector<int>`。
+
+### 时间和空间复杂度：
+- 时间复杂度：O(n)，其中 n 是数组的长度。我们只遍历一次数组，每次操作的时间复杂度是常数时间。
+- 空间复杂度：O(n)，由于需要一个新数组存储结果。

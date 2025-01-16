@@ -6,65 +6,95 @@ categories: arithmetic
 
 [57. 插入区间](https://leetcode.cn/problems/insert-interval)
 
-## Insert Interval
+以下是完整的输出内容，包括题目描述、解题思路、C语言和C++的代码实现，以及测试用例和复杂度分析。
 
-**题目描述：**
+---
 
-给你一个 **无重叠的** ，按照区间起始端点排序的区间列表。
+### 题目描述
 
-在列表中插入一个新的区间，你需要确保列表仍然有序且不重叠（如果有必要的话，可以合并区间）。
+给定一个 **无重叠** 的区间列表 `intervals`，其中 `intervals[i] = [start_i, end_i]` 表示第 `i` 个区间的开始和结束。请你确保列表中的区间仍然有序且不重叠（如果有必要，可以合并区间），并插入一个新的区间 `newInterval`，返回插入后的区间列表。
 
-**示例：**
+你可以假设初始的区间列表是无重叠的，并且按照区间的起始端点排序。
 
-1. 输入：intervals = [[1,3],[6,9]], newInterval = [2,5]
-   输出：[[1,5],[6,9]]
+**示例 1:**
 
-2. 输入：intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
-   输出：[[1,2],[3,10],[12,16]]
-   解释：这是因为新的区间 [4,8] 覆盖并合并了现有的区间 [3,5],[6,7],[8,10]。
+```
+输入: intervals = [[1,3],[6,9]], newInterval = [2,5]
+输出: [[1,5],[6,9]]
+解释: 新区间 [2,5] 与 [1,3] 重叠，合并后得到 [1,5]。
+```
 
-**提示：**
+**示例 2:**
+
+```
+输入: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+输出: [[1,2],[3,10],[12,16]]
+解释: 新区间 [4,8] 与 [3,5] 和 [6,7] 和 [8,10] 重叠，合并后得到 [3,10]。
+```
+
+**示例 3:**
+
+```
+输入: intervals = [], newInterval = [5,7]
+输出: [[5,7]]
+```
+
+**示例 4:**
+
+```
+输入: intervals = [[1,5]], newInterval = [2,3]
+输出: [[1,5]]
+解释: 新区间 [2,3] 完全包含在 [1,5] 中，因此无需改变。
+```
+
+**提示:**
 
 - `0 <= intervals.length <= 10^4`
 - `intervals[i].length == 2`
-- `0 <= intervals[i][0] <= intervals[i][1] <= 10^5`
-- `intervals` 根据 `intervals[i][0]` 按 **严格递增** 顺序排列
+- `0 <= start_i <= end_i <= 10^5`
+- `intervals` 按 `start_i` 升序排列
 - `newInterval.length == 2`
 - `0 <= newInterval[0] <= newInterval[1] <= 10^5`
 
-## 解题思路：
+---
 
-1. 初始化一个结果数组 `result` 和一个指向新区间起始位置的索引 `i`。
-2. 遍历原区间数组 `intervals`，将所有结束位置在新区间起始位置之前的区间直接添加到 `result` 中。
-3. 对于与新区间有重叠的区间，更新新区间的起始和结束位置，以包含所有重叠的区间。
-4. 将合并后的新区间添加到 `result` 中。
-5. 将剩余的区间添加到 `result` 中。
-6. 返回结果数组 `result`。
+### 解题思路
 
-## C 语言解答：
+1. **遍历区间列表**：
+   - 遍历 `intervals`，将所有与 `newInterval` 不重叠的区间直接加入结果集。
+   - 如果当前区间与 `newInterval` 重叠，则合并区间，更新 `newInterval` 的起始和结束位置。
+
+2. **合并区间**：
+   - 合并后的区间的起始位置为 `min(newInterval[0], current[0])`。
+   - 合并后的区间的结束位置为 `max(newInterval[1], current[1])`。
+
+3. **插入新区间**：
+   - 将合并后的 `newInterval` 加入结果集。
+   - 将剩余的区间加入结果集。
+
+4. **实现步骤**：
+   - 初始化结果集。
+   - 遍历 `intervals`，处理与 `newInterval` 重叠的区间。
+   - 将合并后的 `newInterval` 和剩余区间加入结果集。
+
+---
+
+### C语言实现
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 
-// 辅助函数，用于创建二维数组
-int** create2DArray(int rows, int cols) {
-    int** array = (int**)malloc(rows * sizeof(int*));
-    for (int i = 0; i < rows; i++) {
-        array[i] = (int*)malloc(cols * sizeof(int));
-    }
-    return array;
-}
-
-// 插入区间函数
 int** insert(int** intervals, int intervalsSize, int* intervalsColSize, int* newInterval, int newIntervalSize, int* returnSize, int** returnColumnSizes) {
-    int** result = create2DArray(intervalsSize + 1, 2); // 初始化结果数组
-    *returnColumnSizes = (int*)malloc((intervalsSize + 1) * sizeof(int)); // 初始化列大小数组
-    *returnSize = 0; // 初始化返回数组大小
-    int i = 0; // 初始化索引
+    // 初始化结果集
+    int** result = (int**)malloc((intervalsSize + 1) * sizeof(int*));
+    *returnColumnSizes = (int*)malloc((intervalsSize + 1) * sizeof(int));
+    *returnSize = 0;
 
-    // 将所有结束位置在新区间起始位置之前的区间添加到结果数组中
+    int i = 0;
+    // 添加所有在 newInterval 之前的区间
     while (i < intervalsSize && intervals[i][1] < newInterval[0]) {
+        result[*returnSize] = (int*)malloc(2 * sizeof(int));
         result[*returnSize][0] = intervals[i][0];
         result[*returnSize][1] = intervals[i][1];
         (*returnColumnSizes)[*returnSize] = 2;
@@ -72,19 +102,21 @@ int** insert(int** intervals, int intervalsSize, int* intervalsColSize, int* new
         i++;
     }
 
-    // 合并所有与新区间有重叠的区间
+    // 合并重叠区间
     while (i < intervalsSize && intervals[i][0] <= newInterval[1]) {
         newInterval[0] = newInterval[0] < intervals[i][0] ? newInterval[0] : intervals[i][0];
         newInterval[1] = newInterval[1] > intervals[i][1] ? newInterval[1] : intervals[i][1];
         i++;
     }
+    result[*returnSize] = (int*)malloc(2 * sizeof(int));
     result[*returnSize][0] = newInterval[0];
     result[*returnSize][1] = newInterval[1];
     (*returnColumnSizes)[*returnSize] = 2;
     (*returnSize)++;
 
-    // 将剩余的区间添加到结果数组中
+    // 添加剩余的区间
     while (i < intervalsSize) {
+        result[*returnSize] = (int*)malloc(2 * sizeof(int));
         result[*returnSize][0] = intervals[i][0];
         result[*returnSize][1] = intervals[i][1];
         (*returnColumnSizes)[*returnSize] = 2;
@@ -96,55 +128,44 @@ int** insert(int** intervals, int intervalsSize, int* intervalsColSize, int* new
 }
 
 int main() {
-    int intervalsSize = 5;
-    int* intervalsColSize = (int*)malloc(intervalsSize * sizeof(int));
+    int intervalsData[][2] = { {1, 3}, {6, 9}};
+    int intervalsSize = 2;
+    int intervalsColSize[] = {2, 2};
+    int* intervals[2];
     for (int i = 0; i < intervalsSize; i++) {
-        intervalsColSize[i] = 2;
+        intervals[i] = intervalsData[i];
     }
-    int* intervals[] = {
-        (int[]) {1, 2},
-        (int[]) {3, 5},
-        (int[]) {6, 7},
-        (int[]) {8, 10},
-        (int[]) {12, 16}
-    };
-    int newInterval[] = {4, 8};
-    int newIntervalSize = 2;
 
+    int newInterval[] = {2, 5};
+    int newIntervalSize = 2;
     int returnSize;
     int* returnColumnSizes;
     int** result = insert(intervals, intervalsSize, intervalsColSize, newInterval, newIntervalSize, &returnSize, &returnColumnSizes);
 
-    printf("Merged intervals: ");
+    printf("插入后的区间列表:\n");
     for (int i = 0; i < returnSize; i++) {
         printf("[%d, %d] ", result[i][0], result[i][1]);
-        free(result[i]);
     }
     printf("\n");
 
+    // 释放内存
+    for (int i = 0; i < returnSize; i++) {
+        free(result[i]);
+    }
     free(result);
     free(returnColumnSizes);
-    free(intervalsColSize);
+
     return 0;
 }
 ```
 
-**代码解析：**
+---
 
-1. 使用辅助函数 `create2DArray` 创建结果二维数组。
-2. 初始化结果数组和返回数组大小。
-3. 遍历原区间数组 `intervals`，将所有结束位置在新区间起始位置之前的区间直接添加到结果数组中。
-4. 合并所有与新区间有重叠的区间，更新新区间的起始和结束位置。
-5. 将合并后的新区间添加到结果数组中。
-6. 将剩余的区间添加到结果数组中。
-7. 返回结果数组 `result`。
-
-## C++ 语言解答：
+### C++ 实现
 
 ```cpp
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 class Solution {
@@ -152,23 +173,24 @@ public:
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
         vector<vector<int>> result;
         int i = 0;
+        int n = intervals.size();
 
-        // 将所有结束位置在新区间起始位置之前的区间添加到结果数组中
-        while (i < intervals.size() && intervals[i][1] < newInterval[0]) {
+        // 添加所有在 newInterval 之前的区间
+        while (i < n && intervals[i][1] < newInterval[0]) {
             result.push_back(intervals[i]);
             i++;
         }
 
-        // 合并所有与新区间有重叠的区间
-        while (i < intervals.size() && intervals[i][0] <= newInterval[1]) {
+        // 合并重叠区间
+        while (i < n && intervals[i][0] <= newInterval[1]) {
             newInterval[0] = min(newInterval[0], intervals[i][0]);
             newInterval[1] = max(newInterval[1], intervals[i][1]);
             i++;
         }
         result.push_back(newInterval);
 
-        // 将剩余的区间添加到结果数组中
-        while (i < intervals.size()) {
+        // 添加剩余的区间
+        while (i < n) {
             result.push_back(intervals[i]);
             i++;
         }
@@ -178,12 +200,12 @@ public:
 };
 
 int main() {
-    vector<vector<int>> intervals = { {1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16} };
-    vector<int> newInterval = {4, 8};
-    Solution sol;
-    vector<vector<int>> result = sol.insert(intervals, newInterval);
+    Solution solution;
+    vector<vector<int>> intervals = { {1, 3}, {6, 9}};
+    vector<int> newInterval = {2, 5};
+    vector<vector<int>> result = solution.insert(intervals, newInterval);
 
-    cout << "Merged intervals: ";
+    cout << "插入后的区间列表:" << endl;
     for (const auto& interval : result) {
         cout << "[" << interval[0] << ", " << interval[1] << "] ";
     }
@@ -192,3 +214,56 @@ int main() {
     return 0;
 }
 ```
+
+---
+
+### 测试用例
+
+#### 输入 1
+```
+intervals = [[1,3],[6,9]], newInterval = [2,5]
+```
+#### 输出 1
+```
+[[1,5],[6,9]]
+```
+
+#### 输入 2
+```
+intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+```
+#### 输出 2
+```
+[[1,2],[3,10],[12,16]]
+```
+
+#### 输入 3
+```
+intervals = [], newInterval = [5,7]
+```
+#### 输出 3
+```
+[[5,7]]
+```
+
+#### 输入 4
+```
+intervals = [[1,5]], newInterval = [2,3]
+```
+#### 输出 4
+```
+[[1,5]]
+```
+
+---
+
+### 复杂度分析
+
+- **时间复杂度**：O(n)，其中 n 是区间列表的长度。我们只需要遍历一次区间列表。
+- **空间复杂度**：O(n)，用于存储结果集。
+
+---
+
+### 总结
+
+通过遍历区间列表并合并重叠区间，我们可以高效地插入新区间并保持区间列表的有序性和无重叠性。这种方法利用了区间列表的有序特性，能够有效解决问题。

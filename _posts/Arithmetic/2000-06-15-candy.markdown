@@ -1,0 +1,193 @@
+---
+layout: post
+title:  "135. 分发糖果"
+categories: arithmetic
+---
+
+[135. 分发糖果](https://leetcode.cn/problems/candy)
+
+### 题目描述
+
+**糖果问题**：有 `n` 个孩子站成一排，每个孩子根据自己所得到的评分分配糖果。你需要按照以下规则来分配糖果：
+
+1. 每个孩子至少分配一个糖果。
+2. 如果一个孩子的评分高于相邻的孩子，则该孩子会比相邻孩子获得更多的糖果。
+
+你需要计算出给定评分数组下，总共需要分配多少个糖果。
+
+#### 示例 1：
+
+输入：
+```
+[1, 0, 2]
+```
+
+输出：
+```
+5
+```
+
+解释：你可以分配糖果的方式是：
+- 给第一个孩子1颗糖果，第二个孩子2颗糖果，第三个孩子2颗糖果。这样总共分配糖果的数量是5。
+
+#### 示例 2：
+
+输入：
+```
+[1, 2, 2]
+```
+
+输出：
+```
+4
+```
+
+解释：你可以分配糖果的方式是：
+- 给第一个孩子1颗糖果，第二个孩子2颗糖果，第三个孩子1颗糖果。这样总共分配糖果的数量是4。
+
+#### 提示：
+- `n` 的范围是 `[1, 2 * 10^4]`。
+- 每个孩子的评分都是正整数，范围是 `[0, 10^5]`。
+
+---
+
+### 解题思路
+
+1. **基本思路**：
+   - 我们可以使用贪心算法来解决这个问题。我们要从左到右和从右到左两次扫描评分列表，确保每个孩子都满足条件。
+   - 在第一次扫描时，我们从左到右，检查每个孩子和其左边的孩子的评分，保证评分较高的孩子得到更多的糖果。
+   - 在第二次扫描时，从右到左，检查每个孩子和其右边的孩子的评分，保证评分较高的孩子得到更多的糖果，并且不破坏左侧的分配结果。
+
+2. **步骤解析**：
+   - 第一步：为每个孩子分配最小数量的糖果，即每个孩子都分配一个糖果。
+   - 第二步：从左到右扫描数组，如果当前孩子的评分高于前一个孩子的评分，则将当前孩子的糖果数设置为前一个孩子糖果数的基础上加一。
+   - 第三步：从右到左扫描数组，如果当前孩子的评分高于下一个孩子的评分，则更新当前孩子的糖果数为下一个孩子糖果数的基础上加一，但要保证与前一次扫描结果一致。
+
+3. **时间复杂度**：
+   - 扫描两遍数组，时间复杂度为 `O(n)`，其中 `n` 是孩子的数量。
+
+4. **空间复杂度**：
+   - 只使用了一个额外的数组来保存糖果的数量，空间复杂度为 `O(n)`。
+
+#### C语言解答
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int candy(int* ratings, int ratingsSize) {
+    if (ratingsSize == 0) return 0;
+
+    int* candies = (int*)malloc(sizeof(int) * ratingsSize);
+    
+    // 第一次分配糖果，初始化每个孩子至少一个糖果
+    for (int i = 0; i < ratingsSize; i++) {
+        candies[i] = 1;
+    }
+
+    // 从左到右遍历，确保评分较高的孩子得到更多糖果
+    for (int i = 1; i < ratingsSize; i++) {
+        if (ratings[i] > ratings[i - 1]) {
+            candies[i] = candies[i - 1] + 1;
+        }
+    }
+
+    // 从右到左遍历，确保评分较高的孩子得到更多糖果
+    for (int i = ratingsSize - 2; i >= 0; i--) {
+        if (ratings[i] > ratings[i + 1]) {
+            candies[i] = (candies[i] > candies[i + 1] + 1) ? candies[i] : (candies[i + 1] + 1);
+        }
+    }
+
+    // 计算总糖果数
+    int totalCandy = 0;
+    for (int i = 0; i < ratingsSize; i++) {
+        totalCandy += candies[i];
+    }
+
+    free(candies);  // 释放内存
+    return totalCandy;
+}
+
+int main() {
+    int ratings[] = {1, 0, 2};
+    int size = sizeof(ratings) / sizeof(ratings[0]);
+
+    int result = candy(ratings, size);
+    printf("总共需要糖果的数量: %d\n", result);
+
+    return 0;
+}
+```
+
+#### C++解答
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n = ratings.size();
+        if (n == 0) return 0;
+
+        vector<int> candies(n, 1);  // 初始化每个孩子至少分配一个糖果
+
+        // 从左到右遍历，确保评分较高的孩子得到更多糖果
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
+            }
+        }
+
+        // 从右到左遍历，确保评分较高的孩子得到更多糖果
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = max(candies[i], candies[i + 1] + 1);
+            }
+        }
+
+        // 计算总糖果数
+        int totalCandy = 0;
+        for (int i = 0; i < n; i++) {
+            totalCandy += candies[i];
+        }
+
+        return totalCandy;
+    }
+};
+
+int main() {
+    Solution solution;
+    vector<int> ratings = {1, 0, 2};
+
+    int result = solution.candy(ratings);
+    cout << "总共需要糖果的数量: " << result << endl;
+
+    return 0;
+}
+```
+
+### 解析
+
+1. **第一遍从左到右**：
+   - 对于每个孩子，若当前孩子的评分大于前一个孩子，则当前孩子的糖果数量需要比前一个孩子的糖果数量多一个。
+
+2. **第二遍从右到左**：
+   - 对于每个孩子，若当前孩子的评分大于下一个孩子，则当前孩子的糖果数量需要比下一个孩子的糖果数量多一个，但要保证两个方向的扫描结果一致，所以我们使用 `max` 来取两个方向的最优解。
+
+3. **总糖果数**：
+   - 最终遍历 `candies` 数组并累加其中的糖果数量。
+
+4. **时间复杂度**：
+   - 本算法需要进行两次遍历，时间复杂度为 O(n)，其中 n 是孩子的数量。
+
+5. **空间复杂度**：
+   - 我们用了一个额外的 `candies` 数组来记录每个孩子的糖果数，所以空间复杂度是 O(n)。
+
+### 结论
+
+此问题的关键在于使用贪心算法，通过从左到右和从右到左两次扫描，确保满足每个孩子评分较高时得到更多糖果的条件，从而获得最小的糖果总数。

@@ -1,0 +1,473 @@
+---
+layout: post
+title:  "155. 最小栈"
+categories: arithmetic
+---
+
+[155. 最小栈](https://leetcode.cn/problems/min-stack)
+
+### 题目描述
+
+**最小栈**
+
+设计一个支持 **push**，**pop**，**top** 操作，并能在常数时间内检索到最小元素的栈。
+
+实现 `MinStack` 类：
+
+- `MinStack()` 初始化堆栈对象。
+- `void push(int val)` 将元素 `val` 推入栈中。
+- `void pop()` 删除栈顶的元素。
+- `int top()` 获取栈顶元素。
+- `int getMin()` 检索栈中的最小元素。
+
+**示例 1：**
+
+```
+输入
+["MinStack","push","push","push","getMin","pop","top","getMin"]
+[[],[-2],[0],[-3],[],[],[],[]]
+
+输出
+[null,null,null,null,-3,null,0,-2]
+
+解释
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin(); // 返回 -3
+minStack.pop();
+minStack.top();    // 返回 0
+minStack.getMin(); // 返回 -2
+```
+
+**示例 2：**
+
+```
+输入
+["MinStack","push","push","getMin","getMin","pop","getMin","pop","getMin"]
+[[],[0],[1],[],[],[],[],[],[]]
+
+输出
+[null,null,null,0,0,null,0,null,0]
+```
+
+**示例 3：**
+
+```
+输入
+["MinStack","push","getMin","push","getMin","pop","getMin"]
+[[],[2147483646],[],[-2147483648],[],[],[]]
+
+输出
+[null,null,2147483646,null,-2147483648,null,2147483646]
+```
+
+**提示：**
+
+- `-2^31 <= val <= 2^31 - 1`
+- 最多调用 `3 * 10^4` 次 `push`，`pop`，`top`，和 `getMin`。
+
+### 解题思路
+
+为了设计一个支持 `push`、`pop`、`top` 操作，并能在常数时间内检索到最小元素的栈，我们可以采用 **辅助栈** 的方法。
+
+**核心思路：**
+
+1. **主栈（stack）**：
+   - 用于存储所有的元素，执行常规的 `push` 和 `pop` 操作。
+
+2. **辅助栈（min_stack）**：
+   - 用于存储当前栈中的最小值。
+   - 当一个新元素被压入主栈时：
+     - 如果辅助栈为空，或者新元素小于等于辅助栈顶元素，则将新元素也压入辅助栈。
+   - 当一个元素被弹出主栈时：
+     - 如果弹出的元素等于辅助栈顶元素，则同时弹出辅助栈顶元素。
+
+**详细步骤：**
+
+- **初始化**：
+  - 创建两个栈：主栈和辅助栈。
+  
+- **push(val)**：
+  1. 将 `val` 压入主栈。
+  2. 如果辅助栈为空，或者 `val` 小于等于辅助栈顶元素，则将 `val` 压入辅助栈。
+  
+- **pop()**：
+  1. 弹出主栈顶元素 `top_val`。
+  2. 如果 `top_val` 等于辅助栈顶元素，则同时弹出辅助栈顶元素。
+  
+- **top()**：
+  - 返回主栈的顶元素。
+  
+- **getMin()**：
+  - 返回辅助栈的顶元素，即当前栈中的最小值。
+
+**时间复杂度分析：**
+
+- 所有操作 `push`，`pop`，`top`，`getMin` 均在 **O(1)** 时间内完成。
+
+**空间复杂度分析：**
+
+- 辅助栈在最坏情况下需要与主栈等大，因此空间复杂度为 **O(n)**，其中 `n` 是栈中元素的数量。
+
+通过使用辅助栈，我们能够高效地追踪栈中的最小值，同时保持所有操作的时间复杂度为常数级。
+
+### C语言解答
+
+在C语言中，由于缺乏内建的栈结构，我们需要手动实现栈的功能。我们将使用结构体来定义栈，并为主栈和辅助栈分别创建实例。
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 定义栈结构体
+typedef struct {
+    int* data;      // 栈的数据存储
+    int top;        // 栈顶指针
+    int capacity;   // 栈的容量
+} Stack;
+
+// 初始化栈
+Stack* initStack(int capacity) {
+    Stack* stack = (Stack*)malloc(sizeof(Stack));
+    stack->data = (int*)malloc(capacity * sizeof(int));
+    stack->top = -1;
+    stack->capacity = capacity;
+    return stack;
+}
+
+// 压栈操作
+void push(Stack* stack, int val) {
+    // 如果栈满，动态扩展栈容量
+    if(stack->top + 1 >= stack->capacity){
+        stack->capacity *= 2;
+        stack->data = (int*)realloc(stack->data, stack->capacity * sizeof(int));
+    }
+    stack->data[++stack->top] = val;
+}
+
+// 弹栈操作
+int popStack(Stack* stack) {
+    if(stack->top == -1){
+        // 栈空，返回0（根据题意，操作总是有效）
+        return 0;
+    }
+    return stack->data[stack->top--];
+}
+
+// 获取栈顶元素
+int topStack(Stack* stack) {
+    if(stack->top == -1){
+        return 0; // 根据题意，操作总是有效
+    }
+    return stack->data[stack->top];
+}
+
+// 释放栈内存
+void freeStackMemory(Stack* stack){
+    free(stack->data);
+    free(stack);
+}
+
+// 定义最小栈结构体
+typedef struct {
+    Stack* mainStack;    // 主栈
+    Stack* minStack;     // 辅助栈，用于存储当前最小值
+} MinStack;
+
+/** initialize your data structure here. */
+MinStack* minStackCreate() {
+    MinStack* obj = (MinStack*)malloc(sizeof(MinStack));
+    obj->mainStack = initStack(16); // 初始容量为16
+    obj->minStack = initStack(16);
+    return obj;
+}
+
+void minStackPush(MinStack* obj, int val) {
+    push(obj->mainStack, val);
+    // 如果辅助栈为空，或者新值小于等于当前最小值，则压入辅助栈
+    if(obj->minStack->top == -1 || val <= topStack(obj->minStack)){
+        push(obj->minStack, val);
+    }
+}
+
+void minStackPop(MinStack* obj) {
+    if(obj->mainStack->top == -1){
+        return; // 根据题意，操作总是有效
+    }
+    int topVal = popStack(obj->mainStack);
+    // 如果弹出的值等于辅助栈顶值，则同步弹出辅助栈
+    if(topVal == topStack(obj->minStack)){
+        popStack(obj->minStack);
+    }
+}
+
+int minStackTop(MinStack* obj) {
+    return topStack(obj->mainStack);
+}
+
+int minStackGetMin(MinStack* obj) {
+    return topStack(obj->minStack);
+}
+
+void minStackFree(MinStack* obj) {
+    freeStackMemory(obj->mainStack);
+    freeStackMemory(obj->minStack);
+    free(obj);
+}
+
+// 简单的主函数测试
+int main(){
+    // 创建最小栈
+    MinStack* minStack = minStackCreate();
+    
+    // 示例 1
+    printf("示例 1:\n");
+    minStackPush(minStack, -2);
+    minStackPush(minStack, 0);
+    minStackPush(minStack, -3);
+    printf("getMin() = %d\n", minStackGetMin(minStack)); // 返回 -3
+    minStackPop(minStack);
+    printf("top() = %d\n", minStackTop(minStack));       // 返回 0
+    printf("getMin() = %d\n", minStackGetMin(minStack)); // 返回 -2
+    
+    // 示例 2
+    printf("\n示例 2:\n");
+    MinStack* minStack2 = minStackCreate();
+    minStackPush(minStack2, 0);
+    minStackPush(minStack2, 1);
+    printf("getMin() = %d\n", minStackGetMin(minStack2)); // 返回 0
+    minStackPop(minStack2);
+    printf("getMin() = %d\n", minStackGetMin(minStack2)); // 返回 0
+    minStackFree(minStack2);
+    
+    // 示例 3
+    printf("\n示例 3:\n");
+    MinStack* minStack3 = minStackCreate();
+    minStackPush(minStack3, 2147483646);
+    printf("getMin() = %d\n", minStackGetMin(minStack3)); // 返回 2147483646
+    minStackPush(minStack3, -2147483648);
+    printf("getMin() = %d\n", minStackGetMin(minStack3)); // 返回 -2147483648
+    minStackPop(minStack3);
+    printf("getMin() = %d\n", minStackGetMin(minStack3)); // 返回 2147483646
+    
+    // 释放内存
+    minStackFree(minStack);
+    minStackFree(minStack3);
+    
+    return 0;
+}
+```
+
+**代码说明：**
+
+1. **栈的实现：**
+   - 使用结构体 `Stack` 来模拟栈，包含动态数组、栈顶指针和栈的容量。
+   - `initStack` 函数用于初始化栈，初始容量设为16。
+   - `push` 函数用于将元素压入栈中，如果栈满则动态扩容。
+   - `popStack` 函数用于弹出栈顶元素。
+   - `topStack` 函数用于获取栈顶元素。
+   - `freeStackMemory` 函数用于释放栈的内存。
+
+2. **最小栈的实现：**
+   - 定义 `MinStack` 结构体，包含主栈和辅助栈。
+   - `minStackCreate` 函数用于初始化最小栈，创建主栈和辅助栈。
+   - `minStackPush` 函数：
+     - 将元素压入主栈。
+     - 如果辅助栈为空，或者新元素小于等于辅助栈顶元素，则将其也压入辅助栈。
+   - `minStackPop` 函数：
+     - 从主栈弹出栈顶元素。
+     - 如果弹出的元素等于辅助栈顶元素，则同步弹出辅助栈。
+   - `minStackTop` 函数：
+     - 返回主栈的栈顶元素。
+   - `minStackGetMin` 函数：
+     - 返回辅助栈的栈顶元素，即当前最小值。
+   - `minStackFree` 函数：
+     - 释放主栈和辅助栈的内存，以及最小栈本身的内存。
+
+3. **测试函数 `main`：**
+   - 测试了三个示例，分别对应题目中的三个示例。
+   - 输出结果应与预期一致。
+   - 释放动态分配的内存，避免内存泄漏。
+
+**输出结果：**
+
+```
+示例 1:
+getMin() = -3
+top() = 0
+getMin() = -2
+
+示例 2:
+getMin() = 0
+getMin() = 0
+
+示例 3:
+getMin() = 2147483646
+getMin() = -2147483648
+getMin() = 2147483646
+```
+
+### C++ 解答
+
+在C++中，我们可以利用标准库中的 `std::stack` 来简化栈的实现。同时，使用类的封装可以更好地管理栈的操作。
+
+```cpp
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Solution 类
+class MinStack {
+private:
+    stack<int> mainStack;    // 主栈
+    stack<int> minStack;     // 辅助栈，用于存储当前最小值
+
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        // 初始化时，主栈和辅助栈均为空
+    }
+    
+    void push(int val) {
+        mainStack.push(val);
+        // 如果辅助栈为空，或者新值小于等于当前最小值，则压入辅助栈
+        if(minStack.empty() || val <= minStack.top()){
+            minStack.push(val);
+        }
+    }
+    
+    void pop() {
+        if(mainStack.empty()){
+            return; // 根据题意，操作总是有效
+        }
+        int topVal = mainStack.top();
+        mainStack.pop();
+        // 如果弹出的值等于辅助栈顶值，则同步弹出辅助栈
+        if(topVal == minStack.top()){
+            minStack.pop();
+        }
+    }
+    
+    int top() {
+        if(mainStack.empty()){
+            return 0; // 根据题意，操作总是有效
+        }
+        return mainStack.top();
+    }
+    
+    int getMin() {
+        if(minStack.empty()){
+            return 0; // 根据题意，操作总是有效
+        }
+        return minStack.top();
+    }
+};
+
+// 简单的主函数测试
+int main(){
+    MinStack minStack;
+    
+    // 示例 1
+    cout << "示例 1:\n";
+    minStack.push(-2);
+    minStack.push(0);
+    minStack.push(-3);
+    cout << "getMin() = " << minStack.getMin() << endl; // 返回 -3
+    minStack.pop();
+    cout << "top() = " << minStack.top() << endl;       // 返回 0
+    cout << "getMin() = " << minStack.getMin() << endl; // 返回 -2
+    
+    // 示例 2
+    cout << "\n示例 2:\n";
+    MinStack minStack2;
+    minStack2.push(0);
+    minStack2.push(1);
+    cout << "getMin() = " << minStack2.getMin() << endl; // 返回 0
+    minStack2.pop();
+    cout << "getMin() = " << minStack2.getMin() << endl; // 返回 0
+    
+    // 示例 3
+    cout << "\n示例 3:\n";
+    MinStack minStack3;
+    minStack3.push(2147483646);
+    cout << "getMin() = " << minStack3.getMin() << endl; // 返回 2147483646
+    minStack3.push(-2147483648);
+    cout << "getMin() = " << minStack3.getMin() << endl; // 返回 -2147483648
+    minStack3.pop();
+    cout << "getMin() = " << minStack3.getMin() << endl; // 返回 2147483646
+    
+    return 0;
+}
+```
+
+**代码说明：**
+
+1. **栈的使用：**
+   - 利用 `std::stack<int>` 作为主栈和辅助栈。
+   - 主栈用于存储所有的元素，辅助栈用于追踪当前的最小值。
+   
+2. **操作实现：**
+   - **push(int val)**：
+     - 将 `val` 压入主栈。
+     - 如果辅助栈为空，或者 `val` 小于等于辅助栈顶元素，则将 `val` 也压入辅助栈。
+     
+   - **pop()**：
+     - 从主栈弹出栈顶元素 `topVal`。
+     - 如果 `topVal` 等于辅助栈顶元素，则同步弹出辅助栈。
+     
+   - **top()**：
+     - 返回主栈的栈顶元素。
+     
+   - **getMin()**：
+     - 返回辅助栈的栈顶元素，即当前栈中的最小值。
+     
+3. **测试函数 `main`：**
+   - 测试了三个示例，分别对应题目中的三个示例。
+   - 输出结果应与预期一致。
+
+**输出结果：**
+
+```
+示例 1:
+getMin() = -3
+top() = 0
+getMin() = -2
+
+示例 2:
+getMin() = 0
+getMin() = 0
+
+示例 3:
+getMin() = 2147483646
+getMin() = -2147483648
+getMin() = 2147483646
+```
+
+### 总结
+
+通过使用 **辅助栈** 的方法，我们能够高效地实现一个支持 `push`、`pop`、`top` 操作，并能在常数时间内检索到最小元素的栈。
+
+**关键点：**
+
+1. **辅助栈的使用**：
+   - 辅助栈用于存储当前栈中的最小值。
+   - 在每次 `push` 操作时，若新元素小于等于辅助栈顶元素，则将其压入辅助栈。
+   - 在每次 `pop` 操作时，若弹出的元素等于辅助栈顶元素，则同步弹出辅助栈。
+
+2. **时间和空间复杂度**：
+   - 所有操作均在 **O(1)** 时间内完成。
+   - 辅助栈的空间复杂度为 **O(n)**，其中 `n` 是栈中元素的数量。
+
+3. **C语言与C++的实现差异**：
+   - 在C语言中，需要手动实现栈的结构和操作，包括动态内存管理。
+   - 在C++中，可以利用标准库中的 `std::stack`，使代码更加简洁和高效。
+
+4. **内存管理**：
+   - 在C语言实现中，需确保动态分配的内存被正确释放，以避免内存泄漏。
+   - 在C++中，利用栈和类的析构函数可以自动管理内存。
+
+通过以上方法和实现，我们能够准确、高效地实现一个最小栈，满足题目的各种要求和约束条件。如果有进一步的问题或需要更多的解释，欢迎继续交流！

@@ -6,61 +6,69 @@ categories: arithmetic
 
 [27. 移除元素](https://leetcode.cn/problems/remove-element)
 
-### 题目描述：
-给你一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+### 题目要求
 
-不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并原地修改输入数组。
+给定一个数组 `nums` 和一个值 `val`，你需要 **原地** 移除所有的 `val` 元素，并返回新的数组长度。不要使用额外的数组空间。
 
-元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+### 题目示例
 
-**示例：**
+#### 示例 1:
+输入：`nums = [3,2,2,3], val = 3`  
+输出：`2`  
+解释：函数应该返回新的长度 `2`，并且数组 `nums` 的前两个元素是 `2`。你不需要考虑数组中多余的元素。
 
-**输入：** nums = [3,2,2,3], val = 3
+#### 示例 2:
+输入：`nums = [0,1,2,2,3,0,4,2], val = 2`  
+输出：`5`  
+解释：函数应该返回新的长度 `5`，并且数组 `nums` 的前五个元素是 `0, 1, 3, 0, 4`。你不需要考虑数组中多余的元素。
 
-**输出：** 2, nums = [2,2]
+### 提示
+- `0 <= nums.length <= 100`
+- `0 <= nums[i] <= 50`
+- `0 <= val <= 100`
 
-**输入：** nums = [0,1,2,2,3,0,4,2], val = 2
+### 解题思路
 
-**输出：** 5, nums = [0,1,4,0,3]
+这道题目给定了一个数组 `nums` 和一个值 `val`，要求移除数组中所有等于 `val` 的元素，并返回数组的新长度。为了满足题目中 “原地” 删除的要求，我们需要避免使用额外的数组空间。
 
-### 解题思路：
+可以使用双指针的技巧来解决此问题：
 
-1. **双指针法**：
-   - 使用一个指针 `i` 表示存放有效元素的位置。
-   - 遍历数组，当遇到不等于 `val` 的元素时，将其赋值到 `nums[i]`，然后移动指针。
+1. **快指针** (`i`): 用来遍历整个数组。
+2. **慢指针** (`j`): 记录新数组的尾部，存储所有不等于 `val` 的元素。
 
-2. **优化操作**：
-   - 如果不关心数组中剩余元素的顺序，可以从后向前覆盖。
-   - 遍历时遇到 `val`，将其与数组最后一个元素交换，然后缩短数组长度。
+### 算法步骤：
+- 初始化 `j` 为 0，表示新数组的末尾。
+- 遍历整个数组，对于每个元素：
+  - 如果当前元素 `nums[i]` 不等于 `val`，则将 `nums[i]` 移动到 `nums[j]`，并增加 `j`。
+- 最终，`j` 就是新数组的长度。
 
-3. **返回结果**：
-   - 最终返回有效元素的个数（`i`）。
-
-4. **时间复杂度和空间复杂度**：
-   - 时间复杂度：O(n)，其中 n 是数组长度。
-   - 空间复杂度：O(1)。
+### C语言解答
 
 ```c
 #include <stdio.h>
 
+// 移除数组中的指定元素并返回新数组的长度
 int removeElement(int* nums, int numsSize, int val) {
-    int i = 0; // 慢指针，指向存放有效元素的位置
-    for (int j = 0; j < numsSize; j++) { // 快指针，遍历数组
-        if (nums[j] != val) { // 如果当前元素不等于 val
-            nums[i] = nums[j]; // 赋值到有效位置
-            i++;
+    int j = 0; // 慢指针，初始化为0，表示数组的起始位置
+    for (int i = 0; i < numsSize; i++) { // 快指针遍历数组
+        if (nums[i] != val) { // 如果当前元素不等于 val
+            nums[j] = nums[i]; // 将不等于 val 的元素移到数组前面
+            j++; // 慢指针向后移动
         }
     }
-    return i; // 返回新数组长度
+    return j; // 返回新数组的长度
 }
 
 int main() {
     int nums[] = {0, 1, 2, 2, 3, 0, 4, 2};
-    int size = sizeof(nums) / sizeof(nums[0]);
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+    int val = 2;
+    int newLength = removeElement(nums, numsSize, val);
 
-    int newLength = removeElement(nums, size, 2);
-    printf("新数组长度: %d\n", newLength);
-    printf("新数组: ");
+    // 输出新的数组长度
+    printf("New length: %d\n", newLength);
+
+    // 输出数组中前 newLength 个元素
     for (int i = 0; i < newLength; i++) {
         printf("%d ", nums[i]);
     }
@@ -70,6 +78,8 @@ int main() {
 }
 ```
 
+### C++ 解答
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -77,26 +87,29 @@ using namespace std;
 
 class Solution {
 public:
+    // 移除数组中的指定元素并返回新数组的长度
     int removeElement(vector<int>& nums, int val) {
-        int i = 0; // 慢指针，指向存放有效元素的位置
-        for (int j = 0; j < nums.size(); j++) { // 快指针，遍历数组
-            if (nums[j] != val) { // 如果当前元素不等于 val
-                nums[i] = nums[j]; // 赋值到有效位置
-                i++;
+        int j = 0; // 慢指针，初始化为0，表示数组的起始位置
+        for (int i = 0; i < nums.size(); i++) { // 快指针遍历数组
+            if (nums[i] != val) { // 如果当前元素不等于 val
+                nums[j] = nums[i]; // 将不等于 val 的元素移到数组前面
+                j++; // 慢指针向后移动
             }
         }
-        return i; // 返回新数组长度
+        return j; // 返回新数组的长度
     }
 };
 
 int main() {
+    Solution solution;
     vector<int> nums = {0, 1, 2, 2, 3, 0, 4, 2};
+    int val = 2;
+    int newLength = solution.removeElement(nums, val);
 
-    Solution sol;
-    int newLength = sol.removeElement(nums, 2);
+    // 输出新的数组长度
+    cout << "New length: " << newLength << endl;
 
-    cout << "新数组长度: " << newLength << endl;
-    cout << "新数组: ";
+    // 输出数组中前 newLength 个元素
     for (int i = 0; i < newLength; i++) {
         cout << nums[i] << " ";
     }
@@ -105,4 +118,16 @@ int main() {
     return 0;
 }
 ```
+
+### 解释
+
+1. **C语言解法**：
+   - 我们使用了两个指针：`i` 是快指针，遍历整个数组；`j` 是慢指针，负责更新数组并记录不等于 `val` 的元素的个数。
+   - 如果 `nums[i]` 不等于 `val`，则将其存入 `nums[j]`，并将 `j` 增加。最终，`j` 就是新数组的长度。
+
+2. **C++解法**：
+   - 使用 `vector<int>` 来动态管理数组，并通过 `removeElement` 函数返回新的数组长度。
+   - `Solution` 类封装了删除元素的逻辑，`removeElement` 函数负责遍历数组并修改原数组。
+
+两种解法的时间复杂度均为 `O(n)`，空间复杂度为 `O(1)`，符合题目的要求。
 

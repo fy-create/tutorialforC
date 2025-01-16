@@ -6,197 +6,176 @@ categories: arithmetic
 
 [16. 最接近的三数之和](https://leetcode.cn/problems/3sum-closest)
 
-**题目描述：**
+### 题目：三数之和最接近 (3Sum Closest)
 
-给定一个长度为 *n* 的整数数组 `nums` 和一个目标值 `target`，请在数组中找出三个整数，使得这三个数的和与 `target` 最接近。返回这三个数的和。假定每组输入只存在唯一答案。
+#### 题目要求：
+给定一个包含 `n` 个整数的数组 `nums` 和一个目标值 `target`，在数组中找到三个整数，使得它们的和与目标值 `target` 最接近。返回这三个数的和。
 
-**示例：**
+**注意：**
+- 返回的答案是最接近 `target` 的和。如果有多个答案，返回其中任意一个即可。
 
-- **输入：** `nums = [-1, 2, 1, -4]`，`target = 1`
-- **输出：** `2`
-- **解释：** 与目标值 1 最接近的三数之和是 2（-1 + 2 + 1 = 2）。
+**示例 1:**
+```
+输入: nums = [-1, 2, 1, -4], target = 1
+输出: 2
+解释: 和为 2 的三元组 [-1, 2, 1] 最接近 1 。
+```
 
-**约束条件：**
+**示例 2:**
+```
+输入: nums = [0, 0, 0], target = 1
+输出: 0
+```
 
-- 3 ≤ `nums.length` ≤ 500
-- -1000 ≤ `nums[i]` ≤ 1000
-- -10⁴ ≤ `target` ≤ 10⁴
+**提示：**
+- `3 <= nums.length <= 1000`
+- `-1000 <= nums[i] <= 1000`
+- `-10^4 <= target <= 10^4`
 
-**C语言解答：**
+---
+
+### 解题思路：
+
+1. **排序与双指针法**：
+   - 首先对数组进行排序，这样可以利用双指针法来优化查找过程。
+   - 我们将问题转化为三数之和最接近的形式。我们可以通过固定一个数，然后利用双指针来寻找剩下的两个数。
+   - 每次选择一个数并用双指针找到其余两个数的和，我们可以通过比较与目标值的差来更新最接近的答案。
+
+2. **双指针技巧**：
+   - 在数组中选定第一个数 `nums[i]`，然后通过双指针从 `i+1` 到数组末尾查找另外两个数。此时可以判断当前三数之和与目标值 `target` 的差值。
+   - 如果当前的三数之和比目标值大，则右指针左移（减小总和）；如果小于目标值，则左指针右移（增大总和）。
+   - 在更新过程中，我们保持追踪当前最小的差值，并更新最接近的和。
+
+3. **时间复杂度**：
+   - 排序的时间复杂度为 `O(n log n)`，双指针遍历每一对数的时间复杂度为 `O(n^2)`。因此，整体的时间复杂度为 `O(n^2)`。
+
+#### C 语言解法：
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+#include <math.h>
 
-// 比较函数，用于qsort排序
-int compare(const void *a, const void *b) {
-    return (*(int *)a - *(int *)b);
+// 辅助函数：比较函数，用于排序
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
 }
 
-// 找到最接近目标值的三数之和
+// 函数：查找三数之和最接近的结果
 int threeSumClosest(int* nums, int numsSize, int target) {
-    // 对数组进行排序
+    // 排序数组
     qsort(nums, numsSize, sizeof(int), compare);
-    
-    int closestSum = nums[0] + nums[1] + nums[2];
-    
-    // 遍历数组，每次固定一个数，然后使用双指针寻找另外两个数
+
+    int closestSum = nums[0] + nums[1] + nums[2]; // 初始化最接近的和
     for (int i = 0; i < numsSize - 2; i++) {
-        int left = i + 1;
-        int right = numsSize - 1;
-        
+        // 跳过重复的数字
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+        int left = i + 1, right = numsSize - 1;
         while (left < right) {
-            int currentSum = nums[i] + nums[left] + nums[right];
-            
-            // 如果当前和更接近目标值，则更新closestSum
-            if (abs(currentSum - target) < abs(closestSum - target)) {
-                closestSum = currentSum;
+            int sum = nums[i] + nums[left] + nums[right];
+            // 如果当前和比目标值更接近，更新最接近的和
+            if (abs(sum - target) < abs(closestSum - target)) {
+                closestSum = sum;
             }
-            
-            // 根据当前和与目标值的比较，移动指针
-            if (currentSum < target) {
+
+            // 根据和与目标值的关系调整指针
+            if (sum < target) {
                 left++;
-            } else if (currentSum > target) {
+            } else if (sum > target) {
                 right--;
             } else {
-                // 如果当前和等于目标值，直接返回
-                return currentSum;
+                return sum;  // 如果刚好等于目标值，直接返回
             }
         }
     }
-    
+
     return closestSum;
 }
 
-// 测试函数
 int main() {
     int nums[] = {-1, 2, 1, -4};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
     int target = 1;
-    int result = threeSumClosest(nums, 4, target);
-    printf("最接近目标值 %d 的三数之和为: %d\n", target, result);
+    
+    int result = threeSumClosest(nums, numsSize, target);
+    printf("The closest sum is: %d\n", result);  // 输出 2
     return 0;
 }
 ```
 
-**代码解析：**
-
-1. **排序数组：** 使用 `qsort` 对数组进行升序排序，以便于后续使用双指针法。
-
-2. **初始化最接近的和：** 将最接近的和初始化为数组的前三个数之和。
-
-3. **遍历数组：** 固定一个数，然后使用双指针（左指针和右指针）寻找另外两个数，使得三数之和最接近目标值。
-
-4. **更新最接近的和：** 如果当前三数之和比之前记录的更接近目标值，则更新最接近的和。
-
-5. **移动指针：** 根据当前三数之和与目标值的比较，决定移动左指针还是右指针，以期更接近目标值。
-
-6. **返回结果：** 最终返回最接近目标值的三数之和。
-
-**C++解答：**
+#### C++ 解法：
 
 ```cpp
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <cmath>
+#include <cstdlib>
 
 using namespace std;
 
 class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
-        // 对数组进行排序
-        sort(nums.begin(), nums.end());
-        int closestSum = nums[0] + nums[1] + nums[2];
-        
-        // 遍历数组，每次固定一个数，然后使用双指针寻找另外两个数
-        for (size_t i = 0; i < nums.size() - 2; i++) {
-            size_t left = i + 1;
-            size_t right = nums.size() - 1;
-            
+        sort(nums.begin(), nums.end());  // 排序数组
+        int closestSum = nums[0] + nums[1] + nums[2];  // 初始化最接近的和
+
+        for (int i = 0; i < nums.size() - 2; i++) {
+            // 跳过重复的元素
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1, right = nums.size() - 1;
             while (left < right) {
-                int currentSum = nums[i] + nums[left] + nums[right];
-                
-                // 如果当前和更接近目标值，则更新closestSum
-                if (abs(currentSum - target) < abs(closestSum - target)) {
-                    closestSum = currentSum;
+                int sum = nums[i] + nums[left] + nums[right];
+                // 如果当前和比目标值更接近，更新最接近的和
+                if (abs(sum - target) < abs(closestSum - target)) {
+                    closestSum = sum;
                 }
-                
-                // 根据当前和与目标值的比较，移动指针
-                if (currentSum < target) {
+
+                // 根据和与目标值的关系调整指针
+                if (sum < target) {
                     left++;
-                } else if (currentSum > target) {
+                } else if (sum > target) {
                     right--;
                 } else {
-                    // 如果当前和等于目标值，直接返回
-                    return currentSum;
+                    return sum;  // 如果刚好等于目标值，直接返回
                 }
             }
         }
-        
+
         return closestSum;
     }
 };
 
-// 测试函数
 int main() {
-    Solution sol;
+    Solution solution;
     vector<int> nums = {-1, 2, 1, -4};
     int target = 1;
-    int result = sol.threeSumClosest(nums, target);
-    cout << "最接近目标值 " << target << " 的三数之和为: " << result << endl;
+    
+    int result = solution.threeSumClosest(nums, target);
+    cout << "The closest sum is: " << result << endl;  // 输出 2
     return 0;
 }
 ```
 
-**代码解析：**
+### 代码解释：
 
-1. **排序数组：** 使用 `sort` 函数对数组进行升序排序，以便于后续使用双指针法。
+1. **C 语言实现**：
+   - 使用 `qsort` 对数组进行排序。
+   - 对于每一个数字，使用双指针法查找两个数，使得三数之和接近目标值。
+   - 在更新过程中，计算当前三数之和与目标值之间的差，并根据差值更新最接近的结果。
+   
+2. **C++ 实现**：
+   - 使用 `sort` 对数组进行排序。
+   - 对于每个数字，利用双指针查找另外两个数，并计算三数之和。
+   - 在找到更接近目标值的和时，更新结果。
 
-2. **初始化最接近的和：** 将最接近的和初始化为数组的前三个数之和。
+### 核心算法：
+- **双指针法**：通过固定一个数，然后使用双指针从剩余部分寻找另两个数，保证三数之和尽量接近目标值。
 
-3. **遍历数组：** 固定一个数，然后使用双指针（左指针和右指针）寻找另外两个数，使得三数之和最接近目标值。
+### 边界条件：
+- 当数组长度小于3时，无法找到三元组，可以提前返回。
+- 如果三数之和刚好等于目标值，则直接返回该和。
 
-4. **更新最接近的和：** 如果当前三数之和比之前记录的更接近目标值，则更新最接近的和。
-
-5. **移动指针：** 根据当前三数之和与目标值的比较，决定移动左指针还是右指针，以期更接近目标值。
-
-6. **返回结果：**
-   - 当遍历完成后，返回记录的最接近目标值的三数之和。
-
----
-
-### 示例运行
-
-#### 输入：
-```text
-nums = [-1, 2, 1, -4]
-target = 1
-```
-
-#### 输出：
-```text
-最接近目标值 1 的三数之和为: 2
-```
-
----
-
-### 时间复杂度和空间复杂度
-
-1. **时间复杂度：**  
-   - 排序操作的复杂度为 O(n log n)。  
-   - 双指针搜索在最坏情况下为 O(n²)，因为需要遍历每个固定数及其对应的可能组合。  
-   - 总复杂度为 O(n²)。
-
-2. **空间复杂度：**  
-   - C语言版本：没有额外的动态分配空间，空间复杂度为 O(1)。  
-   - C++版本：仅使用了 STL 容器排序和临时变量，空间复杂度为 O(1)。
-
----
-
-### 总结
-
-- **C语言实现：** 通过手动实现数组排序和双指针法，保持代码高效。
-- **C++实现：** 利用 STL 容器和算法（如 `sort`），代码更简洁且可读性更强。
-- 两种实现均使用双指针法，能有效地找到与目标值最接近的三数之和。
+### 时间复杂度：
+- 排序的时间复杂度为 `O(n log n)`，双指针法的时间复杂度为 `O(n^2)`。因此，总时间复杂度为 `O(n^2)`。
